@@ -5,12 +5,45 @@ import java.util.List;
 
 /**
  *
- * @author Mjartan
+ * @author Matej
  */
 public interface LoanDao {
-    void createLoan(LoanDao book);
+    
+    /** 
+        * Inserts loan into DB
+        * @param loan to be stored
+    */
+    
+    void createLoan(Loan loan);
+    
+     /** 
+        * Returns all loans from DB
+        * @return  List of all loans found in DB
+    */
+    
     List<Loan> findAllLoans();
-    Loan findBookById(Long id);
+    
+     /** 
+        * Finds Loan with given ID
+        * @param long ID of customer to be found
+        * @return loan with given ID or NULL if search was unsuccessful
+    */
+    
+    Loan findLoanById(Long id);
+    
+    /** 
+        * Deletes loan in DB
+        * @param loan to be deleted
+    */
+    
     void deleteLoan(Loan loan);
+    
+     /** 
+        * updates loan in DB
+        * @param loan to be updated
+    */
+    
     void updateLoan(Loan loan);    
+    
 }
+
