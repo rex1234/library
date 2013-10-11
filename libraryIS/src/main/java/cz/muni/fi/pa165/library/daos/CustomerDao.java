@@ -26,7 +26,7 @@ public interface CustomerDao {
     /** 
         * Finds Customer with given ID
         * @param long ID of customer to be found
-        * @return Customer with given ID or NULL if search was unsuccesful
+        * @return Customer with given ID or NULL if search was unsuccessful
     */
     Customer findCustomerById(Long id);
     
