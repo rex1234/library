@@ -1,5 +1,4 @@
 
-
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,7 +26,7 @@ public class CustomerDaoImplTest extends TestCase {
     @Before
     @Override
     public void setUp(){
-        emf = Persistence.createEntityManagerFactory("TestPU");
+        emf = Persistence.createEntityManagerFactory("LibraryPU");
         DAO = new CustomerDaoImpl(emf);
     }
 
