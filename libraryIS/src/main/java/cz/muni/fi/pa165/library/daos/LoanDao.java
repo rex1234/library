@@ -25,7 +25,7 @@ public interface LoanDao {
     
      /** 
         * Finds Loan with given ID
-        * @param long ID of customer to be found
+        * @param long ID of loan to be found
         * @return loan with given ID or NULL if search was unsuccessful
     */
     
