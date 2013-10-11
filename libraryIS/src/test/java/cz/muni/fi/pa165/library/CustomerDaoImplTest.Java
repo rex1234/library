@@ -1,3 +1,4 @@
+package cz.muni.fi.pa165.library;
 
 import java.util.List;
 import javax.persistence.EntityManager;
