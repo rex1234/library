@@ -16,25 +16,25 @@ import javax.persistence.Persistence;
 public class BookDaoImpl implements BookDao {
     
     private EntityManagerFactory emf;
+    private EntityManager em;
 
     public BookDaoImpl(EntityManagerFactory emf) {
         this.emf = emf;
     }    
+
+    public BookDaoImpl(EntityManager em) {
+        this.em = em;
+    }        
 
     public void createBook(Book book) {
         checkBookAttributes(book);
         if(book.getId() != null) {
             throw new IllegalArgumentException("cannot create book with assigned id");
         }
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.persist(book);
-        em.getTransaction().commit();
-        
+        em.persist(book);  
     }
     
     public List<Book> findAllBooks() {
-        EntityManager em = emf.createEntityManager();
         Query query = em.createQuery("SELECT b FROM Book b");
         return query.getResultList();        
     }
@@ -43,7 +43,6 @@ public class BookDaoImpl implements BookDao {
         if (id == null) {
             throw new NullPointerException("id is null");
         }
-        EntityManager em = emf.createEntityManager();
         return em.find(Book.class, id);
         
     }
@@ -55,21 +54,15 @@ public class BookDaoImpl implements BookDao {
         if (book.getId() == null) {
             throw new IllegalArgumentException("cannot delete book with no id");
         }
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         Book toRemove = em.merge(book);
         em.remove(toRemove);
-        em.getTransaction().commit();
         book.setId(null);
         System.out.println(toRemove.getId());
     }
 
     public void updateBook(Book book) {
         checkBookAttributes(book);
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
         em.merge(book);
-        em.getTransaction().commit();
     }
 
     private void checkBookAttributes(Book book) throws IllegalArgumentException, NullPointerException {
