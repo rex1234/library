@@ -4,9 +4,9 @@
  */
 package cz.muni.fi.pa165.library;
 
-import cz.muni.fi.libraryis.Department;
 import cz.muni.fi.pa165.library.daos.ImpressionDao;
 import cz.muni.fi.pa165.library.daos.ImpressionDaoImpl;
+import cz.muni.fi.pa165.library.entities.Department;
 import cz.muni.fi.pa165.library.entities.Impression;
 import java.util.ArrayList;
 import java.util.Collections;

@@ -25,7 +25,7 @@ public class Loan implements Serializable {
     private Long id;    
     @ManyToOne
     private Customer customer;    
-    @OneToMany(mappedBy = "loan", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "loan")
     private List<Book> books;   
     private LocalDate fromDate; //joda time   
     private LocalDate toDate;

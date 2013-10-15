@@ -1,5 +1,9 @@
 package cz.muni.fi.pa165.library;
 
+import cz.muni.fi.pa165.library.daos.BookDao;
+import cz.muni.fi.pa165.library.daos.BookDaoImpl;
+import cz.muni.fi.pa165.library.daos.CustomerDao;
+import cz.muni.fi.pa165.library.daos.CustomerDaoImpl;
 import cz.muni.fi.pa165.library.daos.LoanDao;
 import cz.muni.fi.pa165.library.daos.LoanDaoImpl;
 import cz.muni.fi.pa165.library.entities.Book;
@@ -29,6 +33,8 @@ import org.junit.Test;
 public class LoanDaoImplTest {
     
     private LoanDao dao;
+    private CustomerDao custDao;
+    private BookDao bookDao;
    
     public LoanDaoImplTest() {       
     }
@@ -37,6 +43,8 @@ public class LoanDaoImplTest {
     public void setUp() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");
         dao = new LoanDaoImpl(emf);
+        custDao = new CustomerDaoImpl(emf);        
+        bookDao = new BookDaoImpl(emf);
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
         em.createQuery("DELETE FROM Loan").executeUpdate();
@@ -47,6 +55,10 @@ public class LoanDaoImplTest {
     @Test
     public void testCreateLoan() {
         Loan loan = getTestLoan();
+        custDao.createCustomer(loan.getCustomer());
+        for (Book book : loan.getBooks()) {
+            bookDao.createBook(book);
+        }
         dao.createLoan(loan);
         assertNotNull(loan.getId());
     }

@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.library.daos;
 
+import cz.muni.fi.pa165.library.daos.*;
+import cz.muni.fi.pa165.library.entities.*;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Query;

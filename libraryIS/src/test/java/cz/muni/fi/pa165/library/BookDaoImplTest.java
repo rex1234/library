@@ -2,6 +2,8 @@ package cz.muni.fi.pa165.library;
 
 import cz.muni.fi.pa165.library.daos.BookDao;
 import cz.muni.fi.pa165.library.daos.BookDaoImpl;
+import cz.muni.fi.pa165.library.daos.ImpressionDao;
+import cz.muni.fi.pa165.library.daos.ImpressionDaoImpl;
 import cz.muni.fi.pa165.library.entities.Book;
 import cz.muni.fi.pa165.library.entities.Department;
 import cz.muni.fi.pa165.library.entities.Impression;
@@ -23,63 +25,92 @@ import static org.junit.Assert.*;
 public class BookDaoImplTest {
     
     private BookDao dao;
+    private EntityManager em;
+    private Impression im1;
+    private Impression im2;
     
     public BookDaoImplTest() {       
     }
     
     @Before
     public void setUp() throws Exception {     
-                EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");
-        dao = new BookDaoImpl(emf);
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Book").executeUpdate();
-        em.getTransaction().commit();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");        
+        em = emf.createEntityManager();
+        dao = new BookDaoImpl(em);
+        
+        im1 = getTestImpression();
+        im2 = getTestImpression2();
+        ImpressionDao imDao = new ImpressionDaoImpl(emf);
+        imDao.createImpression(im2);
+        imDao.createImpression(im1);        
     }
+    
+    @After
+    public void deleteTablesAfter() {
+//        if(em.getTransaction().isActive()) {
+//            em.getTransaction().commit();
+//        }
+//        em.getTransaction().begin();        
+//        deleteTables();
+//        em.getTransaction().commit();
+    } 
    
 
     @Test
     public void testCreateBook() {
+        em.getTransaction().begin();
         Book book = getTestBook();
         dao.createBook(book);
+        em.getTransaction().commit();
         assertNotNull(book.getId());
     }
 
     @Test(expected = NullPointerException.class)
     public void testCreateNullBook() {
+        em.getTransaction().begin();
         dao.createBook(null);
+        em.getTransaction().commit();
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testCreateBookWithId() {
+        em.getTransaction().begin();
         Book book = getTestBook();
         book.setId(5L);
         dao.createBook(book);
+        em.getTransaction().commit();
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testCreateBookWithNullImpression() {
+        em.getTransaction().begin();
         Book book = getTestBook();
         book.setImpression(null);
         dao.createBook(book);
+        em.getTransaction().commit();
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void testCreateBookWithNullDate() {
+        em.getTransaction().begin();
         Book book = getTestBook();
         book.setPrinted(null);
         dao.createBook(book);
+        em.getTransaction().commit();
     }    
     
     @Test
-    public void testFindAllBooks() {
+    public void testFindAllBooks() {        
         List<Book> books = new ArrayList<Book>() {{
-            add(getTestBook());
-            add(createTestBook("Nice", new LocalDate(2008,3,25), getTestImpression()));
-            add(createTestBook("Chyba strana 55", new LocalDate(2007,5,14), getTestImpression2()));
+            add(getTestBook());                
+            add(createTestBook("Nice", new LocalDate(2008,3,25), im1));                
+            add(createTestBook("Chyba strana 55", new LocalDate(2007,5,14), im2));
         }};
+
         for (Book book : books) {
+            em.getTransaction().begin();
             dao.createBook(book);
+            em.getTransaction().commit();
         }
         compareBooks(books, dao.findAllBooks());
     }
@@ -87,47 +118,63 @@ public class BookDaoImplTest {
     @Test
     public void testFindBookById() {
         Book book = getTestBook();
+        em.getTransaction().begin();
         dao.createBook(book);
+        em.getTransaction().commit();
         Book found = dao.findBookById(book.getId());
         compareBooks(book, found);
     }
 
     @Test
     public void testDeleteBook() {
+        em.getTransaction().begin();
         Book book = getTestBook();
-        dao.createBook(book);
+        dao.createBook(book);        
+        em.getTransaction().commit();
+        
+        em.getTransaction().begin();
         Long oldID = book.getId();
         dao.deleteBook(book);
+        em.getTransaction().commit();
         assertNull(book.getId());
         assertNull(dao.findBookById(oldID));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testDeletebookWithNullId() {
+        em.getTransaction().begin();
         Book book = getTestBook();
         dao.createBook(book);
+        em.getTransaction().commit();
+        
         book.setId(null);
+        em.getTransaction().begin();        
         dao.deleteBook(book);
+        em.getTransaction().commit();
     }
     
     @Test
     public void testUpdateBook() {
+        em.getTransaction().begin();
         Book book = getTestBook();
         dao.createBook(book);
+        em.getTransaction().commit();
         book.setCondition("Very good");
         book.setPrinted(new LocalDate(2005,3,5));
-        book.setImpression(getTestImpression2());
+        book.setImpression(im2);
+        em.getTransaction().begin();
         dao.updateBook(book);
+        em.getTransaction().commit();
         assertEquals(book, dao.findBookById(book.getId()));
     }
            
-    private static Book getTestBook() {
-        return createTestBook("Very bad", new LocalDate(2001,11,8), getTestImpression());
+    private Book getTestBook() {
+        return createTestBook("Very bad", new LocalDate(2001,11,8), im1);
     }
     
-    private static Book createTestBook(String condition, LocalDate date, Impression impression) {
+    private Book createTestBook(String condition, LocalDate date, Impression impression) {
         Book book = new Book();
-        book.setImpression(getTestImpression());
+        book.setImpression(impression);
         book.setCondition(condition);
         book.setPrinted(date);
         book.setImpression(impression);
@@ -175,4 +222,11 @@ public class BookDaoImplTest {
             return o1.getId().compareTo(o2.getId());
         }        
     };
+
+    void deleteTables() {
+        em.createQuery("DELETE FROM Book").executeUpdate();
+        em.createQuery("DELETE FROM Loan").executeUpdate();
+        em.createQuery("DELETE FROM Impression").executeUpdate();
+        em.createQuery("DELETE FROM Customer").executeUpdate();
+    }
 }

@@ -1,5 +1,8 @@
 package cz.muni.fi.pa165.library;
 
+import cz.muni.fi.pa165.library.daos.CustomerDao;
+import cz.muni.fi.pa165.library.daos.CustomerDaoImpl;
+import cz.muni.fi.pa165.library.entities.Customer;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -27,7 +30,7 @@ public class CustomerDaoImplTest extends TestCase {
     @Before
     @Override
     public void setUp(){
-        emf = Persistence.createEntityManagerFactory("LibraryPU");
+        emf = Persistence.createEntityManagerFactory("LibraryTestPU");    
         DAO = new CustomerDaoImpl(emf);
     }
 

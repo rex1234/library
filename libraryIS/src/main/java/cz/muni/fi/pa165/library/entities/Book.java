@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.library.entities;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.joda.time.LocalDate;
 
@@ -26,8 +26,10 @@ public class Book implements Serializable{
     private Long id;
     @Column(nullable = false)
     private LocalDate printed; 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Impression impression;
+    @ManyToOne (cascade = CascadeType.ALL)
+    private Loan loan;
     @Column(name = "bookCondition")
     private String condition;
 
@@ -62,6 +64,14 @@ public class Book implements Serializable{
     public void setCondition(String condition) {
         this.condition = condition;
     }
+
+    public Loan getLoan() {
+        return loan;
+    }
+
+    public void setLoan(Loan loan) {
+        this.loan = loan;
+    }        
 
     @Override
     public String toString() {

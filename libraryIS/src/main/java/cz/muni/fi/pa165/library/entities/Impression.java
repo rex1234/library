@@ -1,6 +1,5 @@
 package cz.muni.fi.pa165.library.entities;
 
-import cz.muni.fi.libraryis.Department;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Column;

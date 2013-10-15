@@ -23,7 +23,7 @@ import cz.muni.fi.pa165.library.entities.Loan;
 public class Customer implements Serializable {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
    
     @Column(nullable = false)
