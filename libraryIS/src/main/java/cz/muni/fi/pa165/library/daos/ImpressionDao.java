@@ -10,39 +10,33 @@ import java.util.List;
 public interface ImpressionDao {
     
     /** 
-        * Inserts impression into DB
-        * @param impression to be stored
-    */
-    
+    * Inserts impression into DB
+    * @param impression to be stored
+    */    
     void createImpression(Impression impression);
     
-     /** 
-        * Returns all impressions from DB
-        * @return  List of all impressions found in DB
-    */
-    
+    /** 
+    * Returns all impressions from DB
+    * @return  List of all impressions found in DB
+    */    
     List<Impression> findAllImpressions();
     
-     /** 
-        * Finds impression with given ID
-        * @param long ID of impression to be found
-        * @return impression with given ID or NULL if search was unsuccessful
-    */
-    
+    /** 
+    * Finds impression with given ID
+    * @param long ID of impression to be found
+    * @return impression with given ID or NULL if search was unsuccessful
+    */   
     Impression findImpressionById(Long id);
     
     /** 
-        * Deletes impression in DB
-        * @param impression to be deleted
-    */
-    
-    
+    * Deletes impression in DB
+    * @param impression to be deleted
+    */   
     void deleteImpression(Impression impression);
     
     /** 
-        * updates impression in DB
-        * @param impression to be updated
-    */
-    
+    * updates impression in DB
+    * @param impression to be updated
+    */  
     void updateImpression(Impression impression);   
 }
