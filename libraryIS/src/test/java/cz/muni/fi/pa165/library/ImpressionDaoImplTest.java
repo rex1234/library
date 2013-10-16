@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.library;
 
+import cz.muni.fi.pa165.library.daos.BookDaoImpl;
 import cz.muni.fi.pa165.library.daos.ImpressionDao;
 import cz.muni.fi.pa165.library.daos.ImpressionDaoImpl;
 import cz.muni.fi.pa165.library.entities.Department;
@@ -24,11 +25,12 @@ import org.junit.Test;
 
 /**
  *
- * @author Matej
+ * @author MiškoHu
  */
 public class ImpressionDaoImplTest {
 
     private ImpressionDao dao;
+    private EntityManager em;
 
     public ImpressionDaoImplTest() {
     }
@@ -36,65 +38,78 @@ public class ImpressionDaoImplTest {
     @Before
     public void setUp() throws Exception {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");
-        dao = new ImpressionDaoImpl(emf);
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        em.createQuery("DELETE FROM Impression").executeUpdate();
-        em.getTransaction().commit();
+        em = emf.createEntityManager();
+        dao = new ImpressionDaoImpl(em);
     }
 
     @Test
     public void testCreateImpression() {
+        em.getTransaction().begin();
         Impression impression = getTestImpression();
         dao.createImpression(impression);
+        em.getTransaction().commit();
         assertNotNull(impression.getId());
     }
 
     @Test(expected = NullPointerException.class)
     public void testCreateNullImpression() {
+        em.getTransaction().begin();
         dao.createImpression(null);
+        em.getTransaction().commit();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithId() {
         Impression impression = getTestImpression();
         impression.setId(5L);
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithNullName() {
         Impression impression = getTestImpression();
         impression.setName(null);
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithNullIsbn() {
         Impression impression = getTestImpression();
         impression.setIsbn(null);
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithNullAuthor() {
         Impression impression = getTestImpression();
         impression.setAuthor(null);
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithNullDate() {
         Impression impression = getTestImpression();
         impression.setRelaseDate(null);
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithNullDepartment() {
         Impression impression = getTestImpression();
         impression.setDepartment(null);
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test
@@ -102,12 +117,16 @@ public class ImpressionDaoImplTest {
         List<Impression> impressions = new ArrayList<Impression>() {
             {
                 add(getTestImpression());
-                add(createTestImpression("124", "Varime spolu", "Smolko", new LocalDate(2010, 11, 8), Department.COOKING));
-                add(createTestImpression("125", "Man of Steel", "John Smith", new LocalDate(2013, 1, 1), Department.FICTION));
+                add(createTestImpression("124", "Varime spolu", "Smolko",
+                        new LocalDate(2010, 11, 8), Department.COOKING));
+                add(createTestImpression("125", "Man of Steel", "John Smith",
+                        new LocalDate(2013, 1, 1), Department.FICTION));
             }
         };
         for (Impression impression : impressions) {
+            em.getTransaction().begin();
             dao.createImpression(impression);
+            em.getTransaction().commit();
         }
         compareImpressions(impressions, dao.findAllImpressions());
     }
@@ -115,7 +134,9 @@ public class ImpressionDaoImplTest {
     @Test
     public void testFindImpressionById() {
         Impression impression = getTestImpression();
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
         Impression found = dao.findImpressionById(impression.getId());
         compareImpressions(impression, found);
     }
@@ -123,9 +144,13 @@ public class ImpressionDaoImplTest {
     @Test
     public void testDeleteImpression() {
         Impression impression = getTestImpression();
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
+        em.getTransaction().begin();
         Long oldID = impression.getId();
         dao.deleteImpression(impression);
+        em.getTransaction().commit();
         assertNull(impression.getId());
         assertNull(dao.findImpressionById(oldID));
     }
@@ -133,27 +158,38 @@ public class ImpressionDaoImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDeleteImpressionWithNullId() {
         Impression impression = getTestImpression();
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
         impression.setId(null);
+        em.getTransaction().begin();
         dao.deleteImpression(impression);
+        em.getTransaction().commit();
     }
 
     @Test
     public void testUpdateImpression() {
         Impression impression = getTestImpression();
+        em.getTransaction().begin();
         dao.createImpression(impression);
+        em.getTransaction().commit();
         impression.setName("Ferko");
         impression.setIsbn("555");
         impression.setAuthor("Anton Mravec");
+        em.getTransaction().begin();
         dao.updateImpression(impression);
+        em.getTransaction().commit();
         assertEquals(impression, dao.findImpressionById(impression.getId()));
     }
 
     private static Impression getTestImpression() {
-        return createTestImpression("123", "Ako islo vajce na vandrovku", "Michal Kekely", new LocalDate(2001, 11, 8), Department.CHILDREN);
+        return createTestImpression("123", "Ako islo vajce na vandrovku",
+                "Michal Kekely", new LocalDate(2001, 11, 8), Department.CHILDREN);
     }
 
-    private static Impression createTestImpression(String isbn, String name, String author, LocalDate releaseDate, Department department) {
+    private static Impression createTestImpression(String isbn, String name,
+            String author, LocalDate releaseDate, Department department) {
+
         Impression impression = new Impression();
         impression.setIsbn(isbn);
         impression.setName(name);
@@ -169,7 +205,6 @@ public class ImpressionDaoImplTest {
         assertEquals(i1.getAuthor(), i2.getAuthor());
         assertEquals(i1.getRelaseDate(), i2.getRelaseDate());
         assertEquals(i1.getDepartment(), i2.getDepartment());
-
     }
 
     private void compareImpressions(List<Impression> i1, List<Impression> i2) {
@@ -180,13 +215,9 @@ public class ImpressionDaoImplTest {
             compareImpressions(i1.get(i), i2.get(i));
         }
     }
-        
-    
     private static Comparator<Impression> impressionIdCmp = new Comparator<Impression>() {
         public int compare(Impression o1, Impression o2) {
             return o1.getId().compareTo(o2.getId());
         }
-    };      
-
-    
+    };
 }

@@ -3,8 +3,6 @@ package cz.muni.fi.pa165.library.daos;
 import cz.muni.fi.pa165.library.entities.Impression;
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 /**
@@ -12,90 +10,70 @@ import javax.persistence.Query;
  * @author MiškoHu
  */
 public class ImpressionDaoImpl implements ImpressionDao {
-    
-    private EntityManagerFactory emf;
 
-    public ImpressionDaoImpl(EntityManagerFactory emf) {
-        this.emf = emf;
-    }    
-    
-    public void createImpression(Impression impression){
-        checkImpressionAttributes(impression);
-        if(impression.getId() != null) {
-            throw new IllegalArgumentException("cannot create impression with assigned id");
-        }        
-        
-        EntityManager em = emf.createEntityManager();        
-        em.getTransaction().begin();
-        em.persist(impression);
-        em.getTransaction().commit();
+    private EntityManager em;
+
+    public ImpressionDaoImpl(EntityManager em) {
+        this.em = em;
     }
 
-    public List<Impression> findAllImpressions() {
-        EntityManager em = emf.createEntityManager();
+    public void createImpression(Impression impression) {
+        checkImpressionAttributes(impression);
+        if (impression.getId() != null) {
+            throw new IllegalArgumentException("Cannot create impression with assigned ID.");
+        }
+        em.persist(impression);
+    }
+
+    public List<Impression> findAllImpressions() {        
         Query query = em.createQuery("SELECT i FROM Impression i");
         return query.getResultList();
     }
 
     public Impression findImpressionById(Long id) {
         if (id == null) {
-            throw new NullPointerException("id is null");
-        }    
-        
-        EntityManager em = emf.createEntityManager();
+            throw new NullPointerException("ID is null.");
+        }       
         return em.find(Impression.class, id);
     }
 
     public void deleteImpression(Impression impression) {
         if (impression == null) {
-            throw new NullPointerException("impression is null");
+            throw new NullPointerException("Impression is null.");
         }
         if (impression.getId() == null) {
-            throw new IllegalArgumentException("cannot delete impression with no id");
+            throw new IllegalArgumentException("Cannot delete impression with no ID.");
         }       
-        
-        EntityManager em = emf.createEntityManager();
-        Impression i = em.find(Impression.class, impression.getId());
-        em.getTransaction().begin();
         Impression toRemove = em.merge(impression);
         em.remove(toRemove);
-        em.getTransaction().commit();
-        impression.setId(null);
-        System.out.println(toRemove.getId());
+        impression.setId(null);        
     }
 
     public void updateImpression(Impression impression) {
-        EntityManager em = emf.createEntityManager();
-        Impression i = em.find(Impression.class, impression.getId());
-        em.getTransaction().begin();
-        i.setAuthor(impression.getAuthor());
-        i.setDepartment(impression.getDepartment());
-        i.setIsbn(impression.getIsbn());
-        i.setName(impression.getName());
-        i.setRelaseDate(impression.getRelaseDate());        
-        em.getTransaction().commit();        
+        checkImpressionAttributes(impression);
+        em.merge(impression);
     }
-    private void checkImpressionAttributes(Impression impression) throws IllegalArgumentException, NullPointerException {
-        if(impression == null) {
-            throw new NullPointerException("impression is null");
+
+    private void checkImpressionAttributes(Impression impression)
+            throws IllegalArgumentException, NullPointerException {
+
+        if (impression == null) {
+            throw new NullPointerException("Impression is null.");
         }
-        if(impression.getIsbn()== null) {
-            throw new IllegalArgumentException("loan.isbn cannot be null");
+        if (impression.getIsbn() == null) {
+            throw new IllegalArgumentException("Impression.isbn cannot be null.");
         }
-        if(impression.getName()== null) {
-            throw new IllegalArgumentException("loan.name cannot be null");
+        if (impression.getName() == null) {
+            throw new IllegalArgumentException("Impression.name cannot be null.");
         }
-        if(impression.getAuthor()== null) {
-            throw new IllegalArgumentException("loan.author cannot be null");
+        if (impression.getAuthor() == null) {
+            throw new IllegalArgumentException("Impression.author cannot be null.");
         }
-        if(impression.getRelaseDate()== null) {
-            throw new IllegalArgumentException("loan.relaseDate cannot be null");
+        if (impression.getRelaseDate() == null) {
+            throw new IllegalArgumentException("Impression.relaseDate cannot be null.");
         }
-        if(impression.getDepartment()== null) {
-            throw new IllegalArgumentException("loan.department cannot be null");
+        if (impression.getDepartment() == null) {
+            throw new IllegalArgumentException("Impression.department cannot be null.");
         }
-        
-        
     }
-     
 }

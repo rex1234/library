@@ -1,13 +1,11 @@
 package cz.muni.fi.pa165.library.entities;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import org.joda.time.LocalDate;
 
 /**
@@ -32,8 +30,7 @@ public class Impression implements Serializable {
     
     private LocalDate relaseDate;    
     
-    private Department department;   
-    
+    private Department department;
 
     public Long getId() {
         return id;
@@ -86,7 +83,7 @@ public class Impression implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 29 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -103,12 +100,10 @@ public class Impression implements Serializable {
             return false;
         }
         return true;
-    }   
+    }
 
     @Override
     public String toString() {
-        return "Impression{" + "id=" + id + ", isbn=" + isbn + ", name=" + name + ", author=" + author + '}';
-    }
-    
-    
+        return "Impression{" + "id=" + id + ", name=" + name + ", author=" + author + '}';
+    }   
 }
