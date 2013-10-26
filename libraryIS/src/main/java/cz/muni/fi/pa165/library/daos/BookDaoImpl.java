@@ -2,11 +2,8 @@ package cz.muni.fi.pa165.library.daos;
 
 import cz.muni.fi.pa165.library.entities.Book;
 import java.util.List;
-import javax.persistence.Entity;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 
 /**
@@ -15,12 +12,7 @@ import javax.persistence.Persistence;
  */
 public class BookDaoImpl implements BookDao {
     
-    private EntityManagerFactory emf;
     private EntityManager em;
-
-    public BookDaoImpl(EntityManagerFactory emf) {
-        this.emf = emf;
-    }    
 
     public BookDaoImpl(EntityManager em) {
         this.em = em;

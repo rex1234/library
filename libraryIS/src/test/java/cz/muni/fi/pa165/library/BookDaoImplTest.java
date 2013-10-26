@@ -29,9 +29,6 @@ public class BookDaoImplTest {
     private Impression im1;
     private Impression im2;
     
-    public BookDaoImplTest() {       
-    }
-    
     @Before
     public void setUp() throws Exception {     
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");        
@@ -40,22 +37,14 @@ public class BookDaoImplTest {
         
         im1 = getTestImpression();
         im2 = getTestImpression2();
-        ImpressionDao imDao = new ImpressionDaoImpl(emf);
+        ImpressionDao imDao = new ImpressionDaoImpl(em);
+        
+        em.getTransaction().begin();
         imDao.createImpression(im2);
-        imDao.createImpression(im1);        
+        imDao.createImpression(im1);
+        em.getTransaction().commit();
     }
     
-    @After
-    public void deleteTablesAfter() {
-//        if(em.getTransaction().isActive()) {
-//            em.getTransaction().commit();
-//        }
-//        em.getTransaction().begin();        
-//        deleteTables();
-//        em.getTransaction().commit();
-    } 
-   
-
     @Test
     public void testCreateBook() {
         em.getTransaction().begin();
@@ -217,16 +206,9 @@ public class BookDaoImplTest {
         }
     }
     
-    private static Comparator<Book> bookIdCmp = new Comparator<Book>() {
+    private static final Comparator<Book> bookIdCmp = new Comparator<Book>() {
         public int compare(Book o1, Book o2) {
             return o1.getId().compareTo(o2.getId());
         }        
     };
-
-    void deleteTables() {
-        em.createQuery("DELETE FROM Book").executeUpdate();
-        em.createQuery("DELETE FROM Loan").executeUpdate();
-        em.createQuery("DELETE FROM Impression").executeUpdate();
-        em.createQuery("DELETE FROM Customer").executeUpdate();
-    }
 }
