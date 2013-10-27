@@ -1,9 +1,7 @@
 package cz.muni.fi.pa165.library.daos;
 
-import cz.muni.fi.pa165.library.daos.*;
 import cz.muni.fi.pa165.library.entities.*;
 import java.util.List;
-import javax.persistence.Entity;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,16 +16,18 @@ import javax.persistence.Persistence;
  
 public class CustomerDaoImpl implements CustomerDao {
    
-    private EntityManagerFactory emf;
+    private EntityManager em;
  
-    public CustomerDaoImpl(EntityManagerFactory emf) {
-        this.emf = emf;
+    public CustomerDaoImpl(EntityManager em) {
+        this.em = em;
     }
     
+    // Just to be back-compatible
     public CustomerDaoImpl() {
-        emf = Persistence.createEntityManagerFactory("LibraryPU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryPU");
+        em = emf.createEntityManager();
     }
-   
+    
  
     public void createCustomer(Customer customer) {
         if(customer == null){
@@ -43,17 +43,11 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new IllegalArgumentException("customer address or empty");
         }
         
-        EntityManager em = emf.createEntityManager();
-        
-        em.getTransaction().begin();
         em.persist(customer);
-        em.getTransaction().commit();
         
     }
    
-    public List<Customer> findAllCustomers() {
-        EntityManager em = emf.createEntityManager();
-        
+    public List<Customer> findAllCustomers() {        
         Query query = em.createQuery("SELECT a FROM Customer a");
         return query.getResultList();        
     }
@@ -62,9 +56,6 @@ public class CustomerDaoImpl implements CustomerDao {
         if(id == null){
             throw new IllegalArgumentException("id is null");
         }
-        
-        EntityManager em = emf.createEntityManager();
-
         return em.find(Customer.class, id);     
     }
  
@@ -76,15 +67,12 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new IllegalArgumentException("Customer ID is null");
         }
         
-        EntityManager em = emf.createEntityManager();
-        
-        em.getTransaction().begin();
-        Customer toBeDeleted = em.find(Customer.class, customer.getId());
+        Customer toBeDeleted = em.merge(customer);
         if(toBeDeleted == null){
             throw new IllegalArgumentException("Customer doesn exist" + customer);
         }
         em.remove(toBeDeleted);
-        em.getTransaction().commit();
+        toBeDeleted.setId(null);
     }
  
     public void updateCustomer(Customer customer) {
@@ -98,17 +86,12 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new IllegalArgumentException("customer address or empty");
         }
         
-        EntityManager em = emf.createEntityManager();
-        
-        em.getTransaction().begin();
-        
         Customer finded = em.find(Customer.class, customer.getId());
         if(finded == null){
              throw new IllegalArgumentException("Customer does not exist : " + customer);
         }
         
         em.merge(customer);
-        em.getTransaction().commit();
     }
    
 }
