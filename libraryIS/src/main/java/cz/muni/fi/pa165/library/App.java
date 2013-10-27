@@ -10,6 +10,7 @@ import cz.muni.fi.pa165.library.entities.Impression;
 import cz.muni.fi.pa165.library.entities.Loan;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.joda.time.LocalDate;
@@ -19,7 +20,8 @@ public class App
     public static void main( String[] args )
     {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");
-        LoanDao dao = new LoanDaoImpl(emf);
+        EntityManager em = emf.createEntityManager();
+        LoanDao dao = new LoanDaoImpl(em);
         dao.createLoan(getTestLoan());
         
     }
