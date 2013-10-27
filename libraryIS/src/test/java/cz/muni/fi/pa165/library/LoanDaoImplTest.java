@@ -59,7 +59,7 @@ public class LoanDaoImplTest {
         cust1 = getTestCustomer();
         cust2 = getTestCustomer2();
 
-        custDao = new CustomerDaoImpl(emf);
+        custDao = new CustomerDaoImpl(em);
         bookDao = new BookDaoImpl(em);
         imDao = new ImpressionDaoImpl(em);
 
