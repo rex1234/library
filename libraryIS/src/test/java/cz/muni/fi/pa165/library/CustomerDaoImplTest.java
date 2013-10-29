@@ -23,7 +23,7 @@ import org.junit.Test;
  * @author vit.mica
  */
 public class CustomerDaoImplTest extends TestCase {
-    private CustomerDao DAO;
+   /* private CustomerDao DAO;
     private EntityManagerFactory emf;
     private EntityManager em;
     
@@ -187,5 +187,5 @@ public class CustomerDaoImplTest extends TestCase {
         customer.setName(name);
         customer.setAddress(address);
         return customer;
-    }
+    }*/
 }
