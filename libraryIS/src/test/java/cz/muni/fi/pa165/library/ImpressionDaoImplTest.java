@@ -4,6 +4,7 @@
  */
 package cz.muni.fi.pa165.library;
 
+import cz.muni.fi.pa165.library.daos.BookDao;
 import cz.muni.fi.pa165.library.daos.BookDaoImpl;
 import cz.muni.fi.pa165.library.daos.ImpressionDao;
 import cz.muni.fi.pa165.library.daos.ImpressionDaoImpl;
@@ -16,12 +17,16 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -29,7 +34,8 @@ import org.junit.Test;
  */
 public class ImpressionDaoImplTest {
 
-    private ImpressionDao dao;
+    private ImpressionDao dao;    
+  
     private EntityManager em;
 
     public ImpressionDaoImplTest() {
@@ -37,79 +43,79 @@ public class ImpressionDaoImplTest {
 
     @Before
     public void setUp() throws Exception {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");
-        em = emf.createEntityManager();
-        dao = new ImpressionDaoImpl(em);
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("applicationTestContext.xml");
+        dao = context.getBean(ImpressionDao.class);        
     }
 
     @Test
     public void testCreateImpression() {
-        em.getTransaction().begin();
+     
         Impression impression = getTestImpression();
         dao.createImpression(impression);
-        em.getTransaction().commit();
+       
         assertNotNull(impression.getId());
     }
 
     @Test(expected = NullPointerException.class)
     public void testCreateNullImpression() {
-        em.getTransaction().begin();
+       
         dao.createImpression(null);
-        em.getTransaction().commit();
+       
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testCreateImpressionWithId() {
         Impression impression = getTestImpression();
         impression.setId(5L);
-        em.getTransaction().begin();
+       
         dao.createImpression(impression);
-        em.getTransaction().commit();
+      
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testCreateImpressionWithNullName() {
         Impression impression = getTestImpression();
         impression.setName(null);
-        em.getTransaction().begin();
+   
         dao.createImpression(impression);
-        em.getTransaction().commit();
+    
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testCreateImpressionWithNullIsbn() {
         Impression impression = getTestImpression();
         impression.setIsbn(null);
-        em.getTransaction().begin();
+      
         dao.createImpression(impression);
-        em.getTransaction().commit();
+    
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testCreateImpressionWithNullAuthor() {
         Impression impression = getTestImpression();
         impression.setAuthor(null);
-        em.getTransaction().begin();
+       
         dao.createImpression(impression);
-        em.getTransaction().commit();
+     
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testCreateImpressionWithNullDate() {
         Impression impression = getTestImpression();
         impression.setRelaseDate(null);
-        em.getTransaction().begin();
+
         dao.createImpression(impression);
-        em.getTransaction().commit();
+      
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testCreateImpressionWithNullDepartment() {
         Impression impression = getTestImpression();
         impression.setDepartment(null);
-        em.getTransaction().begin();
+  
         dao.createImpression(impression);
-        em.getTransaction().commit();
+        
     }
 
     @Test
@@ -124,9 +130,9 @@ public class ImpressionDaoImplTest {
             }
         };
         for (Impression impression : impressions) {
-            em.getTransaction().begin();
+           
             dao.createImpression(impression);
-            em.getTransaction().commit();
+         
         }
         compareImpressions(impressions, dao.findAllImpressions());
     }
@@ -134,9 +140,9 @@ public class ImpressionDaoImplTest {
     @Test
     public void testFindImpressionById() {
         Impression impression = getTestImpression();
-        em.getTransaction().begin();
+     
         dao.createImpression(impression);
-        em.getTransaction().commit();
+      
         Impression found = dao.findImpressionById(impression.getId());
         compareImpressions(impression, found);
     }
@@ -144,41 +150,40 @@ public class ImpressionDaoImplTest {
     @Test
     public void testDeleteImpression() {
         Impression impression = getTestImpression();
-        em.getTransaction().begin();
+      
         dao.createImpression(impression);
-        em.getTransaction().commit();
-        em.getTransaction().begin();
+        
         Long oldID = impression.getId();
         dao.deleteImpression(impression);
-        em.getTransaction().commit();
+     
         assertNull(impression.getId());
         assertNull(dao.findImpressionById(oldID));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = DataAccessException.class)
     public void testDeleteImpressionWithNullId() {
         Impression impression = getTestImpression();
-        em.getTransaction().begin();
+     
         dao.createImpression(impression);
-        em.getTransaction().commit();
+       
         impression.setId(null);
-        em.getTransaction().begin();
+     
         dao.deleteImpression(impression);
-        em.getTransaction().commit();
+    
     }
 
     @Test
     public void testUpdateImpression() {
         Impression impression = getTestImpression();
-        em.getTransaction().begin();
+     
         dao.createImpression(impression);
-        em.getTransaction().commit();
+      
         impression.setName("Ferko");
         impression.setIsbn("555");
         impression.setAuthor("Anton Mravec");
-        em.getTransaction().begin();
+     
         dao.updateImpression(impression);
-        em.getTransaction().commit();
+      
         assertEquals(impression, dao.findImpressionById(impression.getId()));
     }
 
