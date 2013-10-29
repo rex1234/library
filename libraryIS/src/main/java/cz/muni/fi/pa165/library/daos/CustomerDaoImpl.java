@@ -6,6 +6,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -13,22 +16,13 @@ import javax.persistence.Persistence;
  */
 
  
- 
+@Repository
+@Transactional
 public class CustomerDaoImpl implements CustomerDao {
    
+    @PersistenceContext
     private EntityManager em;
- 
-    public CustomerDaoImpl(EntityManager em) {
-        this.em = em;
-    }
-    
-    // Just to be back-compatible
-    public CustomerDaoImpl() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryPU");
-        em = emf.createEntityManager();
-    }
-    
- 
+
     public void createCustomer(Customer customer) {
         if(customer == null){
             throw new IllegalArgumentException("customer is null.");

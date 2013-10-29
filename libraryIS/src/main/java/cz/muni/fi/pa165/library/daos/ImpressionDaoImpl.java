@@ -3,19 +3,21 @@ package cz.muni.fi.pa165.library.daos;
 import cz.muni.fi.pa165.library.entities.Impression;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author MiškoHu
  */
+@Repository
+@Transactional
 public class ImpressionDaoImpl implements ImpressionDao {
 
+    @PersistenceContext
     private EntityManager em;
-
-    public ImpressionDaoImpl(EntityManager em) {
-        this.em = em;
-    }
 
     public void createImpression(Impression impression) {
         checkImpressionAttributes(impression);

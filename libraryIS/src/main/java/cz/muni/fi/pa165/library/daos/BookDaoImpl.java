@@ -4,19 +4,21 @@ import cz.muni.fi.pa165.library.entities.Book;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * 
  * @author Mjartan
  */
+@Repository
+@Transactional
 public class BookDaoImpl implements BookDao {
     
-    private EntityManager em;
-
-    public BookDaoImpl(EntityManager em) {
-        this.em = em;
-    }        
+    @PersistenceContext
+    private EntityManager em;   
 
     public void createBook(Book book) {
         checkBookAttributes(book);
