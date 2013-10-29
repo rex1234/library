@@ -80,12 +80,17 @@ public class Book implements Serializable{
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        int hash = 7;
+        hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
         if(!(obj instanceof Book)) {
+            return false;
+        }
+        if(id == null) {
             return false;
         }
         return ((Book)obj).getId().equals(id);
