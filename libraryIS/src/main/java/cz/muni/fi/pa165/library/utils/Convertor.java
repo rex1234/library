@@ -8,6 +8,8 @@ import cz.muni.fi.pa165.library.entities.Book;
 import cz.muni.fi.pa165.library.entities.Customer;
 import cz.muni.fi.pa165.library.entities.Impression;
 import cz.muni.fi.pa165.library.entities.Loan;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Convertor {
     public static BookTO convert(Book book) {
@@ -31,11 +33,31 @@ public class Convertor {
     }
     
     public static LoanTO convert(Loan loan) {
-        return null;
+        LoanTO result = new LoanTO();
+        result.setId(loan.getId());
+        result.setToDate(loan.getTo());
+        result.setFromDate(loan.getFrom());
+        result.setCustomerTO(Convertor.convert(loan.getCustomer()));
+        List<BookTO> bookList = new LinkedList<BookTO>();
+        for (Book book : loan.getBooks()) {
+            bookList.add(Convertor.convert(book));
+        }
+        result.setBooks(bookList);
+        return result;
     }
     
     public static Loan convert(LoanTO loan) {
-        return null;
+        Loan result = new Loan();
+        result.setId(loan.getId());
+        result.setTo(loan.getToDate());
+        result.setFrom(loan.getFromDate());
+        result.setCustomer(Convertor.convert(loan.getCustomerTO()));
+        List<Book> bookList = new LinkedList<Book>();
+        for (BookTO book : loan.getBooks()) {
+            bookList.add(Convertor.convert(book));
+        }
+        result.setBooks(bookList);
+        return result;
     }
     
     public static CustomerTO convert(Customer customer) {
