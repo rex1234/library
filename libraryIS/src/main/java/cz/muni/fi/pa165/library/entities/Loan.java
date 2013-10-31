@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +26,7 @@ public class Loan implements Serializable {
     private Long id;    
     @ManyToOne
     private Customer customer;    
-    @OneToMany(mappedBy = "loan")
+    @OneToMany(mappedBy = "loan",fetch = FetchType.EAGER)
     private List<Book> books;   
     private LocalDate fromDate; //joda time   
     private LocalDate toDate;

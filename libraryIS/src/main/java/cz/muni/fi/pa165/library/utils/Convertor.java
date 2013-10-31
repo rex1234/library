@@ -61,19 +61,51 @@ public class Convertor {
     }
     
     public static CustomerTO convert(Customer customer) {
-        return null;
+        CustomerTO result = new CustomerTO();
+        result.setId(customer.getId());
+        result.setName(customer.getName());
+        result.setAddress(customer.getAddress());
+        List<LoanTO> customerList = new LinkedList<LoanTO>();
+        for (Loan loan : customer.getLoans()) {
+            customerList.add(Convertor.convert(loan));
+        }
+        result.setLoans(customerList);       
+        return result;
     }
     
     public static Customer convert(CustomerTO customer) {
-        return null;
+        Customer result = new Customer();
+        result.setId(customer.getId());
+        result.setName(customer.getName());
+        result.setAddress(customer.getAddress());
+        List<Loan> customerList = new LinkedList<Loan>();
+        for (LoanTO loan : customer.getLoans()) {
+            customerList.add(Convertor.convert(loan));
+        }
+        result.setLoans(customerList);       
+        return result;
     }
     
     public static ImpressionTO convert(Impression impression) {
-        return null;
+        ImpressionTO result = new ImpressionTO();
+        result.setId(impression.getId());
+        result.setName(impression.getName());
+        result.setIsbn(impression.getIsbn());
+        result.setAuthor(impression.getAuthor());
+        result.setRelaseDate(impression.getRelaseDate());
+        result.setDepartment(impression.getDepartment());
+        return result;
     }
     
     public static Impression convert(ImpressionTO impression) {
-        return null;
+        Impression result = new Impression();
+        result.setId(impression.getId());
+        result.setName(impression.getName());
+        result.setIsbn(impression.getIsbn());
+        result.setAuthor(impression.getAuthor());
+        result.setRelaseDate(impression.getRelaseDate());
+        result.setDepartment(impression.getDepartment());
+        return result;
     }
     
 }
