@@ -4,8 +4,6 @@ import cz.muni.fi.pa165.library.entities.*;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
