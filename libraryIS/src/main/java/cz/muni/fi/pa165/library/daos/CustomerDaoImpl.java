@@ -66,7 +66,7 @@ public class CustomerDaoImpl implements CustomerDao {
             throw new IllegalArgumentException("Customer doesn exist" + customer);
         }
         em.remove(toBeDeleted);
-        toBeDeleted.setId(null);
+        customer.setId(null);
     }
  
     public void updateCustomer(Customer customer) {
