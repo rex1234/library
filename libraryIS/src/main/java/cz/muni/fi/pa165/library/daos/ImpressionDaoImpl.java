@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +56,7 @@ public class ImpressionDaoImpl implements ImpressionDao {
         checkImpressionAttributes(impression);
         em.merge(impression);
     }
-
+   
     private void checkImpressionAttributes(Impression impression)
             throws IllegalArgumentException, NullPointerException {
 
