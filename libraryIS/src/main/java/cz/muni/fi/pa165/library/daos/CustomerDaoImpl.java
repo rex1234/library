@@ -6,7 +6,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -15,11 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 
  
 @Repository
-@Transactional
 public class CustomerDaoImpl implements CustomerDao {
    
     @PersistenceContext
     private EntityManager em;
+    
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }      
 
     public void createCustomer(Customer customer) {
         if(customer == null){

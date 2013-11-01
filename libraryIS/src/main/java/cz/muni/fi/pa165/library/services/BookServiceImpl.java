@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
  * @author Mjartan
  */
-
 @Service
+@Transactional
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookDao bookDao;

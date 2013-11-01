@@ -5,20 +5,21 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author MiškoHu
  */
 @Repository
-@Transactional
 public class ImpressionDaoImpl implements ImpressionDao {
 
     @PersistenceContext
     private EntityManager em;
+
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }       
 
     public void createImpression(Impression impression) {
         checkImpressionAttributes(impression);
@@ -47,7 +48,7 @@ public class ImpressionDaoImpl implements ImpressionDao {
         if (impression.getId() == null) {
             throw new IllegalArgumentException("Cannot delete impression with no ID.");
         }       
-        Impression toRemove = em.merge(impression);
+        Impression toRemove = em.find(Impression.class, impression.getId());
         em.remove(toRemove);
         impression.setId(null);        
     }

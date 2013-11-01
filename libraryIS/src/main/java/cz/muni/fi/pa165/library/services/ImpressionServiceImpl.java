@@ -12,43 +12,45 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Matej
  */
- @Service
-    public class ImpressionServiceImpl implements ImpressionService {
+@Service
+@Transactional
+public class ImpressionServiceImpl implements ImpressionService {
 
-        @Autowired
-        private ImpressionDao impressionDao;
+    @Autowired
+    private ImpressionDao impressionDao;
 
-        public void createImpression(ImpressionTO impressionTO) {
-            Impression impressionEntity = Convertor.convert(impressionTO);
-            impressionDao.createImpression(impressionEntity);
-            impressionTO.setId(impressionEntity.getId());
+    public void createImpression(ImpressionTO impressionTO) {
+        Impression impressionEntity = Convertor.convert(impressionTO);
+        impressionDao.createImpression(impressionEntity);
+        impressionTO.setId(impressionEntity.getId());
+    }
+
+    public List<ImpressionTO> findAllImpressions() {
+        List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
+        List<Impression> impressionEntities = impressionDao.findAllImpressions();
+        for (Impression impression : impressionEntities) {
+            impressionTOs.add(Convertor.convert(impression));
         }
+        return impressionTOs;
+    }
 
-        public List<ImpressionTO> findAllImpressions() {
-            List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
-            List<Impression> impressionEntities = impressionDao.findAllImpressions();
-            for (Impression impression : impressionEntities) {
-                impressionTOs.add(Convertor.convert(impression));
-            }
-            return impressionTOs;
-        }
+    public ImpressionTO findImpressionById(Long id) {
+        return Convertor.convert(impressionDao.findImpressionById(id));
+    }
 
-        public ImpressionTO findImpressionById(Long id) {
-            return Convertor.convert(impressionDao.findImpressionById(id));
-        }
+    public void deleteImpression(ImpressionTO impressionTO) {
+        impressionDao.deleteImpression(Convertor.convert(impressionTO));
+        impressionTO.setId(null);
+    }
 
-        public void deleteImpression(ImpressionTO impressionTO) {
-            impressionDao.deleteImpression(Convertor.convert(impressionTO));
-            impressionTO.setId(null);
-        }
+    public void updateImpression(ImpressionTO impressionTO) {
+        impressionDao.updateImpression(Convertor.convert(impressionTO));
+    }
 
-        public void updateImpression(ImpressionTO impressionTO) {
-            impressionDao.updateImpression(Convertor.convert(impressionTO));
-        }
-        
- }
+}

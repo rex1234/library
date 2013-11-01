@@ -6,18 +6,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Matej
  */
 @Repository
-@Transactional
 public class LoanDaoImpl implements LoanDao {
 
     @PersistenceContext
     private EntityManager entityManager;
+    
+    public void setEntityManager(EntityManager em) {
+        entityManager = em;
+    }      
 
     public void createLoan(Loan loan) {
         checkLoanAttributes(loan);

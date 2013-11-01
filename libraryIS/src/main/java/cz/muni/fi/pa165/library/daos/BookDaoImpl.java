@@ -6,7 +6,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
@@ -14,12 +13,19 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Mjartan
  */
 @Repository
-@Transactional
 public class BookDaoImpl implements BookDao {
     
     @PersistenceContext
     private EntityManager em;   
 
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }        
+    
     public void createBook(Book book) {
         checkBookAttributes(book);
         if(book.getId() != null) {
