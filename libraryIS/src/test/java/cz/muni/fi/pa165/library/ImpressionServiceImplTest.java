@@ -79,7 +79,6 @@ public class ImpressionServiceImplTest {
     @Test
     public void testCreateImpression() {
 
-        System.out.println("add mushroom service");
 
         ImpressionServiceImpl impressionService = context.getBean(ImpressionServiceImpl.class);
 
@@ -88,7 +87,7 @@ public class ImpressionServiceImplTest {
 
         impressionService.createImpression(testImpression1TO);
 
-        assertNotNull("Mushroom ID should be set", testImpression1TO.getId());
+        assertNotNull("Impression ID should be set", testImpression1TO.getId());
         mockUpdate();
         ImpressionTO impressionTO = impressionService.findImpressionById(testImpression1TO.getId());
 
