@@ -4,241 +4,116 @@
  */
 package cz.muni.fi.pa165.library;
 
+import static cz.muni.fi.pa165.library.ImpressionDaoImplTest.createTestImpression;
+import static cz.muni.fi.pa165.library.ImpressionDaoImplTest.getTestImpression;
 import cz.muni.fi.pa165.library.daos.ImpressionDao;
 import cz.muni.fi.pa165.library.dtos.ImpressionTO;
 import cz.muni.fi.pa165.library.entities.Department;
 import cz.muni.fi.pa165.library.entities.Impression;
+import cz.muni.fi.pa165.library.services.ImpressionService;
 import cz.muni.fi.pa165.library.services.ImpressionServiceImpl;
 import cz.muni.fi.pa165.library.utils.Convertor;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import static junit.framework.TestCase.assertEquals;
 import org.joda.time.LocalDate;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import static org.mockito.Mockito.*;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
- * @author Matej
+ * @author Mjartan
  */
+@RunWith(PowerMockRunner.class)
 public class ImpressionServiceImplTest {
-
-    private ApplicationContext context;
-    private ImpressionDao impressionDao;
-    private Map<Long, Impression> impressionMap;
-    private Impression testImpression1;
-    private Impression testImpression2;
-
-    public ImpressionServiceImplTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-        context = new ClassPathXmlApplicationContext("applicationTestContext.xml");
-
-        testImpression1 = new Impression();
-        testImpression1.setIsbn("123456");
-        testImpression1.setAuthor("Fero Mrkvicka");
-        testImpression1.setName("Vajce");
-        testImpression1.setRelaseDate(new LocalDate(2000, 1, 1));
-        testImpression1.setDepartment(Department.CHILDREN);
-
-        testImpression2 = new Impression();
-        testImpression2.setIsbn("111111");
-        testImpression2.setAuthor("J.K.R.");
-        testImpression2.setName("HP");
-        testImpression2.setRelaseDate(new LocalDate(2009, 12, 1));
-        testImpression2.setDepartment(Department.FICTION);
-
-
-
-        impressionDao = mock(ImpressionDao.class);
-        mockUpdate();
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    @Test
-    public void testCreateImpression() {
-
-
-        ImpressionServiceImpl impressionService = context.getBean(ImpressionServiceImpl.class);
-
-
-        ImpressionTO testImpression1TO = Convertor.convert(testImpression1);
-
-        impressionService.createImpression(testImpression1TO);
-
-        assertNotNull("Impression ID should be set", testImpression1TO.getId());
-        mockUpdate();
-        ImpressionTO impressionTO = impressionService.findImpressionById(testImpression1TO.getId());
-
-        assertEquals(testImpression1TO, impressionTO);
-        assertEquals(testImpression1TO.getId(), impressionTO.getId());
-        assertEquals(testImpression1TO.getName(), impressionTO.getName());
-        assertEquals(testImpression1TO.getAuthor(), impressionTO.getAuthor());
-        assertEquals(testImpression1TO.getIsbn(), impressionTO.getIsbn());
-        assertEquals(testImpression1TO.getDepartment(), impressionTO.getDepartment());
-        assertEquals(testImpression1TO.getRelaseDate(), impressionTO.getRelaseDate());
-
-
-    }
+    
+    @Mock
+    ImpressionDao imDao;
+    
+    @InjectMocks
+    private ImpressionService imService = new ImpressionServiceImpl();
     
     @Test
-    public void testFindImpressionById() {
-        ImpressionServiceImpl impressionService = context.getBean(ImpressionServiceImpl.class);
-
-        ImpressionTO testImpression1TO = Convertor.convert(testImpression1);
-        ImpressionTO testImpression2TO = Convertor.convert(testImpression2);
-
-        impressionService.createImpression(testImpression1TO);
-        impressionService.createImpression(testImpression2TO);
-
-
-        ImpressionTO impressionTO = impressionService.findImpressionById(testImpression1TO.getId());
-        assertEquals(testImpression1TO.getId(), impressionTO.getId());
-        assertEquals(testImpression1TO.getName(), impressionTO.getName());
-        assertEquals(testImpression1TO.getAuthor(), impressionTO.getAuthor());
-        assertEquals(testImpression1TO.getIsbn(), impressionTO.getIsbn());
-        assertEquals(testImpression1TO.getDepartment(), impressionTO.getDepartment());
-        assertEquals(testImpression1TO.getRelaseDate(), impressionTO.getRelaseDate());
-
-        ImpressionTO impressionTO2 = impressionService.findImpressionById(testImpression2TO.getId());
-        assertEquals(testImpression2TO.getId(), impressionTO2.getId());
-        assertEquals(testImpression2TO.getName(), impressionTO2.getName());
-        assertEquals(testImpression2TO.getAuthor(), impressionTO2.getAuthor());
-        assertEquals(testImpression2TO.getIsbn(), impressionTO2.getIsbn());
-        assertEquals(testImpression2TO.getDepartment(), impressionTO2.getDepartment());
-        assertEquals(testImpression2TO.getRelaseDate(), impressionTO2.getRelaseDate());
+    public void testFindImpression() {
+        when(imDao.findImpressionById(22l)).thenReturn(getTestImpression());
+        compareImpressions(getTestImpressionTO(), imService.findImpressionById(22L));
     }
-
+    
     @Test
     public void testFindAllImpressions() {
-
-        ImpressionServiceImpl impressionService = context.getBean(ImpressionServiceImpl.class);
-
-        ImpressionTO testImpression1TO = Convertor.convert(testImpression1);
-        ImpressionTO testImpression2TO = Convertor.convert(testImpression2);
-
-        impressionService.createImpression(testImpression1TO);
-        impressionService.createImpression(testImpression2TO);
-        mockUpdate();
-
-        List<ImpressionTO> impressionsTO = impressionService.findAllImpressions();
-        assertEquals(2, impressionsTO.size());
-        assertEquals(testImpression1TO, impressionsTO.get(0));
-        assertEquals(testImpression2TO, impressionsTO.get(1));
-    }
-
-
-    @Test
-    public void testDeleteImpression() {
-
-        ImpressionServiceImpl impressionService = context.getBean(ImpressionServiceImpl.class);
-
-        ImpressionTO testImpression1TO = Convertor.convert(testImpression1);
-        ImpressionTO testImpression2TO = Convertor.convert(testImpression2);
-
-        impressionService.createImpression(testImpression1TO);
-        impressionService.createImpression(testImpression2TO);
-        mockUpdate();
-
-        List<ImpressionTO> impressionsTO = impressionService.findAllImpressions();
-        assertEquals(2, impressionsTO.size());
-
-        impressionService.deleteImpression(testImpression1TO);
-        mockUpdate();
-        impressionsTO = impressionService.findAllImpressions();
-        assertEquals(1, impressionsTO.size());
-
-        impressionService.deleteImpression(testImpression2TO);
-        mockUpdate();
-        impressionsTO = impressionService.findAllImpressions();
-        assertEquals(0, impressionsTO.size());
-
+        List<Impression> ims = new ArrayList<Impression>() {{
+            add(createTestImpression(5L, "Hevier"));
+            add(createTestImpression(10L, "Rufus"));
+            add(createTestImpression(15L, "Stur"));            
+        }};
+        
+        ArrayList<ImpressionTO> imTos = new ArrayList<ImpressionTO>() {{
+            add(createTestImpressionTO(5L, "Hevier"));
+            add(createTestImpressionTO(10L, "Rufus"));
+            add(createTestImpressionTO(15L, "Stur"));    
+        }};
+        when(imDao.findAllImpressions()).thenReturn(ims);
+        compareImpressions(imTos, imService.findAllImpressions());
     }
     
     @Test
-    public void testUpdateImpression() {
-
-        ImpressionServiceImpl impressionService = context.getBean(ImpressionServiceImpl.class);
-        ImpressionTO testImpression1TO = Convertor.convert(testImpression1);
-        impressionService.createImpression(testImpression1TO);
-
-        testImpression1TO.setIsbn("654321");
-        testImpression1TO.setName("Lev a Macka");
-        testImpression1TO.setAuthor("Christensen");
-        testImpression1TO.setRelaseDate(new LocalDate(2005, 10, 10));
-        testImpression1TO.setDepartment(Department.POETRY);
-
-        testImpression1 = Convertor.convert(testImpression1TO);
-        mockUpdate();
-        impressionService.updateImpression(testImpression1TO);
-        mockUpdate();
-        ImpressionTO impressionTO = impressionService.findImpressionById(testImpression1TO.getId());
-
-        assertEquals(testImpression1TO.getId(), impressionTO.getId());
-        assertEquals(testImpression1TO.getName(), impressionTO.getName());
-        assertEquals(testImpression1TO.getAuthor(), impressionTO.getAuthor());
-        assertEquals(testImpression1TO.getIsbn(), impressionTO.getIsbn());
-        assertEquals(testImpression1TO.getDepartment(), impressionTO.getDepartment());
-        assertEquals(testImpression1TO.getRelaseDate(), impressionTO.getRelaseDate());
-
+    public void testDeleteCustomer() {
+        imService.deleteImpression(getTestImpressionTO());
+        verify(imDao).deleteImpression(getTestImpression());
     }
-
     
-
-    private void mockUpdate() {
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                impressionMap.put(testImpression1.getId(), testImpression1);
-                return null;
-            }
-        }).when(impressionDao).createImpression(testImpression1);
-
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                impressionMap.put(testImpression1.getId(), testImpression1);
-                return null;
-            }
-        }).when(impressionDao).updateImpression(testImpression1);
-
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                impressionMap.remove(testImpression1.getId());
-                return null;
-            }
-        }).when(impressionDao).deleteImpression(testImpression1);
-
-        doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) {
-                impressionMap.remove(testImpression2.getId());
-                return null;
-            }
-        }).when(impressionDao).deleteImpression(testImpression2);
-
-
+    @Test
+    public void testUpdateCustomer() {
+        imService.updateImpression(getTestImpressionTO());
+        verify(imDao).updateImpression(getTestImpression());
     }
+      
+    static ImpressionTO getTestImpressionTO() {
+        return Convertor.convert(getTestImpression());
+    }
+      
+    private static void compareImpressions(ImpressionTO i1, ImpressionTO i2) {
+        assertEquals(i1.getName(), i2.getName());
+        assertEquals(i1.getIsbn(), i2.getIsbn());
+        assertEquals(i1.getAuthor(), i2.getAuthor());
+        assertEquals(i1.getRelaseDate(), i2.getRelaseDate());
+        assertEquals(i1.getDepartment(), i2.getDepartment());
+    }
+    
+    private static Impression createTestImpression(Long id, String author) {
+        Impression i = new Impression();
+        i.setAuthor(author);
+        i.setId(id);
+        i.setDepartment(Department.MAGAZINES);
+        i.setRelaseDate(new LocalDate(1990,1,1));
+        i.setName("A");
+        return i;
+    }
+    
+    private static ImpressionTO createTestImpressionTO(Long id, String author) {
+        return Convertor.convert(createTestImpression(id, author));
+    }
+    
+    private void compareImpressions(List<ImpressionTO> i1, List<ImpressionTO> i2) {
+        Collections.sort(i1, impressionIdCmp);
+        Collections.sort(i2, impressionIdCmp);
+        assertEquals(i1.size(), i2.size());
+        for (int i = 0; i < i1.size(); i++) {
+            compareImpressions(i1.get(i), i2.get(i));
+        }
+    }
+    private static Comparator<ImpressionTO> impressionIdCmp = new Comparator<ImpressionTO>() {
+        public int compare(ImpressionTO o1, ImpressionTO o2) {
+            return o1.getId().compareTo(o2.getId());
+        }
+    };
 }

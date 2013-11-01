@@ -187,12 +187,12 @@ public class ImpressionDaoImplTest {
         assertEquals(impression, dao.findImpressionById(impression.getId()));
     }
 
-    private static Impression getTestImpression() {
+    static Impression getTestImpression() {
         return createTestImpression("123", "Ako islo vajce na vandrovku",
                 "Michal Kekely", new LocalDate(2001, 11, 8), Department.CHILDREN);
     }
 
-    private static Impression createTestImpression(String isbn, String name,
+    static Impression createTestImpression(String isbn, String name,
             String author, LocalDate releaseDate, Department department) {
 
         Impression impression = new Impression();

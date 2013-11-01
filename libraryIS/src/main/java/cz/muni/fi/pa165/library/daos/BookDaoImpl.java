@@ -18,7 +18,7 @@ public class BookDaoImpl implements BookDao {
     @PersistenceContext
     private EntityManager em;   
 
-    public EntityManager getEm() {
+    public EntityManager setEntityManager() {
         return em;
     }
 
