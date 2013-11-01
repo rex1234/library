@@ -107,5 +107,5 @@ public class Convertor {
         result.setDepartment(impression.getDepartment());
         return result;
     }
-    
+      
 }

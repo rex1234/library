@@ -1,3 +1,7 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package cz.muni.fi.pa165.library;
 
 import cz.muni.fi.pa165.library.daos.CustomerDao;
@@ -10,18 +14,7 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import static org.mockito.Mockito.*;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.dao.DataAccessException;
-
-import junit.framework.TestCase;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -39,13 +32,12 @@ import org.springframework.dao.DataAccessException;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Convertor.class)
 public class CustomerServiceImplTest extends TestCase {
-    
+   
     @Mock
     private CustomerDao customerDAO;
     
     @InjectMocks
     private CustomerService customerService = new CustomerServiceImpl();
-    
     
     @Mock
     private Customer customer;
@@ -53,11 +45,6 @@ public class CustomerServiceImplTest extends TestCase {
     @Mock
     private CustomerTO customerTO;
     
-    @Mock
-    private List<Customer> customers;
-    
-    @Mock
-    private List<CustomerTO> customersTO;
     
     @Before
     @Override
@@ -68,11 +55,22 @@ public class CustomerServiceImplTest extends TestCase {
         when(Convertor.convertCustomerEntityToTO(customer)).thenReturn(customerTO);
         when(Convertor.convertCustomerTOToEntity(customerTO)).thenReturn(customer);
     }
-
-    @Test
-    public void testFindAllCustomers() {
-        when(customerDAO.findAllCustomers()).thenReturn(customers);
-        assertEquals(customersTO, customerService.findAllCustomers());
+    
+       @Test(expected=Exception.class)
+    public void testCreateNullCustomer() {
+        doThrow(new Exception("null argument")).when(customerDAO).createCustomer(null);
+        customerService.createCustomer(null);
+    }
+    
+    @Test(expected=Exception.class)
+    public void testCreateCustomerWrongName() {
+        when(customer.getName()).thenReturn(null);
+        doThrow(new Exception("null argument")).when(customerDAO).createCustomer(null);
+        customerService.createCustomer(customerTO);
+        
+        when(customer.getName()).thenReturn("");
+        doThrow(new Exception("null argument")).when(customerDAO).createCustomer(null);
+        customerService.createCustomer(customerTO);
     }
     
     @Test(expected=DataAccessException.class)
@@ -92,12 +90,6 @@ public class CustomerServiceImplTest extends TestCase {
     public void testFindCustomerByCorrectId() {
         when(customerDAO.findCustomerById(1l)).thenReturn(customer);
         assertEquals(customerTO, customerService.findCustomerById(1l));
-    }
-    
-    @Test
-    public void testDeleteCustomerWithNullID() {
-       doThrow(new DataAccessException("null customer id") {}).when(customerDAO).deleteCustomer(customer);
-       customerService.deleteCustomer(null);
     }
     
     @Test
