@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
         private CustomerDao customerDao;
 
         public void createCustomer(CustomerTO customerTO) {
-            Customer customerEntity = Convertor.convert(customerTO);
+            Customer customerEntity = Convertor.convertCustomerTOToEntity(customerTO);
             customerDao.createCustomer(customerEntity);
             customerTO.setId(customerEntity.getId());
         }
@@ -34,22 +34,22 @@ import org.springframework.stereotype.Service;
             List<CustomerTO> customerTOs = new ArrayList<CustomerTO>();
             List<Customer> customerEntities = customerDao.findAllCustomers();
             for (Customer customer : customerEntities) {
-                customerTOs.add(Convertor.convert(customer));
+                customerTOs.add(Convertor.convertCustomerEntityToTO(customer));
             }
             return customerTOs;
         }
 
         public CustomerTO findCustomerById(Long id) {
-            return Convertor.convert(customerDao.findCustomerById(id));
+            return Convertor.convertCustomerEntityToTO(customerDao.findCustomerById(id));
         }
 
         public void deleteCustomer(CustomerTO customerTO) {
-            customerDao.deleteCustomer(Convertor.convert(customerTO));
+            customerDao.deleteCustomer(Convertor.convertCustomerTOToEntity(customerTO));
             customerTO.setId(null);
         }
 
         public void updateCustomer(CustomerTO customerTO) {
-            customerDao.updateCustomer(Convertor.convert(customerTO));
+            customerDao.updateCustomer(Convertor.convertCustomerTOToEntity(customerTO));
         }
     }
     

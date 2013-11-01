@@ -37,7 +37,7 @@ public class Convertor {
         result.setId(loan.getId());
         result.setToDate(loan.getTo());
         result.setFromDate(loan.getFrom());
-        result.setCustomerTO(Convertor.convert(loan.getCustomer()));
+        result.setCustomerTO(Convertor.convertCustomerEntityToTO(loan.getCustomer()));
         List<BookTO> bookList = new LinkedList<BookTO>();
         for (Book book : loan.getBooks()) {
             bookList.add(Convertor.convert(book));
@@ -51,7 +51,7 @@ public class Convertor {
         result.setId(loan.getId());
         result.setTo(loan.getToDate());
         result.setFrom(loan.getFromDate());
-        result.setCustomer(Convertor.convert(loan.getCustomerTO()));
+        result.setCustomer(Convertor.convertCustomerTOToEntity(loan.getCustomerTO()));
         List<Book> bookList = new LinkedList<Book>();
         for (BookTO book : loan.getBooks()) {
             bookList.add(Convertor.convert(book));
@@ -60,7 +60,7 @@ public class Convertor {
         return result;
     }
     
-    public static CustomerTO convert(Customer customer) {
+    public static CustomerTO convertCustomerEntityToTO(Customer customer) {
         CustomerTO result = new CustomerTO();
         result.setId(customer.getId());
         result.setName(customer.getName());
@@ -73,7 +73,7 @@ public class Convertor {
         return result;
     }
     
-    public static Customer convert(CustomerTO customer) {
+    public static Customer convertCustomerTOToEntity(CustomerTO customer) {
         Customer result = new Customer();
         result.setId(customer.getId());
         result.setName(customer.getName());
