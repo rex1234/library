@@ -17,39 +17,41 @@ import org.springframework.stereotype.Service;
  *
  * @author Matej
  */
+@Service
+public class LoanServiceImpl implements LoanService {
 
-    @Service
-    public class LoanServiceImpl implements LoanService {
+    @Autowired
+    private LoanDao loanDao;
 
-        @Autowired
-        private LoanDao loanDao;
-
-        public void createLoan(LoanTO loanTO) {
-            Loan loanEntity = Convertor.convert(loanTO);
-            loanDao.createLoan(loanEntity);
-            loanTO.setId(loanEntity.getId());
-        }
-
-        public List<LoanTO> findAllLoans() {
-            List<LoanTO> loanTOs = new ArrayList<LoanTO>();
-            List<Loan> loanEntities = loanDao.findAllLoans();
-            for (Loan loan : loanEntities) {
-                loanTOs.add(Convertor.convert(loan));
-            }
-            return loanTOs;
-        }
-
-        public LoanTO findLoanById(Long id) {
-            return Convertor.convert(loanDao.findLoanById(id));
-        }
-
-        public void deleteLoan(LoanTO loanTO) {
-            loanDao.deleteLoan(Convertor.convert(loanTO));
-            loanTO.setId(null);
-        }
-
-        public void updateLoan(LoanTO loanTO) {
-            loanDao.updateLoan(Convertor.convert(loanTO));
-        }
+    public void createLoan(LoanTO loanTO) {
+        Loan loanEntity = Convertor.convert(loanTO);
+        loanDao.createLoan(loanEntity);
+        loanTO.setId(loanEntity.getId());
     }
-    
+
+    public List<LoanTO> findAllLoans() {
+        List<LoanTO> loanTOs = new ArrayList<LoanTO>();
+        List<Loan> loanEntities = loanDao.findAllLoans();
+        for (Loan loan : loanEntities) {
+            loanTOs.add(Convertor.convert(loan));
+        }
+        return loanTOs;
+    }
+
+    public LoanTO findLoanById(Long id) {
+        return Convertor.convert(loanDao.findLoanById(id));
+    }
+
+    public void deleteLoan(LoanTO loanTO) {
+        loanDao.deleteLoan(Convertor.convert(loanTO));
+        loanTO.setId(null);
+    }
+
+    public void updateLoan(LoanTO loanTO) {
+        loanDao.updateLoan(Convertor.convert(loanTO));
+    }
+
+    public void setDao(LoanDao loanDao) {
+        this.loanDao = loanDao;
+    }
+}
