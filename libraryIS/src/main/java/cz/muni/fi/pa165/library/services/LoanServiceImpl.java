@@ -24,9 +24,12 @@ public class LoanServiceImpl implements LoanService {
 
     @Autowired
     private LoanDao loanDao;
+    
+    @Autowired
+    private Convertor convertor;
 
     public void createLoan(LoanTO loanTO) {
-        Loan loanEntity = Convertor.convert(loanTO);
+        Loan loanEntity = convertor.convert(loanTO);
         loanDao.createLoan(loanEntity);
         loanTO.setId(loanEntity.getId());
     }
@@ -35,22 +38,22 @@ public class LoanServiceImpl implements LoanService {
         List<LoanTO> loanTOs = new ArrayList<LoanTO>();
         List<Loan> loanEntities = loanDao.findAllLoans();
         for (Loan loan : loanEntities) {
-            loanTOs.add(Convertor.convert(loan));
+            loanTOs.add(convertor.convert(loan));
         }
         return loanTOs;
     }
 
     public LoanTO findLoanById(Long id) {
-        return Convertor.convert(loanDao.findLoanById(id));
+        return convertor.convert(loanDao.findLoanById(id));
     }
 
     public void deleteLoan(LoanTO loanTO) {
-        loanDao.deleteLoan(Convertor.convert(loanTO));
+        loanDao.deleteLoan(convertor.convert(loanTO));
         loanTO.setId(null);
     }
 
     public void updateLoan(LoanTO loanTO) {
-        loanDao.updateLoan(Convertor.convert(loanTO));
+        loanDao.updateLoan(convertor.convert(loanTO));
     }
 
     public void setDao(LoanDao loanDao) {

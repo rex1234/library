@@ -1,16 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.library;
 
-import static cz.muni.fi.pa165.library.ImpressionDaoImplTest.createTestImpression;
-import static cz.muni.fi.pa165.library.ImpressionDaoImplTest.getTestImpression;
 import cz.muni.fi.pa165.library.daos.ImpressionDao;
 import cz.muni.fi.pa165.library.dtos.ImpressionTO;
 import cz.muni.fi.pa165.library.entities.Department;
 import cz.muni.fi.pa165.library.entities.Impression;
-import cz.muni.fi.pa165.library.services.ImpressionService;
 import cz.muni.fi.pa165.library.services.ImpressionServiceImpl;
 import cz.muni.fi.pa165.library.utils.Convertor;
 import java.util.ArrayList;
@@ -21,26 +14,34 @@ import static junit.framework.TestCase.assertEquals;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.powermock.modules.junit4.PowerMockRunner;
-import org.springframework.dao.DataAccessException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  *
  * @author Mjartan
  */
 @RunWith(PowerMockRunner.class)
-public class ImpressionServiceImplTest {
-    
+public class ImpressionServiceImplTest {    
     @Mock
     ImpressionDao imDao;
     
     @InjectMocks
-    private ImpressionService imService = new ImpressionServiceImpl();
+    private ImpressionServiceImpl imService = new ImpressionServiceImpl();
+    
+    @Before
+    public void setUp() {
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("applicationTestContext.xml");
+        imService.setConvertor(context.getBean(Convertor.class));
+    }
     
     @Test
     public void testFindImpression() {
@@ -77,8 +78,12 @@ public class ImpressionServiceImplTest {
         verify(imDao).updateImpression(getTestImpression());
     }
       
-    static ImpressionTO getTestImpressionTO() {
-        return Convertor.convert(getTestImpression());
+    private static Impression getTestImpression() {
+        return createTestImpression(55L, "aaa");
+    }
+    
+    private static ImpressionTO getTestImpressionTO() {
+        return createTestImpressionTO(55L, "aaa");
     }
       
     private static void compareImpressions(ImpressionTO i1, ImpressionTO i2) {
@@ -100,7 +105,13 @@ public class ImpressionServiceImplTest {
     }
     
     private static ImpressionTO createTestImpressionTO(Long id, String author) {
-        return Convertor.convert(createTestImpression(id, author));
+        ImpressionTO i = new ImpressionTO();
+        i.setAuthor(author);
+        i.setId(id);
+        i.setDepartment(Department.MAGAZINES);
+        i.setRelaseDate(new LocalDate(1990,1,1));
+        i.setName("A");
+        return i;
     }
     
     private void compareImpressions(List<ImpressionTO> i1, List<ImpressionTO> i2) {
@@ -111,7 +122,7 @@ public class ImpressionServiceImplTest {
             compareImpressions(i1.get(i), i2.get(i));
         }
     }
-    private static Comparator<ImpressionTO> impressionIdCmp = new Comparator<ImpressionTO>() {
+    private static final Comparator<ImpressionTO> impressionIdCmp = new Comparator<ImpressionTO>() {
         public int compare(ImpressionTO o1, ImpressionTO o2) {
             return o1.getId().compareTo(o2.getId());
         }

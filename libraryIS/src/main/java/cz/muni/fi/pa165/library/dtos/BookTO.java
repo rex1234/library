@@ -12,8 +12,8 @@ import org.joda.time.LocalDate;
 public class BookTO implements Serializable{
     private Long id;
     private LocalDate printed; 
-    private ImpressionTO impression;
-    private LoanTO loan;   
+    private Long impressionId;
+    private Long loanId;   
     private String condition;
 
     public Long getId() {
@@ -32,12 +32,12 @@ public class BookTO implements Serializable{
         this.printed = printed;
     }
 
-    public ImpressionTO getImpressionTO() {
-        return impression;
+    public Long getImpressionId() {
+        return impressionId;
     }
 
-    public void setImpressionTO(ImpressionTO impression) {
-        this.impression = impression;
+    public void setImpressionId(Long impression) {
+        this.impressionId = impression;
     }
 
     public String getCondition() {
@@ -48,17 +48,17 @@ public class BookTO implements Serializable{
         this.condition = condition;
     }
 
-    public LoanTO getLoanTO() {
-        return loan;
+    public Long getLoanId() {
+        return loanId;
     }
 
-    public void setLoanTO(LoanTO loan) {
-        this.loan = loan;
+    public void setLoanId(Long loan) {
+        this.loanId = loan;
     }        
 
     @Override
     public String toString() {
-        return "BookTO{" + "id=" + id + ", printed=" + printed + ", impression=" + impression + ", condition=" + condition + '}';
+        return "BookTO{" + "id=" + id + ", printed=" + printed + ", impression=" + impressionId + ", condition=" + condition + '}';
     }
 
     @Override

@@ -24,9 +24,16 @@ public class ImpressionServiceImpl implements ImpressionService {
 
     @Autowired
     private ImpressionDao impressionDao;
+    
+    @Autowired
+    private Convertor convertor;
+
+    public void setConvertor(Convertor convertor) {
+        this.convertor = convertor;
+    }    
 
     public void createImpression(ImpressionTO impressionTO) {
-        Impression impressionEntity = Convertor.convert(impressionTO);
+        Impression impressionEntity = convertor.convert(impressionTO);
         impressionDao.createImpression(impressionEntity);
         impressionTO.setId(impressionEntity.getId());
     }
@@ -35,22 +42,22 @@ public class ImpressionServiceImpl implements ImpressionService {
         List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
         List<Impression> impressionEntities = impressionDao.findAllImpressions();
         for (Impression impression : impressionEntities) {
-            impressionTOs.add(Convertor.convert(impression));
+            impressionTOs.add(convertor.convert(impression));
         }
         return impressionTOs;
     }
 
     public ImpressionTO findImpressionById(Long id) {
-        return Convertor.convert(impressionDao.findImpressionById(id));
+        return convertor.convert(impressionDao.findImpressionById(id));
     }
 
     public void deleteImpression(ImpressionTO impressionTO) {
-        impressionDao.deleteImpression(Convertor.convert(impressionTO));
+        impressionDao.deleteImpression(convertor.convert(impressionTO));
         impressionTO.setId(null);
     }
 
     public void updateImpression(ImpressionTO impressionTO) {
-        impressionDao.updateImpression(Convertor.convert(impressionTO));
+        impressionDao.updateImpression(convertor.convert(impressionTO));
     }
 
 }

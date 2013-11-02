@@ -20,9 +20,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerDao customerDao;
+    
+    @Autowired
+    private Convertor convertor;
 
     public void createCustomer(CustomerTO customerTO) {
-        Customer customerEntity = Convertor.convertCustomerTOToEntity(customerTO);
+        Customer customerEntity = convertor.convert(customerTO);
         customerDao.createCustomer(customerEntity);
         customerTO.setId(customerEntity.getId());
     }
@@ -31,21 +34,29 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerTO> customerTOs = new ArrayList<CustomerTO>();
         List<Customer> customerEntities = customerDao.findAllCustomers();
         for (Customer customer : customerEntities) {
-            customerTOs.add(Convertor.convertCustomerEntityToTO(customer));
+            customerTOs.add(convertor.convert(customer));
         }
         return customerTOs;
     }
 
     public CustomerTO findCustomerById(Long id) {
-        return Convertor.convertCustomerEntityToTO(customerDao.findCustomerById(id));
+        return convertor.convert(customerDao.findCustomerById(id));
     }
 
     public void deleteCustomer(CustomerTO customerTO) {
-        customerDao.deleteCustomer(Convertor.convertCustomerTOToEntity(customerTO));
+        customerDao.deleteCustomer(convertor.convert(customerTO));
         customerTO.setId(null);
     }
 
     public void updateCustomer(CustomerTO customerTO) {
-        customerDao.updateCustomer(Convertor.convertCustomerTOToEntity(customerTO));
+        customerDao.updateCustomer(convertor.convert(customerTO));
     }
+
+    public Convertor getConvertor() {
+        return convertor;
+    }
+
+    public void setConvertor(Convertor convertor) {
+        this.convertor = convertor;
+    }        
 }

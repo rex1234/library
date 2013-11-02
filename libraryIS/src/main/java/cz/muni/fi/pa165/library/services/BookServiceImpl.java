@@ -20,8 +20,11 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private BookDao bookDao;
 
+    @Autowired
+    private Convertor convertor;
+    
     public void createBook(BookTO bookTO) {
-        Book bookEntity = Convertor.convert(bookTO);
+        Book bookEntity = convertor.convert(bookTO);
         bookDao.createBook(bookEntity);
         bookTO.setId(bookEntity.getId());
     }
@@ -30,22 +33,22 @@ public class BookServiceImpl implements BookService {
         List<BookTO> bookTOs = new ArrayList<BookTO>();
         List<Book> bookEntities = bookDao.findAllBooks();
         for (Book book : bookEntities) {
-            bookTOs.add(Convertor.convert(book));
+            bookTOs.add(convertor.convert(book));
         }
         return bookTOs;
     }
 
     public BookTO findBookById(Long id) {
-        return Convertor.convert(bookDao.findBookById(id));
+        return convertor.convert(bookDao.findBookById(id));
     }
 
     public void deleteBook(BookTO bookTO) {
-        bookDao.deleteBook(Convertor.convert(bookTO));
+        bookDao.deleteBook(convertor.convert(bookTO));
         bookTO.setId(null);
     }
 
     public void updateBook(BookTO bookTO) {
-        bookDao.updateBook(Convertor.convert(bookTO));
+        bookDao.updateBook(convertor.convert(bookTO));
     }
         
 }

@@ -9,7 +9,7 @@ public class CustomerTO implements Serializable{
     private Long id;
     private String name;
     private String address;
-    private List<LoanTO> loans = new ArrayList<LoanTO>();
+    private List<Long> loanIds;
 
     public Long getId() {
         return id;
@@ -35,12 +35,12 @@ public class CustomerTO implements Serializable{
         this.address = address;
     }
 
-    public List<LoanTO> getLoans() {
-        return loans;
+    public List<Long> getLoanIds() {
+        return loanIds;
     }
 
-    public void setLoans(List<LoanTO> loans) {
-        this.loans = loans;
+    public void setLoanIds(List<Long> loans) {
+        this.loanIds = loans;
     }
 
     @Override
@@ -67,9 +67,6 @@ public class CustomerTO implements Serializable{
 
     @Override
     public String toString() {
-        return "CustomerTO{" + "id=" + id + ", name=" + name + ", address=" + address + ", loans=" + loans + '}';
-    }
-    
-    
-    
+        return "CustomerTO{" + "id=" + id + ", name=" + name + ", address=" + address + '}';
+    }   
 }

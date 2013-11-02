@@ -1,15 +1,14 @@
 package cz.muni.fi.pa165.library.dtos;
 
 import java.io.Serializable;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.LocalDate;
 
-public class LoanTO implements Serializable{   
-   
+public class LoanTO {      
     private Long id;    
-    private CustomerTO customer;   
-    private List<BookTO> books = new LinkedList<BookTO>();;   
+    private Long customerId;   
+    private List<Long> bookIds = new ArrayList<Long>();;   
     private LocalDate fromDate;   
     private LocalDate toDate;
     
@@ -21,20 +20,20 @@ public class LoanTO implements Serializable{
         this.id = id;
     }
 
-    public CustomerTO getCustomerTO() {
-        return customer;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerTO(CustomerTO customer) {
-        this.customer = customer;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public List<BookTO> getBooks() {
-        return books;
+    public List<Long> getBookIds() {
+        return bookIds;
     }
 
-    public void setBooks(List<BookTO> books) {
-        this.books = books;
+    public void setBookIds(List<Long> books) {
+        this.bookIds = books;
     }
 
     public LocalDate getToDate() {
@@ -79,10 +78,7 @@ public class LoanTO implements Serializable{
 
     @Override
     public String toString() {
-        return "LoanTO{" + "id=" + id + ", customer=" + customer + ", books=" + books + ", fromDate=" + fromDate + ", toDate=" + toDate + '}';
+        return "LoanTO{" + "id=" + id + ", fromDate=" + fromDate + ", toDate=" + toDate + '}';
     }
-
-   
-    
     
 }
