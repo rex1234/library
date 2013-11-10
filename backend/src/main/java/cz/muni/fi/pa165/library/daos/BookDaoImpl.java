@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
-
 /**
  * 
  * @author Mjartan
@@ -17,10 +16,6 @@ public class BookDaoImpl implements BookDao {
     
     @PersistenceContext
     private EntityManager em;   
-
-    public EntityManager setEntityManager() {
-        return em;
-    }
 
     public void setEntityManager(EntityManager em) {
         this.em = em;

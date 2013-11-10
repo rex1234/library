@@ -159,8 +159,8 @@ public class BookDaoImplTest {
         assertEquals(book, dao.findBookById(book.getId()));
     }
            
-    static Book getTestBook() {
-        return createTestBook("Very bad", new LocalDate(2001,11,8), getTestImpression());
+    private Book getTestBook() {
+        return createTestBook("Very bad", new LocalDate(2001,11,8), im1);
     }
     
     static Book createTestBook(String condition, LocalDate date, Impression impression) {

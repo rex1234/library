@@ -1,9 +1,9 @@
 package cz.muni.fi.pa165.library;
 
-import cz.muni.fi.pa165.library.daos.BookDao;
-import cz.muni.fi.pa165.library.daos.CustomerDao;
-import cz.muni.fi.pa165.library.daos.ImpressionDao;
-import cz.muni.fi.pa165.library.daos.LoanDao;
+import cz.muni.fi.pa165.library.daos.BookDaoImpl;
+import cz.muni.fi.pa165.library.daos.CustomerDaoImpl;
+import cz.muni.fi.pa165.library.daos.ImpressionDaoImpl;
+import cz.muni.fi.pa165.library.daos.LoanDaoImpl;
 import cz.muni.fi.pa165.library.entities.Book;
 import cz.muni.fi.pa165.library.entities.Customer;
 import cz.muni.fi.pa165.library.entities.Department;
@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 import org.joda.time.LocalDate;
 import static org.junit.Assert.assertEquals;
@@ -20,9 +23,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -30,47 +30,56 @@ import org.springframework.dao.DataAccessException;
  */
 public class LoanDaoImplTest {
 
-    private LoanDao dao;
-    private CustomerDao custDao;
-    private BookDao bookDao;
-    private ImpressionDao imDao;
+    private LoanDaoImpl dao;
+    private CustomerDaoImpl custDao;
+    private BookDaoImpl bookDao;
+    private ImpressionDaoImpl imDao;
     private Impression im1;
     private Book book1;
     private Book book2;
     private Customer cust1;
     private Customer cust2;
+    
+    private EntityManager em;
 
     public LoanDaoImplTest() {
     }
 
     @Before
     public void setUp() throws Exception {
-        ApplicationContext context =
-        new ClassPathXmlApplicationContext("applicationTestContext.xml");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");        
+        em = emf.createEntityManager();        
+        dao = new LoanDaoImpl();
+        imDao = new ImpressionDaoImpl();
+        custDao = new CustomerDaoImpl();
+        bookDao = new BookDaoImpl();
         
-        dao = context.getBean(LoanDao.class);
-        custDao = context.getBean(CustomerDao.class);
-        bookDao = context.getBean(BookDao.class);
-        imDao = context.getBean(ImpressionDao.class);
+        imDao.setEntityManager(em);
+        bookDao.setEntityManager(em);
+        custDao.setEntityManager(em);
+        dao.setEntityManager(em);   
 
+        em.getTransaction().begin();
         im1 = getTestImpression();
         book1 = getTestBook();
         book2 = getTestBook2();
         cust1 = getTestCustomer();
         cust2 = getTestCustomer2();
 
-
         imDao.createImpression(im1);
         bookDao.createBook(book1);
         bookDao.createBook(book2);
         custDao.createCustomer(cust1);
         custDao.createCustomer(cust2);
+        em.getTransaction().commit();
     }
 
     @Test
     public void testCreateLoan() {
         Loan loan = getTestLoan();
+        em.getTransaction().begin();
         dao.createLoan(loan);
+        em.getTransaction().commit();
         Loan loan2 = dao.findLoanById(loan.getId());
         assertNotNull(loan.getId());
     }
@@ -80,35 +89,35 @@ public class LoanDaoImplTest {
         dao.createLoan(null);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithId() {
         Loan loan = getTestLoan();
         loan.setId(5L);
         dao.createLoan(loan);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithNullCustomer() {
         Loan loan = getTestLoan();
         loan.setCustomer(null);
         dao.createLoan(loan);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithoutBooks() {
         Loan loan = getTestLoan();
         loan.setBooks(null);
         dao.createLoan(loan);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithNullFromDate() {
         Loan loan = getTestLoan();
         loan.setFrom(null);
         dao.createLoan(loan);
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithNullToDate() {
         Loan loan = getTestLoan();
         loan.setTo(null);
@@ -125,7 +134,9 @@ public class LoanDaoImplTest {
             }
         };
         for (Loan loan : loans) {
+            em.getTransaction().begin();
             dao.createLoan(loan);
+            em.getTransaction().commit();
         }
         compareLoans(loans, dao.findAllLoans());
     }
@@ -134,9 +145,9 @@ public class LoanDaoImplTest {
     @Test
     public void testFindLoanById() {
         Loan loan = getTestLoan();
-        
+        em.getTransaction().begin();
         dao.createLoan(loan);
-        
+        em.getTransaction().commit();
         Loan found = dao.findLoanById(loan.getId());
         compareLoans(loan, found);
     }
@@ -144,40 +155,40 @@ public class LoanDaoImplTest {
     @Test
     public void testDeleteLoan() {
         Loan loan = getTestLoan();
-        
+        em.getTransaction().begin();
         dao.createLoan(loan);
-        
+        em.getTransaction().commit();
         Long oldID = loan.getId();
-        
+        em.getTransaction().begin();
         dao.deleteLoan(loan);
-        
+        em.getTransaction().commit();
         assertNull(loan.getId());
         assertNull(dao.findLoanById(oldID));
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testDeleteLoanWithNullId() {
         Loan loan = getTestLoan();
-        
+        em.getTransaction().begin();
         dao.createLoan(loan);
-        
+        em.getTransaction().commit();
         loan.setId(null);
-        
+        em.getTransaction().begin();
         dao.deleteLoan(loan);
-        
+        em.getTransaction().commit();
     }
 
     @Test
     public void testUpdateBook() {
-        Loan loan = getTestLoan();
-        
+        Loan loan = getTestLoan();        
+        em.getTransaction().begin();
         dao.createLoan(loan);
-        
+        em.getTransaction().commit();
         loan.setFrom(new LocalDate(2004, 3, 5));
         loan.setTo(new LocalDate(2005, 3, 5));
-        
+        em.getTransaction().begin();
         dao.updateLoan(loan);
-        
+        em.getTransaction().commit();
         assertEquals(loan, dao.findLoanById(loan.getId()));
     }
 

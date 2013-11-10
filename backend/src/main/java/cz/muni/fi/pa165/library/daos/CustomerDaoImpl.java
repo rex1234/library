@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
  *
  * @author vit.mica
  */
-
- 
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
    
