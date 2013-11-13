@@ -1,15 +1,13 @@
 package cz.muni.fi.pa165.library.dtos;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-public class CustomerTO implements Serializable{
-    
+public class CustomerTO implements Serializable {
+
     private Long id;
     private String name;
     private String address;
-    private List<Long> loanIds;
+    private boolean isDeleted;
 
     public Long getId() {
         return id;
@@ -35,18 +33,18 @@ public class CustomerTO implements Serializable{
         this.address = address;
     }
 
-    public List<Long> getLoanIds() {
-        return loanIds;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setLoanIds(List<Long> loans) {
-        this.loanIds = loans;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 53 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 47 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -67,6 +65,6 @@ public class CustomerTO implements Serializable{
 
     @Override
     public String toString() {
-        return "CustomerTO{" + "id=" + id + ", name=" + name + ", address=" + address + '}';
-    }   
+        return "Customer{" + "id=" + id + ", name=" + name + '}';
+    }
 }

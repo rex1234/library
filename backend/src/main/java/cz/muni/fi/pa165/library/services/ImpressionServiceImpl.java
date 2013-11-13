@@ -60,4 +60,12 @@ public class ImpressionServiceImpl implements ImpressionService {
         impressionDao.updateImpression(convertor.convert(impressionTO));
     }
 
+    public List<ImpressionTO> findImpressions(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<ImpressionTO> findNotBorrowedImpressions(String search) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

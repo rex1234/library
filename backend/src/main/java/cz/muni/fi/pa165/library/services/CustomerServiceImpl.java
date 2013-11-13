@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void deleteCustomer(CustomerTO customerTO) {
-        customerDao.deleteCustomer(convertor.convert(customerTO));
+      
         customerTO.setId(null);
     }
 
@@ -59,4 +59,8 @@ public class CustomerServiceImpl implements CustomerService {
     public void setConvertor(Convertor convertor) {
         this.convertor = convertor;
     }        
+
+    public List<CustomerTO> findCustomers(String name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -1,20 +1,20 @@
 package cz.muni.fi.pa165.library.dtos;
 
+import cz.muni.fi.pa165.library.entities.Book;
 import java.io.Serializable;
-import org.joda.time.LocalDate;
 
 /**
  * Class representing a book transfer object
  * 
  * @author Mjartan
  */
-
 public class BookTO implements Serializable{
-    private Long id;
-    private LocalDate printed; 
-    private Long impressionId;
-    private Long loanId;   
-    private String condition;
+  
+    private Long id;     
+  
+    private String condition;   
+   
+    private ImpressionTO impression; 
 
     public Long getId() {
         return id;
@@ -22,22 +22,6 @@ public class BookTO implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getPrinted() {
-        return printed;
-    }
-
-    public void setPrinted(LocalDate printed) {
-        this.printed = printed;
-    }
-
-    public Long getImpressionId() {
-        return impressionId;
-    }
-
-    public void setImpressionId(Long impression) {
-        this.impressionId = impression;
     }
 
     public String getCondition() {
@@ -48,34 +32,38 @@ public class BookTO implements Serializable{
         this.condition = condition;
     }
 
-    public Long getLoanId() {
-        return loanId;
+    public ImpressionTO getImpression() {
+        return impression;
     }
 
-    public void setLoanId(Long loan) {
-        this.loanId = loan;
-    }        
-
-    @Override
-    public String toString() {
-        return "BookTO{" + "id=" + id + ", printed=" + printed + ", impression=" + impressionId + ", condition=" + condition + '}';
+    public void setImpression(ImpressionTO impression) {
+        this.impression = impression;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 3;
+        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
-    }    
+    }
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof BookTO)) {
+        if (obj == null) {
             return false;
         }
-        if(id == null) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return ((BookTO)obj).getId().equals(id);
-    }    
+        final BookTO other = (BookTO) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
+    }   
+
+    @Override
+    public String toString() {
+        return "Book{" + "condition=" + condition + '}';
+    }      
 }

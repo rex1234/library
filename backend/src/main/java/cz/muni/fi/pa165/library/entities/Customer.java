@@ -11,13 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import cz.muni.fi.pa165.library.entities.Loan;
 
 /**
  *
  * @author vit.mica
  */
-
 @Entity
 @Table(name = "customer")
 public class Customer implements Serializable {
@@ -31,8 +29,7 @@ public class Customer implements Serializable {
     
     private String address;
     
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Loan> loans = new ArrayList<Loan>();
+    private boolean isDeleted;
 
     public Long getId() {
         return id;
@@ -58,36 +55,38 @@ public class Customer implements Serializable {
         this.address = address;
     }
 
-    public List<Loan> getLoans() {
-        return loans;
+    public boolean getIsDeleted() {
+        return isDeleted;
     }
 
-    public void setLoans(List<Loan> loans) {
-        this.loans = loans;
+    public void setIsDeleted(boolean isDeleted) {
+        this.isDeleted = isDeleted;
     }
-    
+
     @Override
     public int hashCode() {
-        return (this.id != null ? this.id.hashCode() : 0);
+        int hash = 7;
+        hash = 47 * hash + (this.id != null ? this.id.hashCode() : 0);
+        return hash;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         }
-        if (obj == this) {
-            return true;
-        }
         if (getClass() != obj.getClass()) {
             return false;
         }
         final Customer other = (Customer) obj;
-        if (this.id == null || !this.id.equals(other.id)) {
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
             return false;
         }
         return true;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Customer{" + "id=" + id + ", name=" + name + '}';
+    }    
 }

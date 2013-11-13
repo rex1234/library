@@ -1,17 +1,16 @@
 package cz.muni.fi.pa165.library.dtos;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import org.joda.time.LocalDate;
 
-public class LoanTO {      
-    private Long id;    
-    private Long customerId;   
-    private List<Long> bookIds = new ArrayList<Long>();;   
-    private LocalDate fromDate;   
+public class LoanTO {
+
+    private Long id;
+    private LocalDate fromDate;
     private LocalDate toDate;
-    
+    private String conditionReturned;
+    private CustomerTO customer;
+    private BookTO book;
+
     public Long getId() {
         return id;
     }
@@ -20,20 +19,12 @@ public class LoanTO {
         this.id = id;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public LocalDate getFromDate() {
+        return fromDate;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public List<Long> getBookIds() {
-        return bookIds;
-    }
-
-    public void setBookIds(List<Long> books) {
-        this.bookIds = books;
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
     }
 
     public LocalDate getToDate() {
@@ -44,20 +35,34 @@ public class LoanTO {
         this.toDate = toDate;
     }
 
-    public LocalDate getFromDate() {
-        return fromDate;
+    public String getConditionReturned() {
+        return conditionReturned;
     }
 
-    public void setFromDate(LocalDate fromDate) {
-        this.fromDate = fromDate;
+    public void setConditionReturned(String conditionReturned) {
+        this.conditionReturned = conditionReturned;
     }
-    
-    
+
+    public CustomerTO getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerTO customer) {
+        this.customer = customer;
+    }
+
+    public BookTO getBook() {
+        return book;
+    }
+
+    public void setBook(BookTO book) {
+        this.book = book;
+    }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 73 * hash + (this.id != null ? this.id.hashCode() : 0);
+        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -74,11 +79,10 @@ public class LoanTO {
             return false;
         }
         return true;
-    }
+    }  
 
     @Override
     public String toString() {
-        return "LoanTO{" + "id=" + id + ", fromDate=" + fromDate + ", toDate=" + toDate + '}';
+        return "Loan{" + "id=" + id + ", fromDate=" + fromDate + ", toDate=" + toDate + '}';
     }
-    
 }

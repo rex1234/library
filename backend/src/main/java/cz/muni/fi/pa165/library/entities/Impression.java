@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import org.joda.time.LocalDate;
 
 /**
@@ -13,6 +14,7 @@ import org.joda.time.LocalDate;
  * @author MiškoHu
  */
 @Entity
+@Table(name = "impression")
 public class Impression implements Serializable {
     
     @Id
@@ -30,7 +32,7 @@ public class Impression implements Serializable {
     
     private LocalDate relaseDate;    
     
-    private Department department;
+    private Department department;  
 
     public Long getId() {
         return id;
@@ -81,9 +83,14 @@ public class Impression implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Impression{" + "id=" + id + ", name=" + name + ", author=" + author + '}';
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 89 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 7;
+        hash = 83 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -100,10 +107,5 @@ public class Impression implements Serializable {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Impression{" + "id=" + id + ", name=" + name + ", author=" + author + '}';
     }   
 }

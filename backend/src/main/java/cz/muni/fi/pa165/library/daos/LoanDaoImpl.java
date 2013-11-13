@@ -1,5 +1,7 @@
 package cz.muni.fi.pa165.library.daos;
 
+import cz.muni.fi.pa165.library.entities.Book;
+import cz.muni.fi.pa165.library.entities.Customer;
 import cz.muni.fi.pa165.library.entities.Loan;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -64,18 +66,19 @@ public class LoanDaoImpl implements LoanDao {
         if (loan == null) {
             throw new NullPointerException("loan is null");
         }
-        if (loan.getBooks() == null) {
-            throw new IllegalArgumentException("loan.books cannot be null");
-        }
+       
         if (loan.getCustomer() == null) {
             throw new IllegalArgumentException("loan.customer cannot be null");
-        }
-        if (loan.getFrom() == null) {
-            throw new IllegalArgumentException("loan.fromDate cannot be null");
-        }
-        if (loan.getTo() == null) {
-            throw new IllegalArgumentException("loan.toDate cannot be null");
-        }
+        }    
+      
 
+    }
+
+    public List<Loan> findLoansForCustomer(Customer customer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Loan> findLoansForBook(Book book) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

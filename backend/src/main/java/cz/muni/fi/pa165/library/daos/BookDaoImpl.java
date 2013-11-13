@@ -1,6 +1,7 @@
 package cz.muni.fi.pa165.library.daos;
 
 import cz.muni.fi.pa165.library.entities.Book;
+import cz.muni.fi.pa165.library.entities.Impression;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
@@ -66,10 +67,15 @@ public class BookDaoImpl implements BookDao {
         }
         if(book.getImpression() == null) {
             throw new IllegalArgumentException("book.impression cannot be null");
-        }
-        if (book.getPrinted() == null) {
-            throw new IllegalArgumentException("book.printed cannot be null");
-        }
+        }        
+    }
+
+    public List<Book> findBooksForImpression(Impression impression) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Book findNotBorrowedBookForImpression(Impression impression) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
