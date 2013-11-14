@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.joda.time.LocalDate;
 
 /**
@@ -29,10 +31,10 @@ public class Loan implements Serializable {
     
     private String conditionReturned; 
     
-    @ManyToOne
+    @ManyToOne    
     private Customer customer;   
     
-    @ManyToOne
+    @ManyToOne  
     private Book book;
 
     public Long getId() {

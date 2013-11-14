@@ -18,18 +18,17 @@ public class LoanDaoImpl implements LoanDao {
 
     @PersistenceContext
     private EntityManager entityManager;
-    
+
     public void setEntityManager(EntityManager em) {
         entityManager = em;
-    }      
+    }
 
     public void createLoan(Loan loan) {
         checkLoanAttributes(loan);
         if (loan.getId() != null) {
-            throw new IllegalArgumentException("cannot create loan with assigned id");
+            throw new IllegalArgumentException("Cannot create loan with assigned id");
         }
         entityManager.persist(loan);
-
     }
 
     public List<Loan> findAllLoans() {
@@ -39,22 +38,21 @@ public class LoanDaoImpl implements LoanDao {
 
     public Loan findLoanById(Long id) {
         if (id == null) {
-            throw new NullPointerException("id is null");
+            throw new NullPointerException("ID is null");
         }
         return entityManager.find(Loan.class, id);
     }
 
     public void deleteLoan(Loan loan) {
         if (loan == null) {
-            throw new NullPointerException("loan is null");
+            throw new NullPointerException("Loan is null");
         }
         if (loan.getId() == null) {
-            throw new IllegalArgumentException("cannot delete loan with no id");
+            throw new IllegalArgumentException("Cannot delete loan with no id");
         }
         Loan toRemove = entityManager.merge(loan);
         entityManager.remove(toRemove);
         loan.setId(null);
-        System.out.println(toRemove.getId());
     }
 
     public void updateLoan(Loan loan) {
@@ -64,21 +62,22 @@ public class LoanDaoImpl implements LoanDao {
 
     private void checkLoanAttributes(Loan loan) throws IllegalArgumentException, NullPointerException {
         if (loan == null) {
-            throw new NullPointerException("loan is null");
+            throw new NullPointerException("Loan is null");
         }
-       
         if (loan.getCustomer() == null) {
-            throw new IllegalArgumentException("loan.customer cannot be null");
-        }    
-      
-
+            throw new IllegalArgumentException("Loan.customer cannot be null");
+        }
     }
 
     public List<Loan> findLoansForCustomer(Customer customer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query query = entityManager.createQuery("SELECT l FROM Loan l WHERE l.customer = :c");
+        query.setParameter("c", customer);
+        return query.getResultList();
     }
 
     public List<Loan> findLoansForBook(Book book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Query query = entityManager.createQuery("SELECT l FROM Loan l WHERE l.book = :b");
+        query.setParameter("b", book);
+        return query.getResultList();        
     }
 }
