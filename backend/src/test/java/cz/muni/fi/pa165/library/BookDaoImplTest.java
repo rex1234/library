@@ -84,8 +84,7 @@ public class BookDaoImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateBookWithNullDate() {
         em.getTransaction().begin();
-        Book book = getTestBook();
-        book.setPrinted(null);
+        Book book = getTestBook();       
         dao.createBook(book);
         em.getTransaction().commit();
     }    
@@ -151,7 +150,7 @@ public class BookDaoImplTest {
         dao.createBook(book);
         em.getTransaction().commit();
         book.setCondition("Very good");
-        book.setPrinted(new LocalDate(2005,3,5));
+        
         book.setImpression(im2);
         em.getTransaction().begin();
         dao.updateBook(book);
@@ -167,7 +166,7 @@ public class BookDaoImplTest {
         Book book = new Book();
         book.setImpression(impression);
         book.setCondition(condition);
-        book.setPrinted(date);
+        
         book.setImpression(impression);
         return book;
     }
@@ -194,7 +193,7 @@ public class BookDaoImplTest {
     
     void compareBooks(Book b1, Book b2) {
         assertEquals(b1.getCondition(), b2.getCondition());
-        assertEquals(b1.getPrinted(),   b2.getPrinted());
+        
         assertEquals(b1.getImpression(),b2.getImpression());
         assertEquals(b1.getId(),        b2.getId());
     }

@@ -12,18 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
+ *
  * @author Mjartan
  */
 @Service
 @Transactional
 public class BookServiceImpl implements BookService {
-    @Autowired
-    private BookDao bookDao;
 
     @Autowired
+    private BookDao bookDao;
+    @Autowired
     private Convertor convertor;
-    
+
     public void createBook(BookTO bookTO) {
         Book bookEntity = convertor.convert(bookTO);
         bookDao.createBook(bookEntity);
@@ -53,11 +53,18 @@ public class BookServiceImpl implements BookService {
     }
 
     public List<BookTO> findBooksForImpression(ImpressionTO impression) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<BookTO> bookTOs = new ArrayList<BookTO>();
+        List<Book> bookEntities;
+        bookEntities = bookDao.findBooksForImpression(convertor.convert(impression));
+        for (Book book : bookEntities) {
+            bookTOs.add(convertor.convert(book));
+        }
+        return bookTOs;
     }
 
     public BookTO findNotBorrowedBookForImpression(ImpressionTO impression) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Book b;
+        b = bookDao.findNotBorrowedBookForImpression(convertor.convert(impression));
+        return convertor.convert(b);
     }
-        
 }

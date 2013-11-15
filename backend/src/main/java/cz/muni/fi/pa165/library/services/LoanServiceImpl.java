@@ -4,14 +4,17 @@
  */
 package cz.muni.fi.pa165.library.services;
 
+import cz.muni.fi.pa165.library.daos.BookDao;
 import cz.muni.fi.pa165.library.daos.LoanDao;
 import cz.muni.fi.pa165.library.dtos.BookTO;
 import cz.muni.fi.pa165.library.dtos.CustomerTO;
 import cz.muni.fi.pa165.library.dtos.LoanTO;
+import cz.muni.fi.pa165.library.entities.Book;
 import cz.muni.fi.pa165.library.entities.Loan;
 import cz.muni.fi.pa165.library.utils.Convertor;
 import java.util.ArrayList;
 import java.util.List;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +29,8 @@ public class LoanServiceImpl implements LoanService {
 
     @Autowired
     private LoanDao loanDao;
-    
+    @Autowired
+    private BookDao bookDao;
     @Autowired
     private Convertor convertor;
 
@@ -63,14 +67,29 @@ public class LoanServiceImpl implements LoanService {
     }
 
     public List<LoanTO> findLoansForCustomer(CustomerTO customer) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<LoanTO> loanTOs = new ArrayList<LoanTO>();
+        List<Loan> loanEntities = loanDao.findLoansForCustomer(convertor.convert(customer));
+        for (Loan loan : loanEntities) {
+            loanTOs.add(convertor.convert(loan));
+        }
+        return loanTOs;
     }
 
     public List<LoanTO> findLoansForBook(BookTO book) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<LoanTO> loanTOs = new ArrayList<LoanTO>();
+        List<Loan> loanEntities = loanDao.findLoansForBook(convertor.convert(book));
+        for (Loan loan : loanEntities) {
+            loanTOs.add(convertor.convert(loan));
+        }
+        return loanTOs;
     }
 
     public void returnBook(LoanTO loan) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Loan l = convertor.convert(loan);
+        Book b = l.getBook();
+        b.setCondition(l.getConditionReturned());
+        bookDao.updateBook(b);
+        l.setToDate(new LocalDate());
+        loanDao.updateLoan(l);
     }
 }

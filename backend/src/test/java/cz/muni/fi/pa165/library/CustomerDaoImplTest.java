@@ -92,10 +92,10 @@ public class CustomerDaoImplTest {
         em.getTransaction().commit();
         assertNotNull(dao.findCustomerById(customer.getId()));
         em.getTransaction().begin();
-        dao.deleteCustomer(customer);
+    
         em.getTransaction().commit();
         try {
-            dao.deleteCustomer(customer);
+          
             fail("Ex not thrown");
         } catch (Exception ex) {
         }
@@ -105,7 +105,7 @@ public class CustomerDaoImplTest {
     public void testDeleteWithNullId() {
         Customer customer = newCustomer("Petr", "Praha");
         try {
-            dao.deleteCustomer(null);
+           
             fail("Ex not thrown");
         } catch (Exception ex) {
         }
@@ -138,7 +138,7 @@ public class CustomerDaoImplTest {
         dao.createCustomer(customer2);
         em.getTransaction().commit();
         List<Customer> actual = dao.findAllCustomers();
-        assertFalse(dao.findAllCustomers().isEmpty());
+       
         assertEquals(dao.findAllCustomers().size(), 2);
     }
 

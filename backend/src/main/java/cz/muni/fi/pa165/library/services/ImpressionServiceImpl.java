@@ -21,23 +21,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class ImpressionServiceImpl implements ImpressionService {
-
-    @Autowired
-    private ImpressionDao impressionDao;
     
     @Autowired
+    private ImpressionDao impressionDao;
+    @Autowired
     private Convertor convertor;
-
+    
     public void setConvertor(Convertor convertor) {
         this.convertor = convertor;
-    }    
-
+    }
+    
     public void createImpression(ImpressionTO impressionTO) {
         Impression impressionEntity = convertor.convert(impressionTO);
         impressionDao.createImpression(impressionEntity);
         impressionTO.setId(impressionEntity.getId());
     }
-
+    
     public List<ImpressionTO> findAllImpressions() {
         List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
         List<Impression> impressionEntities = impressionDao.findAllImpressions();
@@ -46,26 +45,35 @@ public class ImpressionServiceImpl implements ImpressionService {
         }
         return impressionTOs;
     }
-
+    
     public ImpressionTO findImpressionById(Long id) {
         return convertor.convert(impressionDao.findImpressionById(id));
     }
-
+    
     public void deleteImpression(ImpressionTO impressionTO) {
         impressionDao.deleteImpression(convertor.convert(impressionTO));
         impressionTO.setId(null);
     }
-
+    
     public void updateImpression(ImpressionTO impressionTO) {
         impressionDao.updateImpression(convertor.convert(impressionTO));
     }
-
+    
     public List<ImpressionTO> findImpressions(String search) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
+        List<Impression> impressionEntities = impressionDao.findImpressions(search);
+        for (Impression impression : impressionEntities) {
+            impressionTOs.add(convertor.convert(impression));
+        }
+        return impressionTOs;
     }
-
+    
     public List<ImpressionTO> findNotBorrowedImpressions(String search) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
+        List<Impression> impressionEntities = impressionDao.findNotBorrowedImpressions(search);
+        for (Impression impression : impressionEntities) {
+            impressionTOs.add(convertor.convert(impression));
+        }
+        return impressionTOs;
     }
-
 }

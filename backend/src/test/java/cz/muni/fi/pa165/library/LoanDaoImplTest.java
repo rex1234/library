@@ -106,21 +106,21 @@ public class LoanDaoImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithoutBooks() {
         Loan loan = getTestLoan();
-        loan.setBooks(null);
+        
         dao.createLoan(loan);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithNullFromDate() {
         Loan loan = getTestLoan();
-        loan.setFrom(null);
+      
         dao.createLoan(loan);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateLoanWithNullToDate() {
         Loan loan = getTestLoan();
-        loan.setTo(null);
+       
         dao.createLoan(loan);
     }
 
@@ -184,8 +184,7 @@ public class LoanDaoImplTest {
         em.getTransaction().begin();
         dao.createLoan(loan);
         em.getTransaction().commit();
-        loan.setFrom(new LocalDate(2004, 3, 5));
-        loan.setTo(new LocalDate(2005, 3, 5));
+       
         em.getTransaction().begin();
         dao.updateLoan(loan);
         em.getTransaction().commit();
@@ -199,9 +198,7 @@ public class LoanDaoImplTest {
     private Loan createTestLoan(Customer customer, List<Book> books, LocalDate fromDate, LocalDate toDate) {
         Loan loan = new Loan();
         loan.setCustomer(customer);
-        loan.setFrom(fromDate);
-        loan.setTo(toDate);
-        loan.setBooks(books);
+        
         return loan;
     }
 
@@ -209,7 +206,7 @@ public class LoanDaoImplTest {
         Customer cust = new Customer();
         cust.setName("Jano Mjartan");
         cust.setAddress("Kraskova 48");
-        cust.setLoans(null);
+      
         return cust;
     }
 
@@ -217,7 +214,7 @@ public class LoanDaoImplTest {
         Customer cust = new Customer();
         cust.setName("Michal Kely");
         cust.setAddress("Modra 48");
-        cust.setLoans(null);
+      
         return cust;
     }
 
@@ -225,7 +222,6 @@ public class LoanDaoImplTest {
         Book book = new Book();
         book.setImpression(im1);
         book.setCondition("Good");
-        book.setPrinted(new LocalDate(2001, 11, 8));
 
         return book;
     }
@@ -234,7 +230,6 @@ public class LoanDaoImplTest {
         Book book = new Book();
         book.setImpression(im1);
         book.setCondition("Bad");
-        book.setPrinted(new LocalDate(20012, 11, 8));
 
         return book;
     }
@@ -260,9 +255,7 @@ public class LoanDaoImplTest {
 
     private void compareLoans(Loan l1, Loan l2) {
         assertEquals(l1.getCustomer(), l2.getCustomer());
-        assertEquals(l1.getFrom(), l2.getFrom());
-        assertEquals(l1.getTo(), l2.getTo());
-        assertEquals(l1.getBooks(), l2.getBooks());
+       
         assertEquals(l1.getId(), l2.getId());
     }
 

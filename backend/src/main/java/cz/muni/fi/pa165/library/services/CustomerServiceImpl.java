@@ -20,7 +20,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerDao customerDao;
-    
     @Autowired
     private Convertor convertor;
 
@@ -44,8 +43,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public void deleteCustomer(CustomerTO customerTO) {
-      
-        customerTO.setId(null);
+        customerTO.setIsDeleted(true);
+        customerDao.updateCustomer(convertor.convert(customerTO));
     }
 
     public void updateCustomer(CustomerTO customerTO) {
@@ -58,9 +57,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     public void setConvertor(Convertor convertor) {
         this.convertor = convertor;
-    }        
+    }
 
     public List<CustomerTO> findCustomers(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<CustomerTO> customerTOs = new ArrayList<CustomerTO>();
+        List<Customer> customerEntities = customerDao.findCustomersByName(name);
+        for (Customer customer : customerEntities) {
+            customerTOs.add(convertor.convert(customer));
+        }
+        return customerTOs;
     }
 }
