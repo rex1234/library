@@ -10,6 +10,6 @@
     </head>
     <body>
         <h1>Pro Library IS!</h1>
-        <s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">Add book</s:link>
+        <s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">View books</s:link>
     </body>
 </html>
