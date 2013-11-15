@@ -13,77 +13,64 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class CustomerDaoImpl implements CustomerDao {
-   
+
     @PersistenceContext
     private EntityManager em;
-    
+
     public void setEntityManager(EntityManager em) {
         this.em = em;
-    }      
+    }
 
     public void createCustomer(Customer customer) {
-        if(customer == null){
-            throw new IllegalArgumentException("customer is null.");
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer is null.");
         }
-        if(customer.getId() != null){
+        if (customer.getId() != null) {
             throw new IllegalArgumentException("Customer ID already set.");
         }
-        if(customer.getName() == null || customer.getName().isEmpty()){
+        if (customer.getName() == null || customer.getName().isEmpty()) {
             throw new IllegalArgumentException("Customer name is empty");
         }
-        if(customer.getAddress() == null || customer.getAddress().isEmpty()){
+        if (customer.getAddress() == null || customer.getAddress().isEmpty()) {
             throw new IllegalArgumentException("customer address or empty");
         }
-        
+
         em.persist(customer);
-        
     }
-   
-    public List<Customer> findAllCustomers() {        
-        Query query = em.createQuery("SELECT a FROM Customer a");
-        return query.getResultList();        
+
+    public List<Customer> findAllCustomers() {
+        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.isDeleted = false");
+        return query.getResultList();
     }
- 
+
     public Customer findCustomerById(Long id) {
-        if(id == null){
-            throw new IllegalArgumentException("id is null");
+        if (id == null) {
+            throw new IllegalArgumentException("ID is null");
         }
-        return em.find(Customer.class, id);     
+        return em.find(Customer.class, id);
     }
- 
-    public void deleteCustomer(Customer customer) {
-        if(customer == null){
-            throw new IllegalArgumentException("customer is null.");
-        }
-        if(customer.getId() == null){
-            throw new IllegalArgumentException("Customer ID is null");
-        }
-        
-        Customer toBeDeleted = em.merge(customer);
-        if(toBeDeleted == null){
-            throw new IllegalArgumentException("Customer doesn exist" + customer);
-        }
-        em.remove(toBeDeleted);
-        customer.setId(null);
-    }
- 
+
     public void updateCustomer(Customer customer) {
-        if(customer == null){
-            throw new IllegalArgumentException("customer is null.");
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer is null.");
         }
-        if(customer.getName() == null || customer.getName().isEmpty()){
+        if (customer.getName() == null || customer.getName().isEmpty()) {
             throw new IllegalArgumentException("Customer name is empty");
         }
-        if(customer.getAddress() == null || customer.getAddress().isEmpty()){
-            throw new IllegalArgumentException("customer address or empty");
+        if (customer.getAddress() == null || customer.getAddress().isEmpty()) {
+            throw new IllegalArgumentException("Customer address or empty");
         }
-        
+
         Customer finded = em.find(Customer.class, customer.getId());
-        if(finded == null){
-             throw new IllegalArgumentException("Customer does not exist : " + customer);
+        if (finded == null) {
+            throw new IllegalArgumentException("Customer does not exist: " + customer);
         }
-        
         em.merge(customer);
     }
-   
+
+    public List<Customer> findCustomersByName(String name) {
+        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.name LIKE :name");
+        query.setParameter("name", "%" + name + "%");
+        return query.getResultList();
+    }
 }

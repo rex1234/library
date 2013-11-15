@@ -62,8 +62,13 @@ public class ImpressionTO implements Serializable {
     }
 
     @Override
+    public String toString() {
+        return "Impression{" + "id=" + id + ", name=" + name + ", author=" + author + '}';
+    }
+
+    @Override
     public int hashCode() {
-        int hash = 3;
+        int hash = 7;
         hash = 83 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
@@ -81,10 +86,5 @@ public class ImpressionTO implements Serializable {
             return false;
         }
         return true;
-    }
-
-    @Override
-    public String toString() {
-        return "ImpressionTO{" + "id=" + id + ", isbn=" + isbn + ", name=" + name + ", author=" + author + ", relaseDate=" + relaseDate + ", department=" + department + '}';
-    }
+    }    
 }

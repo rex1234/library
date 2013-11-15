@@ -1,9 +1,5 @@
 package cz.muni.fi.pa165.library.utils;
 
-import cz.muni.fi.pa165.library.daos.BookDao;
-import cz.muni.fi.pa165.library.daos.CustomerDao;
-import cz.muni.fi.pa165.library.daos.ImpressionDao;
-import cz.muni.fi.pa165.library.daos.LoanDao;
 import cz.muni.fi.pa165.library.dtos.BookTO;
 import cz.muni.fi.pa165.library.dtos.CustomerTO;
 import cz.muni.fi.pa165.library.dtos.ImpressionTO;
@@ -12,23 +8,11 @@ import cz.muni.fi.pa165.library.entities.Book;
 import cz.muni.fi.pa165.library.entities.Customer;
 import cz.muni.fi.pa165.library.entities.Impression;
 import cz.muni.fi.pa165.library.entities.Loan;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConvertorImpl implements Convertor {
-    
-    @Autowired
-    private BookDao bookDao;
-    @Autowired
-    private ImpressionDao impressionDao;
-    @Autowired
-    private CustomerDao customerDao;
-    @Autowired
-    private LoanDao loanDao;
-    
+
     public BookTO convert(Book book) {
         if (book == null) {
             return null;
@@ -36,12 +20,10 @@ public class ConvertorImpl implements Convertor {
         BookTO result = new BookTO();
         result.setId(book.getId());
         result.setCondition(book.getCondition());
-        result.setPrinted(book.getPrinted());
-        result.setImpressionId(book.getImpression().getId());
-        result.setLoanId(book.getImpression().getId());                
+        result.setImpression(convert(book.getImpression()));
         return result;
-    }    
-    
+    }
+
     public Book convert(BookTO book) {
         if (book == null) {
             return null;
@@ -49,46 +31,38 @@ public class ConvertorImpl implements Convertor {
         Book result = new Book();
         result.setId(book.getId());
         result.setCondition(book.getCondition());
-        result.setPrinted(book.getPrinted());
-        result.setImpression(impressionDao.findImpressionById(book.getId()));
-        result.setLoan(loanDao.findLoanById(book.getId()));                
+        result.setImpression(convert(book.getImpression()));
         return result;
     }
-    
+
     public LoanTO convert(Loan loan) {
         if (loan == null) {
             return null;
         }
         LoanTO result = new LoanTO();
         result.setId(loan.getId());
-        result.setToDate(loan.getTo());
-        result.setFromDate(loan.getFrom());
-        result.setCustomerId(loan.getCustomer().getId());
-        List<Long> bookList = new ArrayList<Long>();
-        for (Book book : loan.getBooks()) {
-            bookList.add(book.getId());
-        }
-        result.setBookIds(bookList);
+        result.setToDate(loan.getToDate());
+        result.setFromDate(loan.getFromDate());
+        result.setBook(convert(loan.getBook()));
+        result.setConditionReturned(loan.getConditionReturned());
+        result.setCustomer(convert(loan.getCustomer()));
         return result;
     }
-    
+
     public Loan convert(LoanTO loan) {
         if (loan == null) {
             return null;
         }
         Loan result = new Loan();
         result.setId(loan.getId());
-        result.setTo(loan.getToDate());
-        result.setFrom(loan.getFromDate());
-        result.setCustomer(customerDao.findCustomerById(loan.getCustomerId()));
-        List<Book> bookList = new ArrayList<Book>();
-        for (Long book : loan.getBookIds()) {
-            bookList.add(bookDao.findBookById(book));
-        }
-        result.setBooks(bookList);
+        result.setToDate(loan.getToDate());
+        result.setFromDate(loan.getFromDate());
+        result.setBook(convert(loan.getBook()));
+        result.setConditionReturned(loan.getConditionReturned());
+        result.setCustomer(convert(loan.getCustomer()));
         return result;
     }
-    
+
     public CustomerTO convert(Customer customer) {
         if (customer == null) {
             return null;
@@ -97,14 +71,10 @@ public class ConvertorImpl implements Convertor {
         result.setId(customer.getId());
         result.setName(customer.getName());
         result.setAddress(customer.getAddress());
-        List<Long> loanList = new ArrayList<Long>();
-        for (Loan loan : customer.getLoans()) {
-            loanList.add(loan.getId());
-        }
-        result.setLoanIds(loanList);       
+        result.setIsDeleted(customer.getIsDeleted());
         return result;
     }
-    
+
     public Customer convert(CustomerTO customer) {
         if (customer == null) {
             return null;
@@ -113,14 +83,10 @@ public class ConvertorImpl implements Convertor {
         result.setId(customer.getId());
         result.setName(customer.getName());
         result.setAddress(customer.getAddress());
-        List<Loan> loanList = new ArrayList<Loan>();
-        for (Long loan : customer.getLoanIds()) {
-            loanList.add(loanDao.findLoanById(loan));
-        }
-        result.setLoans(loanList);       
+        result.setIsDeleted(customer.getIsDeleted());
         return result;
     }
-    
+
     public ImpressionTO convert(Impression impression) {
         if (impression == null) {
             return null;
@@ -134,7 +100,7 @@ public class ConvertorImpl implements Convertor {
         result.setDepartment(impression.getDepartment());
         return result;
     }
-    
+
     public Impression convert(ImpressionTO impression) {
         if (impression == null) {
             return null;
@@ -148,5 +114,4 @@ public class ConvertorImpl implements Convertor {
         result.setDepartment(impression.getDepartment());
         return result;
     }
-      
 }

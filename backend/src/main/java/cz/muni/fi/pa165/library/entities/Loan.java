@@ -1,16 +1,15 @@
 package cz.muni.fi.pa165.library.entities;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.joda.time.LocalDate;
 
 /**
@@ -23,20 +22,51 @@ public class Loan implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;    
-    @ManyToOne
-    private Customer customer;    
-    @OneToMany(mappedBy = "loan",fetch = FetchType.EAGER)
-    private List<Book> books;   
-    private LocalDate fromDate; //joda time   
+    private Long id;   
+    
+    @Column(nullable = false)
+    private LocalDate fromDate;  
+    
     private LocalDate toDate;
     
+    private String conditionReturned; 
+    
+    @ManyToOne    
+    private Customer customer;   
+    
+    @ManyToOne  
+    private Book book;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LocalDate getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public LocalDate getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
+    }
+
+    public String getConditionReturned() {
+        return conditionReturned;
+    }
+
+    public void setConditionReturned(String conditionReturned) {
+        this.conditionReturned = conditionReturned;
     }
 
     public Customer getCustomer() {
@@ -47,35 +77,18 @@ public class Loan implements Serializable {
         this.customer = customer;
     }
 
-    public LocalDate getFrom() {
-        return fromDate;
+    public Book getBook() {
+        return book;
     }
 
-    public void setFrom(LocalDate from) {
-        this.fromDate = from;
+    public void setBook(Book book) {
+        this.book = book;
     }
-
-    public LocalDate getTo() {
-        return toDate;
-    }
-
-    public void setTo(LocalDate to) {
-        this.toDate = to;
-    }
-
-    public List<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-    
-       
 
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
+        hash = 79 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
@@ -93,5 +106,9 @@ public class Loan implements Serializable {
         }
         return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Loan{" + "id=" + id + ", fromDate=" + fromDate + ", toDate=" + toDate + '}';
+    }        
 }

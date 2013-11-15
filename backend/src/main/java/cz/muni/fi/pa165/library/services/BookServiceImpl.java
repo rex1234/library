@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.library.services;
 
 import cz.muni.fi.pa165.library.daos.BookDao;
 import cz.muni.fi.pa165.library.dtos.BookTO;
+import cz.muni.fi.pa165.library.dtos.ImpressionTO;
 import cz.muni.fi.pa165.library.entities.Book;
 import cz.muni.fi.pa165.library.utils.Convertor;
 import java.util.ArrayList;
@@ -49,6 +50,14 @@ public class BookServiceImpl implements BookService {
 
     public void updateBook(BookTO bookTO) {
         bookDao.updateBook(convertor.convert(bookTO));
+    }
+
+    public List<BookTO> findBooksForImpression(ImpressionTO impression) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public BookTO findNotBorrowedBookForImpression(ImpressionTO impression) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
         
 }

@@ -15,88 +15,78 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  *
  * @author vit.mica
  */
-public class CustomerDaoImplTest extends TestCase {
+public class CustomerDaoImplTest {
+
     private CustomerDaoImpl dao;
     private EntityManager em;
-    
+
     @Before
-    @Override
-    public void setUp(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");        
-        em = emf.createEntityManager();        
+    public void setUp() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("LibraryTestPU");
+        em = emf.createEntityManager();
         dao = new CustomerDaoImpl();
         dao.setEntityManager(em);
     }
 
-    @After
-    public void close() {
-    }
-    
     @Test
-    public void testCreateCustomer(){
-        Customer customer = newCustomer("Petr","Praha");
-        em.getTransaction().begin();        
+    public void testCreateCustomer() {
+        Customer customer = newCustomer("Petr", "Praha");
+        em.getTransaction().begin();
         dao.createCustomer(customer);
-        em.getTransaction().commit();        
+        em.getTransaction().commit();
         assertNotNull(customer.getId());
-        assertNotNull(customer.getName());
-        assertNotNull(customer.getAddress());        
-        Customer sameCustomer = dao.findCustomerById(customer.getId());        
+        Customer sameCustomer = dao.findCustomerById(customer.getId());
         assertEquals(customer, sameCustomer);
-    } 
-    
+    }
+
     @Test
-    public void testCreateCustomerWithNulls(){
-        Customer customer = newCustomer("Petr",null);
+    public void testCreateCustomerWithNulls() {
+        Customer customer = newCustomer("Petr", null);
         try {
             dao.createCustomer(null);
             fail("Ex not thrown");
         } catch (Exception ex) {
-            
-        }        
+        }
         try {
             dao.createCustomer(customer);
             fail("Ex not thrown");
         } catch (Exception ex) {
-            
-        }       
-        customer = newCustomer("Petr","Praha");        
-        dao.createCustomer(customer);                
+        }
+        customer = newCustomer("Petr", "Praha");
+        dao.createCustomer(customer);
         assertNotNull(customer.getId());
         assertNotNull(customer.getName());
         assertNotNull(customer.getAddress());
-    } 
-    
+    }
+
     @Test
-    public void testGetCustomer(){
-        Customer customer1 = newCustomer("Petr","Praha");
-        Customer customer2 = newCustomer("Jan","Brno");        
+    public void testGetCustomer() {
+        Customer customer1 = newCustomer("Petr", "Praha");
+        Customer customer2 = newCustomer("Jan", "Brno");
         em.getTransaction().begin();
         dao.createCustomer(customer1);
         dao.createCustomer(customer2);
-        em.getTransaction().commit();        
-        assertEquals(dao.findCustomerById(customer1.getId()),customer1);
-        assertEquals(dao.findCustomerById(customer2.getId()),customer2);
+        em.getTransaction().commit();
+        assertEquals(dao.findCustomerById(customer1.getId()), customer1);
+        assertEquals(dao.findCustomerById(customer2.getId()), customer2);
     }
-    
-    @Test 
+
+    @Test
     public void testGetCustomerWithNullId() {
         try {
             dao.findCustomerById(null);
             fail("Ex not thrown");
         } catch (Exception ex) {
-            
         }
     }
-    
-    @Test 
+
+    @Test
     public void testDelete() {
-        Customer customer = newCustomer("Petr","Praha");
+        Customer customer = newCustomer("Petr", "Praha");
         em.getTransaction().begin();
         dao.createCustomer(customer);
         em.getTransaction().commit();
@@ -108,21 +98,20 @@ public class CustomerDaoImplTest extends TestCase {
             dao.deleteCustomer(customer);
             fail("Ex not thrown");
         } catch (Exception ex) {
-            
         }
     }
-    
-    @Test 
+
+    @Test
     public void testDeleteWithNullId() {
-        Customer customer = newCustomer("Petr","Praha");
+        Customer customer = newCustomer("Petr", "Praha");
         try {
             dao.deleteCustomer(null);
             fail("Ex not thrown");
-        } catch (Exception ex) {            
+        } catch (Exception ex) {
         }
     }
-    
-    @Test 
+
+    @Test
     public void testUpdate() {
         Customer customer = new Customer();
         customer.setName("Petr");
@@ -134,28 +123,26 @@ public class CustomerDaoImplTest extends TestCase {
         Customer customer2 = dao.findCustomerById(customer.getId());
         customer2.setName("Jan");
         dao.updateCustomer(customer2);
-        em.getTransaction().commit();        
-        Customer customer3 = dao.findCustomerById(customer.getId());        
-        assertEquals(customer2, customer3);    
+        em.getTransaction().commit();
+        Customer customer3 = dao.findCustomerById(customer.getId());
+        assertEquals(customer2, customer3);
     }
-    
-    
-    
+
     @Test
-    public void testGetAllCustomers(){
-        assertTrue(dao.findAllCustomers().isEmpty());        
-        Customer customer1 = newCustomer("Petr","Praha");
-        Customer customer2 = newCustomer("Jan","Brno");
+    public void testGetAllCustomers() {
+        assertTrue(dao.findAllCustomers().isEmpty());
+        Customer customer1 = newCustomer("Petr", "Praha");
+        Customer customer2 = newCustomer("Jan", "Brno");
         em.getTransaction().begin();
         dao.createCustomer(customer1);
         dao.createCustomer(customer2);
         em.getTransaction().commit();
         List<Customer> actual = dao.findAllCustomers();
         assertFalse(dao.findAllCustomers().isEmpty());
-        assertEquals(dao.findAllCustomers().size(),2);                
-    } 
-    
-        private static Customer newCustomer(String name, String address) {
+        assertEquals(dao.findAllCustomers().size(), 2);
+    }
+
+    private static Customer newCustomer(String name, String address) {
         Customer customer = new Customer();
         customer.setName(name);
         customer.setAddress(address);

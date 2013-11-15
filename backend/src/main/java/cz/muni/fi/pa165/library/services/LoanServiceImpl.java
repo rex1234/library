@@ -5,6 +5,8 @@
 package cz.muni.fi.pa165.library.services;
 
 import cz.muni.fi.pa165.library.daos.LoanDao;
+import cz.muni.fi.pa165.library.dtos.BookTO;
+import cz.muni.fi.pa165.library.dtos.CustomerTO;
 import cz.muni.fi.pa165.library.dtos.LoanTO;
 import cz.muni.fi.pa165.library.entities.Loan;
 import cz.muni.fi.pa165.library.utils.Convertor;
@@ -58,5 +60,17 @@ public class LoanServiceImpl implements LoanService {
 
     public void setDao(LoanDao loanDao) {
         this.loanDao = loanDao;
+    }
+
+    public List<LoanTO> findLoansForCustomer(CustomerTO customer) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<LoanTO> findLoansForBook(BookTO book) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void returnBook(LoanTO loan) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

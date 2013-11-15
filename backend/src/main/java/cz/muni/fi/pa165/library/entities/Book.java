@@ -1,37 +1,32 @@
 package cz.muni.fi.pa165.library.entities;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import org.joda.time.LocalDate;
 
 /**
  * Class representing a book entity
  * 
  * @author Mjartan
  */
-
 @Entity
 @Table(name = "book")
 public class Book implements Serializable{
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    @Column(nullable = false)
-    private LocalDate printed; 
+    private Long id;    
+    
+    @Column(name = "book_condition")
+    private String condition;   
+   
     @ManyToOne
-    private Impression impression;
-    @ManyToOne (cascade = CascadeType.ALL)
-    private Loan loan;
-    @Column(name = "bookCondition")
-    private String condition;
+    private Impression impression; 
 
     public Long getId() {
         return id;
@@ -39,22 +34,6 @@ public class Book implements Serializable{
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getPrinted() {
-        return printed;
-    }
-
-    public void setPrinted(LocalDate printed) {
-        this.printed = printed;
-    }
-
-    public Impression getImpression() {
-        return impression;
-    }
-
-    public void setImpression(Impression impression) {
-        this.impression = impression;
     }
 
     public String getCondition() {
@@ -65,35 +44,38 @@ public class Book implements Serializable{
         this.condition = condition;
     }
 
-    public Loan getLoan() {
-        return loan;
+    public Impression getImpression() {
+        return impression;
     }
 
-    public void setLoan(Loan loan) {
-        this.loan = loan;
-    }        
-
-    @Override
-    public String toString() {
-        return "Book{" + "id=" + id + ", printed=" + printed + ", impression=" + impression + ", condition=" + condition + '}';
+    public void setImpression(Impression impression) {
+        this.impression = impression;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + (this.id != null ? this.id.hashCode() : 0);
+        int hash = 3;
+        hash = 67 * hash + (this.id != null ? this.id.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if(!(obj instanceof Book)) {
+        if (obj == null) {
             return false;
         }
-        if(id == null) {
+        if (getClass() != obj.getClass()) {
             return false;
         }
-        return ((Book)obj).getId().equals(id);
+        final Book other = (Book) obj;
+        if (this.id != other.id && (this.id == null || !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Book{" + "condition=" + condition + '}';
+    }      
 }
