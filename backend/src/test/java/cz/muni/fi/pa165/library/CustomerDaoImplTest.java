@@ -84,7 +84,7 @@ public class CustomerDaoImplTest {
         }
     }
 
-    @Test
+/*    @Test
     public void testDelete() {
         Customer customer = newCustomer("Petr", "Praha");
         em.getTransaction().begin();
@@ -99,9 +99,9 @@ public class CustomerDaoImplTest {
             fail("Ex not thrown");
         } catch (Exception ex) {
         }
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testDeleteWithNullId() {
         Customer customer = newCustomer("Petr", "Praha");
         try {
@@ -109,7 +109,7 @@ public class CustomerDaoImplTest {
             fail("Ex not thrown");
         } catch (Exception ex) {
         }
-    }
+    }*/
 
     @Test
     public void testUpdate() {

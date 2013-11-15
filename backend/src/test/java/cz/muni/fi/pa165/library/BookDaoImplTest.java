@@ -81,13 +81,7 @@ public class BookDaoImplTest {
         em.getTransaction().commit();
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void testCreateBookWithNullDate() {
-        em.getTransaction().begin();
-        Book book = getTestBook();       
-        dao.createBook(book);
-        em.getTransaction().commit();
-    }    
+       
     
     @Test
     public void testFindAllBooks() {        

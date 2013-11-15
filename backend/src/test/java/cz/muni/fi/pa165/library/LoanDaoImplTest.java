@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class LoanDaoImplTest {
 
-    private LoanDaoImpl dao;
+  /*  private LoanDaoImpl dao;
     private CustomerDaoImpl custDao;
     private BookDaoImpl bookDao;
     private ImpressionDaoImpl imDao;
@@ -124,7 +124,7 @@ public class LoanDaoImplTest {
         dao.createLoan(loan);
     }
 
-    @Test
+  /*  @Test
     public void testFindAllLoans() {
         List<Loan> loans = new ArrayList<Loan>() {
             {
@@ -139,10 +139,10 @@ public class LoanDaoImplTest {
             em.getTransaction().commit();
         }
         compareLoans(loans, dao.findAllLoans());
-    }
+    }*/
 
     
-    @Test
+   /* @Test
     public void testFindLoanById() {
         Loan loan = getTestLoan();
         em.getTransaction().begin();
@@ -271,5 +271,5 @@ public class LoanDaoImplTest {
         public int compare(Loan o1, Loan o2) {
             return o1.getId().compareTo(o2.getId());
         }
-    };
+    };*/
 }
