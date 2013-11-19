@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Fri Nov 15 16:07:39 CET 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0142-5c4d-9d6b-000002a2f210 
-on database directory memory:C:\Users\MiškoHu\Documents\NetBeansProjects\library\backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@67ce08c7 
-Loaded from file:/C:/Users/Mi%c5%a1koHu/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
+Tue Nov 19 14:49:50 CET 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0142-709f-ce3a-00000435c660 
+on database directory memory:C:\Users\Matej\Documents\NetBeansProjects\library\backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@4b7d5c90 
+Loaded from file:/C:/Users/Matej/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.7.0_11-b21
-user.dir=C:\Users\MiškoHu\Documents\NetBeansProjects\library\backend
-os.name=Windows 7
+java.runtime.version=1.7.0_40-b43
+user.dir=C:\Users\Matej\Documents\NetBeansProjects\library\backend
+os.name=Windows 8
 os.arch=amd64
-os.version=6.1
+os.version=6.2
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
