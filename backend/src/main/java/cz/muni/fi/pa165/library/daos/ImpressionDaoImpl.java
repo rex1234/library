@@ -51,20 +51,15 @@ public class ImpressionDaoImpl implements ImpressionDao {
         if (impression.getId() == null) {
             throw new IllegalArgumentException("Cannot delete impression with no ID.");
         }
-        Query query = em.createQuery("SELECT b FROM Book b WHERE b.impression = :i");
+
+        Query query = em.createQuery("DELETE FROM Loan l WHERE l.book.impression = :i");
         query.setParameter("i", impression);
-        List<Book> books = query.getResultList();
-        for (Book b : books) {
-            Query q = em.createQuery("SELECT l FROM Loan l WHERE l.book = :b");
-            q.setParameter("b", b);
-            List<Loan> loans = q.getResultList();
-            for (Loan l : loans) {
-                l.setBook(null);
-                em.merge(l);
-            }
-            em.merge(b);
-            em.remove(b);
-        }
+        query.executeUpdate();
+
+        query = em.createQuery("DELETE FROM Book b WHERE b.impression = :i");
+        query.setParameter("i", impression);
+        query.executeUpdate();
+
         Impression toRemove = em.merge(impression);
         em.remove(toRemove);
         impression.setId(null);

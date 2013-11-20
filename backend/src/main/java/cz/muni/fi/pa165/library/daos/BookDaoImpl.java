@@ -51,13 +51,10 @@ public class BookDaoImpl implements BookDao {
         if (book.getId() == null) {
             throw new IllegalArgumentException("Cannot delete book with no id");
         }
-        Query query = em.createQuery("SELECT l FROM Loan l WHERE l.book = :b");
+        Query query = em.createQuery("DELETE FROM Loan l WHERE l.book = :b");
         query.setParameter("b", book);
-        List<Loan> loans = query.getResultList();
-        for (Loan l : loans){
-            l.setBook(null);
-            em.merge(l);
-        }
+        query.executeUpdate();
+       
         Book toRemove = em.merge(book);
         em.remove(toRemove);
         book.setId(null);
