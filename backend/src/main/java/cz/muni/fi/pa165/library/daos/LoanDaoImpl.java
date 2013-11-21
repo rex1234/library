@@ -67,6 +67,9 @@ public class LoanDaoImpl implements LoanDao {
         if (loan.getCustomer() == null) {
             throw new IllegalArgumentException("Loan.customer cannot be null");
         }
+        if (loan.getBook() == null) {
+            throw new IllegalArgumentException("Loan.book cannot be null");
+        }
     }
 
     public List<Loan> findLoansForCustomer(Customer customer) {
