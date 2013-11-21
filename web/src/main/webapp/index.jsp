@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+    "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
     <head>
@@ -10,6 +10,6 @@
     </head>
     <body>
         <h1>Pro Library IS!</h1>
-        <s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">View books</s:link>
+        <s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">View impressions</s:link> <br/>
     </body>
 </html>

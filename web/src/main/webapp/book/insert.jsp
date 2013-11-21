@@ -1,5 +1,5 @@
 <%-- 
-    Document   : edit
+    Document   : insert
     Created on : 12.11.2013, 18:43:26
     Author     : Rex
 --%>
@@ -12,15 +12,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Edit impression</title>
+        <title>Edit Book</title>
     </head>
     <body> 
     <center>
         <s:errors/>
-        <s:form beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">
+        <s:form beanclass="cz.muni.fi.pa165.web.BookEditBean">
+            <s:hidden name="book.id"/>
             <s:hidden name="impression.id"/>
             <%@include file="form.jsp"%>
-            <s:submit name="save"><f:message key="save"/></s:submit>
+            <s:submit name="create"><f:message key="insert"/></s:submit>
         </s:form>
     </center>
 </body>

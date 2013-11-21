@@ -1,6 +1,8 @@
 package cz.muni.fi.pa165.web;
 
+import cz.muni.fi.pa165.library.dtos.BookTO;
 import cz.muni.fi.pa165.library.dtos.ImpressionTO;
+import cz.muni.fi.pa165.library.services.BookService;
 import cz.muni.fi.pa165.library.services.ImpressionService;
 import java.util.List;
 import net.sourceforge.stripes.action.Before;
@@ -24,6 +26,8 @@ public class ImpressionEditBean extends BaseBean implements ValidationErrorHandl
 
     @SpringBean
     private ImpressionService imService;
+    @SpringBean
+    private BookService bookService;
     @ValidateNestedProperties(value = {
         @Validate(on = {"create", "save"}, field = "isbn", required = true),
         @Validate(on = {"create", "save"}, field = "author", required = true),
@@ -31,10 +35,19 @@ public class ImpressionEditBean extends BaseBean implements ValidationErrorHandl
         @Validate(on = {"create", "save"}, field = "releaseDate", required = true, converter = DateConverter.class),})
     private ImpressionTO impression;
     private List<ImpressionTO> allImpressions;
+    private List<BookTO> impressionBooks;
 
     @DefaultHandler
     public Resolution printImpressions() {
         allImpressions = imService.findAllImpressions();
+        return new ForwardResolution("/impression/main.jsp");
+    }
+
+    public Resolution listBooks() {
+        allImpressions = imService.findAllImpressions();
+        ImpressionTO tempImpression =
+                imService.findImpressionById(Long.parseLong(getContext().getRequest().getParameter("impression.id")));
+        impressionBooks = bookService.findBooksForImpression(tempImpression);
         return new ForwardResolution("/impression/main.jsp");
     }
 
@@ -82,5 +95,13 @@ public class ImpressionEditBean extends BaseBean implements ValidationErrorHandl
 
     public void setAllImpressions(List<ImpressionTO> allImpressions) {
         this.allImpressions = allImpressions;
+    }
+
+    public List<BookTO> getImpressionBooks() {
+        return impressionBooks;
+    }
+
+    public void setImpressionBooks(List<BookTO> impressionBooks) {
+        this.impressionBooks = impressionBooks;
     }
 }
