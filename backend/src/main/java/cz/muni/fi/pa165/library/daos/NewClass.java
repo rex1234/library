@@ -49,7 +49,7 @@ public class NewClass {
         i.setDepartment(Department.CHILDREN);
         i.setIsbn("123");
         i.setName("Poklad");
-        i.setRelaseDate(new LocalDate(2012, 10, 5));
+        i.setReleaseDate(new LocalDate(2012, 10, 5));
         em.getTransaction().begin();
         em.persist(i);
         em.getTransaction().commit();
@@ -59,7 +59,7 @@ public class NewClass {
         i2.setDepartment(Department.CHILDREN);
         i2.setIsbn("546");
         i2.setName("Artemis");
-        i2.setRelaseDate(new LocalDate(2012, 10, 5));
+        i2.setReleaseDate(new LocalDate(2012, 10, 5));
         em.getTransaction().begin();
         em.persist(i2);
         em.getTransaction().commit();

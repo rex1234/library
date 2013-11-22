@@ -10,7 +10,7 @@ public class ImpressionTO implements Serializable {
     private String isbn;
     private String name;
     private String author;
-    private LocalDate relaseDate;
+    private LocalDate releaseDate;
     private Department department;
 
     public Long getId() {
@@ -45,12 +45,12 @@ public class ImpressionTO implements Serializable {
         this.author = author;
     }
 
-    public LocalDate getRelaseDate() {
-        return relaseDate;
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
-    public void setRelaseDate(LocalDate relaseDate) {
-        this.relaseDate = relaseDate;
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public Department getDepartment() {

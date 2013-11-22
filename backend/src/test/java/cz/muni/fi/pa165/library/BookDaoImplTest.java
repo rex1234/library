@@ -171,7 +171,7 @@ public class BookDaoImplTest {
         impression.setName("Pekna kniha");
         impression.setIsbn("123456");
         impression.setDepartment(Department.CHILDREN);
-        impression.setRelaseDate(new LocalDate(2000,10,15));
+        impression.setReleaseDate(new LocalDate(2000,10,15));
         return impression;
     }
     
@@ -181,7 +181,7 @@ public class BookDaoImplTest {
         impression.setName("Naj recepty");
         impression.setIsbn("98765");
         impression.setDepartment(Department.COOKING);
-        impression.setRelaseDate(new LocalDate(1990,8,15));
+        impression.setReleaseDate(new LocalDate(1990,8,15));
         return impression;
     }
     

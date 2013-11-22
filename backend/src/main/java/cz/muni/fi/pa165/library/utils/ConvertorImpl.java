@@ -96,7 +96,7 @@ public class ConvertorImpl implements Convertor {
         result.setName(impression.getName());
         result.setIsbn(impression.getIsbn());
         result.setAuthor(impression.getAuthor());
-        result.setRelaseDate(impression.getRelaseDate());
+        result.setReleaseDate(impression.getReleaseDate());
         result.setDepartment(impression.getDepartment());
         return result;
     }
@@ -110,7 +110,7 @@ public class ConvertorImpl implements Convertor {
         result.setName(impression.getName());
         result.setIsbn(impression.getIsbn());
         result.setAuthor(impression.getAuthor());
-        result.setRelaseDate(impression.getRelaseDate());
+        result.setReleaseDate(impression.getReleaseDate());
         result.setDepartment(impression.getDepartment());
         return result;
     }

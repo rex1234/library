@@ -84,7 +84,7 @@ public class ImpressionDaoImplTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateImpressionWithNullDate() {
         Impression impression = getTestImpression();
-        impression.setRelaseDate(null);
+        impression.setReleaseDate(null);
         dao.createImpression(impression);      
     }
 
@@ -177,7 +177,7 @@ public class ImpressionDaoImplTest {
         impression.setIsbn(isbn);
         impression.setName(name);
         impression.setAuthor(author);
-        impression.setRelaseDate(releaseDate);
+        impression.setReleaseDate(releaseDate);
         impression.setDepartment(department);
         return impression;
     }
@@ -186,7 +186,7 @@ public class ImpressionDaoImplTest {
         assertEquals(i1.getName(), i2.getName());
         assertEquals(i1.getIsbn(), i2.getIsbn());
         assertEquals(i1.getAuthor(), i2.getAuthor());
-        assertEquals(i1.getRelaseDate(), i2.getRelaseDate());
+        assertEquals(i1.getReleaseDate(), i2.getReleaseDate());
         assertEquals(i1.getDepartment(), i2.getDepartment());
     }
 

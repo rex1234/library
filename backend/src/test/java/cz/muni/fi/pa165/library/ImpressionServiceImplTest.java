@@ -90,7 +90,7 @@ public class ImpressionServiceImplTest {
         assertEquals(i1.getName(), i2.getName());
         assertEquals(i1.getIsbn(), i2.getIsbn());
         assertEquals(i1.getAuthor(), i2.getAuthor());
-        assertEquals(i1.getRelaseDate(), i2.getRelaseDate());
+        assertEquals(i1.getReleaseDate(), i2.getReleaseDate());
         assertEquals(i1.getDepartment(), i2.getDepartment());
     }
     
@@ -99,7 +99,7 @@ public class ImpressionServiceImplTest {
         i.setAuthor(author);
         i.setId(id);
         i.setDepartment(Department.MAGAZINES);
-        i.setRelaseDate(new LocalDate(1990,1,1));
+        i.setReleaseDate(new LocalDate(1990,1,1));
         i.setName("A");
         return i;
     }
@@ -109,7 +109,7 @@ public class ImpressionServiceImplTest {
         i.setAuthor(author);
         i.setId(id);
         i.setDepartment(Department.MAGAZINES);
-        i.setRelaseDate(new LocalDate(1990,1,1));
+        i.setReleaseDate(new LocalDate(1990,1,1));
         i.setName("A");
         return i;
     }

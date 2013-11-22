@@ -11,5 +11,6 @@
     <body>
         <h1>Pro Library IS!</h1>
         <s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">View impressions</s:link> <br/>
+        <s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean">View customers</s:link> <br/>
     </body>
 </html>

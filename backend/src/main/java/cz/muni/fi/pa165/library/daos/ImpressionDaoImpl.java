@@ -85,8 +85,8 @@ public class ImpressionDaoImpl implements ImpressionDao {
         if (impression.getAuthor() == null) {
             throw new IllegalArgumentException("Impression.author cannot be null.");
         }
-        if (impression.getRelaseDate() == null) {
-            throw new IllegalArgumentException("Impression.relaseDate cannot be null.");
+        if (impression.getReleaseDate() == null) {
+            throw new IllegalArgumentException("Impression.releaseDate cannot be null.");
         }
         if (impression.getDepartment() == null) {
             throw new IllegalArgumentException("Impression.department cannot be null.");

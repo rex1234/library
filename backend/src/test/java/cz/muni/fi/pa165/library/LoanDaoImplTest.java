@@ -252,7 +252,7 @@ public class LoanDaoImplTest {
         impression.setName("Pekna kniha");
         impression.setIsbn("123456");
         impression.setDepartment(Department.CHILDREN);
-        impression.setRelaseDate(new LocalDate(2000, 10, 15));
+        impression.setReleaseDate(new LocalDate(2000, 10, 15));
         em.getTransaction().begin();
         imDao.createImpression(impression);
         em.getTransaction().commit();
