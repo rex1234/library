@@ -11,7 +11,7 @@
         <li><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
         </s:layout-component>
         <s:layout-component name="body">
-        <h1>Welcome bitches</h1>
+        <h1>Welcome in our library</h1>
         <div class="post">
             <p>
                 The library of IBTS, one of the largest English language theological libraries on the continent of Europe, is a rich resource for theological study. The library holds more than 70.000 volumes, including materials in German and other European languages, and subscribes to about 180 mainly theological periodicals.
