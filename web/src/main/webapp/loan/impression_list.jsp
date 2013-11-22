@@ -24,7 +24,11 @@
                 <td><c:out value="${impression.name}"/></td>
                 <td><j:format value="${impression.releaseDate}" pattern="dd.MM.yyyy"/></td>
                 <td><f:message key="Department.${impression.department}"/></td>
-            </tr>
+                <td><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="create">
+                        <s:param name="impression.id" value="${impression.id}"/>
+                        <s:param name="customer.id" value="${actionBean.customer.id}"/>lend</s:link></td>
+                
+                </tr>
         </c:forEach>
         </tbody>
     </table>

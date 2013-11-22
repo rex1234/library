@@ -24,6 +24,7 @@ import net.sourceforge.stripes.validation.Validate;
 import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
+import org.joda.time.LocalDate;
 
 /**
  *
@@ -39,14 +40,6 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     private CustomerService custService;
     @SpringBean
     private BookService bookService;
-    
-    private String vajce = "Vajce";
-    
-    @ValidateNestedProperties(value = {
-        @Validate(on = {"create", "save"}, field = "isbn", required = true),
-        @Validate(on = {"create", "save"}, field = "author", required = true),
-        @Validate(on = {"create", "save"}, field = "name", required = true),
-        @Validate(on = {"create", "save"}, field = "releaseDate", required = true, converter = DateConverter.class),})    
     private List<ImpressionTO> impressions;
     private CustomerTO customer;
 
@@ -65,19 +58,24 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
      }*/
     @DefaultHandler
     public Resolution displayAvailable() {
-        impressions = imService.findAllImpressions();        
-        return new RedirectResolution("/loan/available.jsp");
-    }
-
-    /*public Resolution create() {
-        
-     return new RedirectResolution(getClass(), "printImpressions");
-     }*/
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"edit", "delete"})
-    public void loadCustomer() {
         customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
+        impressions = imService.findAllImpressions();
+        return new ForwardResolution("/loan/available.jsp");
     }
 
+    public Resolution create() {
+        ImpressionTO impression = imService.findImpressionById(Long.parseLong(getContext().getRequest().getParameter("impression.id")));
+        customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
+        BookTO b = bookService.findNotBorrowedBookForImpression(impression);
+        LoanTO loan = new LoanTO();
+        loan.setBook(b);
+        loan.setCustomer(customer);
+        loan.setFromDate(new LocalDate());
+        loanService.createLoan(loan);
+        return new ForwardResolution(getClass(), "/index.jsp");
+    }
+
+   
     /*public Resolution edit() {
      return new ForwardResolution("/impression/edit.jsp");
      }
@@ -107,14 +105,6 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
         return loanService;
     }
 
-    public String getVajce() {
-        return vajce;
-    }
-
-    public void setVajce(String vajce) {
-        this.vajce = vajce;
-    }
-
     public void setLoanService(LoanService loanService) {
         this.loanService = loanService;
     }
@@ -135,12 +125,12 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
         this.bookService = bookService;
     }
 
-    public List<ImpressionTO> getAvailableImpressions() {
+    public List<ImpressionTO> getImpressions() {
         return impressions;
     }
 
-    public void setAvailableImpressions(List<ImpressionTO> availableImpressions) {
-        this.impressions = availableImpressions;
+    public void setImpressions(List<ImpressionTO> impressions) {
+        this.impressions = impressions;
     }
 
     public CustomerTO getCustomer() {
@@ -150,6 +140,4 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     public void setCustomer(CustomerTO customer) {
         this.customer = customer;
     }
-
-    
 }
