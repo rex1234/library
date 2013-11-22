@@ -47,7 +47,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
         @Validate(on = {"create", "save"}, field = "author", required = true),
         @Validate(on = {"create", "save"}, field = "name", required = true),
         @Validate(on = {"create", "save"}, field = "releaseDate", required = true, converter = DateConverter.class),})    
-    private List<ImpressionTO> availableImpressions;
+    private List<ImpressionTO> impressions;
     private CustomerTO customer;
 
     /*@DefaultHandler
@@ -65,7 +65,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
      }*/
     @DefaultHandler
     public Resolution displayAvailable() {
-        availableImpressions = imService.findAllImpressions();
+        impressions = imService.findAllImpressions();        
         return new RedirectResolution("/loan/available.jsp");
     }
 
@@ -91,7 +91,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
      }*/
     @Override
     public Resolution handleValidationErrors(ValidationErrors errors) {
-        availableImpressions = imService.findNotBorrowedImpressions("");
+        impressions = imService.findNotBorrowedImpressions("");
         return null;
     }
 
@@ -136,11 +136,11 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     }
 
     public List<ImpressionTO> getAvailableImpressions() {
-        return availableImpressions;
+        return impressions;
     }
 
     public void setAvailableImpressions(List<ImpressionTO> availableImpressions) {
-        this.availableImpressions = availableImpressions;
+        this.impressions = availableImpressions;
     }
 
     public CustomerTO getCustomer() {

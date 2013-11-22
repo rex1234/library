@@ -21,7 +21,7 @@
             <%@include file="list.jsp"%> 
         <br/>
         <s:errors/>
-        <s:form beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">
+       <s:form beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">
             <s:hidden name="impression.id"/>
             <fieldset>
                 <%@include file="form.jsp"%>

@@ -34,7 +34,7 @@ public class BookEditBean extends BaseBean {
 
     @DefaultHandler
     public Resolution listBooks() {
-        impressionBooks = bookService.findAllBooks();
+        impressionBooks = bookService.findBooksForImpression(impression);
         return new ForwardResolution("/book/list.jsp");
     }
 

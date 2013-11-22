@@ -15,24 +15,20 @@
             <th scope="col"><f:message key="impression.author"/></th>
             <th scope="col"><f:message key="impression.name"/></th>
             <th scope="col"><f:message key="impression.releaseDate"/></th>
-            <th scope="col"><f:message key="impression.department"/></th>
-            <th scope="col">Add book</th>
+            <th scope="col"><f:message key="impression.department"/></th>            
         </tr>
         <c:forEach items="${actionBean.allImpressions}" var="impression">
             <tr>
                 <td><c:out value="${impression.isbn}"/></td>                    
                 <td><c:out value="${impression.author}"/></td>
-                <td><c:out value="${impression.name}"/></td>
+                <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean">
+                        <s:param name="impression.id" value="${impression.id}"/><c:out value="${impression.name}"/></s:link></td>
                 <td><j:format value="${impression.releaseDate}" pattern="dd.MM.yyyy"/></td>
                 <td><f:message key="Department.${impression.department}"/></td>
                 <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="edit">
                         <s:param name="impression.id" value="${impression.id}"/><f:message key="edit"/></s:link></td>
                 <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="delete">
-                        <s:param name="impression.id" value="${impression.id}"/><f:message key="delete"/></s:link></td>             
-                <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="createNewBook">
-                        <s:param name="impression.id" value="${impression.id}"/>Add book</s:link></td>             
-                <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="listBooks">
-                        <s:param name="impression.id" value="${impression.id}"/>List books</s:link></td>   
+                        <s:param name="impression.id" value="${impression.id}"/><f:message key="delete"/></s:link></td>                            
                 </tr>
         </c:forEach>
         </tbody>

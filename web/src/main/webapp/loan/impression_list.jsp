@@ -17,7 +17,7 @@
             <th scope="col"><f:message key="impression.releaseDate"/></th>
             <th scope="col"><f:message key="impression.department"/></th>            
         </tr>
-        <c:forEach items="${actionBean.availableImpressions}" var="impression">
+        <c:forEach items="${actionBean.impressions}" var="impression">
             <tr>
                 <td><c:out value="${impression.isbn}"/></td>                    
                 <td><c:out value="${impression.author}"/></td>
