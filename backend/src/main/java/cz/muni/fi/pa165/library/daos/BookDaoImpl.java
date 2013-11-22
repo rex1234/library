@@ -80,16 +80,13 @@ public class BookDaoImpl implements BookDao {
         return query.getResultList();
     }
 
-    public Book findNotBorrowedBookForImpression(Impression impression) {
-        Query query = em.createQuery("SELECT DISTINCT b.id FROM Loan l JOIN l.book b JOIN b.impression i"
-                + " WHERE i = :impression"
-                + " GROUP BY b.id"
-                + " HAVING COUNT(l.toDate) = COUNT(*)");
-        query.setParameter("impression", impression);
+    public Book findNotBorrowedBookForImpression(Impression impression) {        
+        Query query = em.createQuery("SELECT b FROM Book b WHERE b.impression = :i");
+        query.setParameter("i", impression);
         List<Long> ids = query.getResultList();
         if (ids.isEmpty()) {
             return null;
         }
-        return em.find(Book.class, ids.get(0));
+        return em.find(Book.class, ids.get(0));       
     }
 }

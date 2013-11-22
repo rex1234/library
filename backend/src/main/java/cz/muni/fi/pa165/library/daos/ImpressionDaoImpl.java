@@ -109,7 +109,7 @@ public class ImpressionDaoImpl implements ImpressionDao {
         Query query = em.createQuery("SELECT DISTINCT i.id FROM Loan l JOIN l.book b JOIN b.impression i"
                 + " WHERE i.name LIKE :search OR i.author LIKE :search"
                 + " GROUP BY b.id, i.id"
-                + " HAVING COUNT(l.toDate) = COUNT(*)");
+                + " HAVING COUNT(l.toDate) = COUNT(*) OR COUNT(*) = 0");
         query.setParameter("search", "%" + search + "%");
         List<Long> ids = query.getResultList();
         ArrayList<Impression> list = new ArrayList<Impression>();
