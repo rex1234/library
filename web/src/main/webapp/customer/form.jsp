@@ -5,14 +5,18 @@
 --%>
 
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
+<div class="post">
+    <table collspace="0" collspan="0">
+        <tbody>
 
-<table>
-    <tr>
-        <th><s:label for="b1" name="customer.name"/></th>
-<td><s:text id="b1" name="customer.name"/></td>
-</tr>
-<tr>
-    <th><s:label for="b2" name="customer.address"/></th>
-<td><s:text id="b2" name="customer.address"/></td>
-</tr>    
-</table>
+            <tr>
+                <th><s:label for="b1" name="customer.name"/></th>
+                <td><s:text id="b1" name="customer.name"/></td>
+            </tr>
+            <tr>
+                <th><s:label for="b2" name="customer.address"/></th>
+                <td><s:text id="b2" name="customer.address"/></td>
+            </tr>    
+        </tbody>
+    </table>
+</div>
