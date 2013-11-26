@@ -17,10 +17,13 @@
         <s:layout-component name="body">
         <table border="1" style="border-collapse: collapse;">
             <tr>
+                <th>Name</th>
                 <th>Condition</th>
             </tr>
             <c:forEach items="${actionBean.impressionBooks}" var="book">
                 <tr>
+                    <td><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean">
+                            <s:param name="book.id" value="${book.id}"/><c:out value="${book.impression.name}"/></s:link></td>                   
                     <td><c:out value="${book.condition}"/></td>                    
                     <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="editBook">
                             <s:param name="book.id" value="${book.id}"/><f:message key="edit"/></s:link></td>
