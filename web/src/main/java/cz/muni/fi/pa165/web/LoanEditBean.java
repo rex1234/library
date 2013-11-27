@@ -13,11 +13,15 @@ import cz.muni.fi.pa165.library.services.CustomerService;
 import cz.muni.fi.pa165.library.services.ImpressionService;
 import cz.muni.fi.pa165.library.services.LoanService;
 import java.util.List;
+import net.sourceforge.stripes.action.Before;
 import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
+import net.sourceforge.stripes.validation.Validate;
+import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.joda.time.LocalDate;
@@ -34,6 +38,11 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     private CustomerService custService;
     @SpringBean
     private BookService bookService;
+    
+    @ValidateNestedProperties(value = {
+        @Validate(on = {"returnBook"}, field = "conditionReturned", required = true)
+    })
+    private LoanTO loan;
     private CustomerTO customer;
     private List<BookTO> books;
     private List<LoanTO> loans;
@@ -62,6 +71,12 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
         book = bookService.findBookById(Long.parseLong(getContext().getRequest().getParameter("book.id")));
         loans = loanService.findLoansForBook(book);
         return new ForwardResolution("/loan/loans_for_book.jsp");
+    }
+
+    public Resolution returnBook() {
+        loan = loanService.findLoanById(Long.parseLong(getContext().getRequest().getParameter("loan.id")));
+        loanService.returnBook(loan);
+        return new ForwardResolution("/index.jsp");
     }
 
     public Resolution findByCustomer() {
@@ -105,5 +120,13 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
 
     public void setBook(BookTO book) {
         this.book = book;
-    }   
+    }
+
+    public LoanTO getLoan() {
+        return loan;
+    }
+
+    public void setLoan(LoanTO loan) {
+        this.loan = loan;
+    }
 }

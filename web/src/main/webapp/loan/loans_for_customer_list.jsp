@@ -22,9 +22,32 @@
                 <td><c:out value="${loan.book.impression.name}"/></td>                    
                 <td><c:out value="${loan.book.impression.author}"/></td>               
                 <td><j:format value="${loan.fromDate}" pattern="dd.MM.yyyy"/></td>
-                <td><j:format value="${loan.toDate}" pattern="dd.MM.yyyy"/></td>
-                <td><c:out value="${loan.conditionReturned}"/></td>                                     
-                </tr>
+                <td>                    
+                    <c:if test="${not empty loan.toDate}">       
+                        <j:format value="${loan.toDate}" pattern="dd.MM.yyyy"/>
+                    </c:if>
+                    <c:if test="${empty loan.toDate}">       
+                        <f:message key="loan.notreturned"/>
+                    </c:if>
+                </td>
+                <td>
+                    <c:if test="${not empty loan.conditionReturned}">
+                        <c:out value="${loan.conditionReturned}"/>                    
+                    </c:if>
+                    <c:if test="${empty loan.conditionReturned}">
+                        <s:form beanclass="cz.muni.fi.pa165.web.LoanEditBean">
+                            <s:hidden name="loan.id"/>
+                            <fieldset>
+                                <s:text name="loan.conditionReturned"/>
+                            </fieldset>
+                            </td> 
+                            <td>
+                                <s:submit name="returnBook"><s:param name="loan.id" value="${loan.id}"/><f:message key="loan.return"/></s:submit>
+                            </td>
+                        </s:form>             
+                    </c:if>
+                </td>                                     
+            </tr>
         </c:forEach>
         </tbody>
     </table>
