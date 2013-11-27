@@ -19,7 +19,7 @@
         <body>
             <div id="wrap">
                 <div id="top">
-                    <h1 id="sitename">Ceil Library</h1>                    
+                    <h1 id="sitename">Library of Cejl</h1>                    
                 </div>
                 <div id="menu">
                     <ul>

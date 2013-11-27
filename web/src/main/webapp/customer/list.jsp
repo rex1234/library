@@ -19,7 +19,7 @@
                     </tr>
                     <c:forEach items="${actionBean.allCustomers}" var="customer">
                         <tr>
-                            <td><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean">
+                            <td><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="findByCustomer">
                                     <s:param name="customer.id" value="${customer.id}"/><c:out value="${customer.name}"/></s:link></td>                   
                             <td><c:out value="${customer.address}"/></td>                           
                             <td><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean" event="edit">

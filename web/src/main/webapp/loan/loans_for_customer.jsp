@@ -9,15 +9,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<s:layout-render name="/layout.jsp" titlekey="Available Impressions">    
+<s:layout-render name="/layout.jsp" titlekey="Kokocina">    
     <s:layout-component name="tab">
         <li><a href="${pageContext.request.contextPath}/index.jsp"><span>Welcome</span></a></li>
         <li><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span>Impressions</span></s:link></li>
         <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
         </s:layout-component>
         <s:layout-component name="body">
-        <h3><f:message key="loan.new"/></h3>
+        <h3><f:message key="loan.loans"/></h3>
         <h1><c:out value="${actionBean.customer.name}"/></h1>
-        <%@include file="book_list.jsp"%>              
+        <%@include file="loans_for_customer_list.jsp"%>              
     </s:layout-component>
 </s:layout-render>

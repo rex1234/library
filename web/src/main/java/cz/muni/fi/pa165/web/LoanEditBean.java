@@ -37,6 +37,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     private CustomerTO customer;
     private List<BookTO> books;
     private List<LoanTO> loans;
+    private BookTO book;
 
     @DefaultHandler
     public Resolution displayAvailable() {
@@ -58,15 +59,15 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     }
 
     public Resolution findByBook() {
-        BookTO book = bookService.findBookById(Long.parseLong(getContext().getRequest().getParameter("book.id")));
+        book = bookService.findBookById(Long.parseLong(getContext().getRequest().getParameter("book.id")));
         loans = loanService.findLoansForBook(book);
-        return new ForwardResolution("/loan/list.jsp");
+        return new ForwardResolution("/loan/loans_for_book.jsp");
     }
 
     public Resolution findByCustomer() {
-        CustomerTO customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
+        customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
         loans = loanService.findLoansForCustomer(customer);
-        return new ForwardResolution("/loan/list.jsp");
+        return new ForwardResolution("/loan/loans_for_customer.jsp");
     }
 
     @Override
@@ -97,4 +98,12 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     public void setLoans(List<LoanTO> loans) {
         this.loans = loans;
     }
+
+    public BookTO getBook() {
+        return book;
+    }
+
+    public void setBook(BookTO book) {
+        this.book = book;
+    }   
 }
