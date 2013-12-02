@@ -54,7 +54,7 @@ public class BookDaoImpl implements BookDao {
         Query query = em.createQuery("DELETE FROM Loan l WHERE l.book = :b");
         query.setParameter("b", book);
         query.executeUpdate();
-       
+
         Book toRemove = em.merge(book);
         em.remove(toRemove);
         book.setId(null);
@@ -80,13 +80,18 @@ public class BookDaoImpl implements BookDao {
         return query.getResultList();
     }
 
-    public Book findNotBorrowedBookForImpression(Impression impression) {        
+    public Book findNotBorrowedBookForImpression(Impression impression) {
         Query query = em.createQuery("SELECT b FROM Book b WHERE b.impression = :i");
         query.setParameter("i", impression);
         List<Long> ids = query.getResultList();
         if (ids.isEmpty()) {
             return null;
         }
-        return em.find(Book.class, ids.get(0));       
+        return em.find(Book.class, ids.get(0));
+    }
+
+    public List<Book> findNotBorrowedBooks() {
+        Query query = em.createQuery("SELECT b FROM Book b");
+        return query.getResultList();
     }
 }

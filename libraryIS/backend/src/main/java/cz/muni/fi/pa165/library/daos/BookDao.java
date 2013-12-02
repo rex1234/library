@@ -46,18 +46,18 @@ public interface BookDao {
      * @param book to be updated
      */
     void updateBook(Book book);
-    
+
     /**
-     * 
+     *
      * @param impression which books we want to get
      * @return list of books which belong to impression
      */
     List<Book> findBooksForImpression(Impression impression);
-    
+
     /**
-     * Selects one of not borrowed books for impression
-     * @param impression which of book we want to get
-     * @return book which is not borrowed
+     * Selects book which are available
+     *
+     * @return list of books which are not borrowed
      */
-    Book findNotBorrowedBookForImpression(Impression impression);
+    List<Book> findNotBorrowedBooks();
 }

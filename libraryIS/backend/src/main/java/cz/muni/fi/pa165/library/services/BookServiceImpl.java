@@ -65,9 +65,14 @@ public class BookServiceImpl implements BookService {
         return bookTOs;
     }
 
-    public BookTO findNotBorrowedBookForImpression(ImpressionTO impression) {
-        Book b;
-        b = bookDao.findNotBorrowedBookForImpression(convertor.convert(impression));
-        return convertor.convert(b);
+    public List<BookTO> findNotBorrowedBooks() {
+        List<BookTO> bookTOs = new ArrayList<BookTO>();
+        List<Book> bookEntities;
+        bookEntities = bookDao.findNotBorrowedBooks();
+        for (Book book : bookEntities) {
+            bookTOs.add(convertor.convert(book));
+        }
+        return bookTOs;
     }
+
 }

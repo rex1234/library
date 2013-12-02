@@ -54,12 +54,6 @@ public interface BookService {
      * @param impression which books we want to get
      * @return list of books which belong to impression
      */
-    List<BookTO> findBooksForImpression(ImpressionTO impression);
+    List<BookTO> findBooksForImpression(ImpressionTO impression);    
     
-    /**
-     * Selects one of not borrowed books for impression
-     * @param impression which of book we want to get
-     * @return book which is not borrowed
-     */
-    BookTO findNotBorrowedBookForImpression(ImpressionTO impression);
 }

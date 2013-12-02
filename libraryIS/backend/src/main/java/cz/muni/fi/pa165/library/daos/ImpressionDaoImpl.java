@@ -104,17 +104,5 @@ public class ImpressionDaoImpl implements ImpressionDao {
         return query.getResultList();
     }
 
-    public List<Impression> findNotBorrowedImpressions(String search) {
-        Query query = em.createQuery("SELECT DISTINCT i.id FROM Loan l JOIN l.book b JOIN b.impression i"
-                + " WHERE i.name LIKE :search OR i.author LIKE :search"
-                + " GROUP BY b.id, i.id"
-                + " HAVING COUNT(l.toDate) = COUNT(*) OR COUNT(*) = 0");
-        query.setParameter("search", "%" + search + "%");
-        List<Long> ids = query.getResultList();
-        ArrayList<Impression> list = new ArrayList<Impression>();
-        for (Long id : ids) {
-            list.add(em.find(Impression.class, id));
-        }
-        return list;
-    }
+    
 }

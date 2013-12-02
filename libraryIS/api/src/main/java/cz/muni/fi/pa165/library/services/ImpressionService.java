@@ -53,12 +53,4 @@ public interface ImpressionService {
      */
     List<ImpressionTO> findImpressions(String search);
 
-    /**
-     * Searches in names and authors of impressions
-     *
-     * @param search
-     * @return list of impressions which author or name contains search and are
-     * available for readers
-     */
-    List<ImpressionTO> findNotBorrowedImpressions(String search);
 }

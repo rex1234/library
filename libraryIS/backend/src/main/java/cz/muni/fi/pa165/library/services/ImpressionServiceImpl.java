@@ -64,12 +64,4 @@ public class ImpressionServiceImpl implements ImpressionService {
         return impressionTOs;
     }
 
-    public List<ImpressionTO> findNotBorrowedImpressions(String search) {
-        List<ImpressionTO> impressionTOs = new ArrayList<ImpressionTO>();
-        List<Impression> impressionEntities = impressionDao.findNotBorrowedImpressions(search);
-        for (Impression impression : impressionEntities) {
-            impressionTOs.add(convertor.convert(impression));
-        }
-        return impressionTOs;
-    }
 }
