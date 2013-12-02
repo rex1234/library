@@ -56,4 +56,6 @@ public interface BookService {
      */
     List<BookTO> findBooksForImpression(ImpressionTO impression);    
     
+    
+    public List<BookTO> findNotBorrowedBooks();
 }

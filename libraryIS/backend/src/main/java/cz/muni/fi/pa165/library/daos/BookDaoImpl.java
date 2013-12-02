@@ -91,7 +91,7 @@ public class BookDaoImpl implements BookDao {
     }
 
     public List<Book> findNotBorrowedBooks() {
-        Query query = em.createQuery("SELECT b FROM Book b");
+        Query query = em.createQuery("SELECT b FROM Book b WHERE b NOT IN (SELECT l.book AS b FROM Loan l WHERE l.toDate IS NULL)");
         return query.getResultList();
     }
 }

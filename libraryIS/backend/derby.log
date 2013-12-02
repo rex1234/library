@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Mon Dec 02 16:12:20 CET 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0142-b3dd-ffea-0000029faaf8 
-on database directory memory:C:\Users\MiškoHu\Documents\NetBeansProjects\library\libraryIS\backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@2677622b 
+Mon Dec 02 22:42:25 CET 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-0142-b543-2465-0000029f0b60 
+on database directory memory:C:\Users\MiškoHu\Documents\NetBeansProjects\library\libraryIS\backend\unit-testing-jpa with class loader sun.misc.Launcher$AppClassLoader@67ce08c7 
 Loaded from file:/C:/Users/Mi%c5%a1koHu/.m2/repository/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_11-b21

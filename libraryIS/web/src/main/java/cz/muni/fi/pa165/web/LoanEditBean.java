@@ -47,7 +47,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     public Resolution displayAvailable() {
         //TODO nepozicane knihy
         customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
-        books = bookService.findAllBooks();
+        books = bookService.findNotBorrowedBooks();
         return new ForwardResolution("/loan/available.jsp");
     }
 
