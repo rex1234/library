@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <th><s:label for="b5" name="impression.department"/></th>
-                <td><s:select id="b5" name="impression.department"><s:options-enumeration enum="cz.muni.fi.pa165.library.entities.Department"/></s:select></td>
+                <td><s:select id="b5" name="impression.department"><s:options-enumeration enum="cz.muni.fi.pa165.library.dtos.Department"/></s:select></td>
             </tr>
         </tbody>
     </table>
