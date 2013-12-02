@@ -69,8 +69,9 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     }
 
     public Resolution returnBook() {
-        loan = loanService.findLoanById(Long.parseLong(getContext().getRequest().getParameter("loan.id")));
-        loanService.returnBook(loan);
+        LoanTO loan2 = loanService.findLoanById(Long.parseLong(getContext().getRequest().getParameter("loan.id")));
+        loan2.setConditionReturned(loan.getConditionReturned());
+        loanService.returnBook(loan2);
         return new ForwardResolution("/index.jsp");
     }
 
