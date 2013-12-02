@@ -21,7 +21,7 @@
             <tr>
                 <td><c:out value="${impression.isbn}"/></td>                    
                 <td><c:out value="${impression.author}"/></td>
-                <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean">
+                <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="listBooks">
                         <s:param name="impression.id" value="${impression.id}"/><c:out value="${impression.name}"/></s:link></td>
                 <td><j:format value="${impression.releaseDate}" pattern="dd.MM.yyyy"/></td>
                 <td><f:message key="Department.${impression.department}"/></td>

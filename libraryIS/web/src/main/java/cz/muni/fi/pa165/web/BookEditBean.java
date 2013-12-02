@@ -62,7 +62,7 @@ public class BookEditBean extends BaseBean {
         book = bookService.findBookById(Long.parseLong(getContext().getRequest().getParameter("book.id")));
     }
 
-    @Before(stages = LifecycleStage.BindingAndValidation, on = {"create"})
+    @Before(stages = LifecycleStage.BindingAndValidation, on = {"create", "listBooks"})
     public void Impression() {
         impression = impressionService.findImpressionById(Long.parseLong(getContext().getRequest().getParameter("impression.id")));
     }

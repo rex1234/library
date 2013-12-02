@@ -16,6 +16,8 @@
         </s:layout-component>
         <s:layout-component name="body">
         <div class="post">
+            <h2><f:message key="book.books"/>
+                <c:out value="${actionBean.impression.name}"/></h2>
             <table>
                 <tr>
                     <th>ID</th>
@@ -34,6 +36,7 @@
                 </c:forEach>
             </table>
         </div>
+        <h2><f:message key="book.newBook"/></h2>
         <s:errors/>
         <s:form beanclass="cz.muni.fi.pa165.web.BookEditBean">
             <s:hidden name="book.id"/>

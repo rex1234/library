@@ -18,9 +18,11 @@
         <li><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
         </s:layout-component>
         <s:layout-component name="body">
+        <h2><f:message key="impression.impressions"/></h2>
             <%@include file="list.jsp"%> 
         <br/>
         <s:errors/>
+        <h2><f:message key="impression.newImpression"/></h2>
        <s:form beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">
             <s:hidden name="impression.id"/>
             <fieldset>

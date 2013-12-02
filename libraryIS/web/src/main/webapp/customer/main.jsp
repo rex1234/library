@@ -16,9 +16,11 @@
         <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
         </s:layout-component>
         <s:layout-component name="body">
+        <h2><f:message key="customer.customers"/></h2>
          <%@include file="list.jsp"%> 
         <br/>
-        <s:errors/>
+        <h2><f:message key="customer.newCustomer"/></h2>
+        <s:errors/>        
         <s:form beanclass="cz.muni.fi.pa165.web.CustomerEditBean">
             <s:hidden name="customer.id"/>
             <fieldset>
