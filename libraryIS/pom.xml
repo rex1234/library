@@ -10,7 +10,8 @@
         <module>backend</module>
         <module>web</module>
         <module>api</module>
-    </modules>
+        <module>rest</module>
+  </modules>
     
     <build>
         <pluginManagement>

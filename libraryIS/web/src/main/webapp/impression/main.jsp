@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 
 
-<s:layout-render name="/layout.jsp" titlekey="Impressions">    
+<s:layout-render name="/layout.jsp" titlekey="impression.title">    
     <s:layout-component name="tab">
         <li><a href="${pageContext.request.contextPath}/index.jsp"><span>Welcome</span></a></li>
         <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span>Impressions</span></s:link></li>

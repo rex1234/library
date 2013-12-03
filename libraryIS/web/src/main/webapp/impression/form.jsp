@@ -22,7 +22,7 @@
             </tr>
             <tr>
                 <th><s:label for="b4" name="impression.releaseDate"/></th>
-                <td><s:text id="b4" name="impression.releaseDate"/></td>
+                <td><s:text id="b4" name="impression.releaseDate" formatType="cz.muni.fi.pa165.web.DateConverter"/></td>
             </tr>
             <tr>
                 <th><s:label for="b5" name="impression.department"/></th>
