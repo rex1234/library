@@ -1,7 +1,10 @@
 package cz.muni.fi.pa165.library.dtos;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import org.joda.time.LocalDate;
 
+ 
+@XmlRootElement
 public class ImpressionTO {
 
     private Long id;
@@ -11,6 +14,9 @@ public class ImpressionTO {
     private LocalDate releaseDate;
     private Department department;
 
+    public ImpressionTO() {
+    }        
+    
     public Long getId() {
         return id;
     }

@@ -16,6 +16,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-moxy</artifactId>
+            <version>2.4.1</version>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>libbackend</artifactId>
             <version>${project.version}</version>
@@ -39,6 +44,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>api</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.ext</groupId>
+            <artifactId>jersey-spring3</artifactId>
+            <version>2.4.1</version>
+            <type>jar</type>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
