@@ -1,9 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package cz.muni.fi.pa165.rest;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import cz.muni.fi.pa165.library.dtos.ImpressionTO;
 import cz.muni.fi.pa165.library.services.ImpressionService;
 import java.net.URI;
@@ -21,12 +19,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import org.joda.time.LocalDate;
 
 /**
- * Jersey2 Spring integration example. Demonstrate how to inject a Spring bean
- * into a Jersey managed JAX-RS resource class.
  *
- * @author Marko Asplund (marko.asplund at gmail.com)
+ * @author Michal
  */
 @Path("rest")
 public class ImpressionRest {
@@ -50,9 +47,10 @@ public class ImpressionRest {
     @GET
     @Path("impressions")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<ImpressionTO> getAll() {
+    public String getAll() {
         List<ImpressionTO> i = service.findAllImpressions();
-        return i;
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JodaTimeSerializer()).create();
+        return gson.toJson(i);
     }
 
     @POST
@@ -69,7 +67,7 @@ public class ImpressionRest {
     @Path("impressions")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response putJson(ImpressionTO impression) {
-        URI uri = context.getAbsolutePath();      
+        URI uri = context.getAbsolutePath();
         service.updateImpression(impression);
         Response response = Response.created(uri).build();
         return response;
@@ -77,7 +75,7 @@ public class ImpressionRest {
 
     @DELETE
     @Path("impressions/{id}")
-    public void delete(@PathParam("id") Long id) {        
+    public void delete(@PathParam("id") Long id) {
         ImpressionTO i = service.findImpressionById(id);
         service.deleteImpression(i);
     }

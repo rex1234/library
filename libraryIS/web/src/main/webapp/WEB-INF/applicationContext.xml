@@ -24,8 +24,6 @@
     </bean>
 
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
-    
-    <bean id="service" class="cz.muni.fi.pa165.rest.FakeServiceImpl"/>
 
     <bean class="cz.muni.fi.pa165.rest.ImpressionRest" scope="request"/>
 

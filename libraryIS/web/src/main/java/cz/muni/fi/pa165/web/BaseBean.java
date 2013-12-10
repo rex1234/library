@@ -10,7 +10,7 @@ import net.sourceforge.stripes.action.ActionBeanContext;
 public abstract class BaseBean implements ActionBean {
 
     private ActionBeanContext context;
-    
+
     @Override
     public void setContext(ActionBeanContext context) {
         this.context = context;
@@ -20,5 +20,4 @@ public abstract class BaseBean implements ActionBean {
     public ActionBeanContext getContext() {
         return context;
     }
-    
 }
