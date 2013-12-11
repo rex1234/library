@@ -39,9 +39,10 @@ public class ImpressionRest {
     @GET
     @Path("impressions/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public ImpressionTO getById(@PathParam("id") Long id) {
+    public String getById(@PathParam("id") Long id) {
         ImpressionTO i = service.findImpressionById(id);
-        return i;
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JodaTimeSerializer()).create();
+        return gson.toJson(i);
     }
 
     @GET
@@ -57,18 +58,22 @@ public class ImpressionRest {
     @Path("impressions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(ImpressionTO impression) {
-        impression.setId(null);
-        service.createImpression(impression);
-        return Response.created(URI.create(context.getAbsolutePath() + "/" + impression.getId())).build();
+    public Response post(String s) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JodaTimeSerializer()).create();
+        ImpressionTO i = gson.fromJson(s, ImpressionTO.class);
+        i.setId(null);
+        service.createImpression(i);
+        return Response.created(URI.create(context.getAbsolutePath() + "/" + i.getId())).build();
     }
 
     @PUT
     @Path("impressions")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putJson(ImpressionTO impression) {
+    public Response putJson(String s) {
         URI uri = context.getAbsolutePath();
-        service.updateImpression(impression);
+        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JodaTimeSerializer()).create();
+        ImpressionTO i = gson.fromJson(s, ImpressionTO.class);
+        service.updateImpression(i);
         Response response = Response.created(uri).build();
         return response;
     }

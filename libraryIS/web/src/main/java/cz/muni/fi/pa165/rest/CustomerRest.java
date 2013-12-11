@@ -49,10 +49,9 @@ public class CustomerRest {
     @GET
     @Path("customers")
     @Produces({MediaType.APPLICATION_JSON})
-    public String getAll() {
+    public List<CustomerTO> getAll() {
         List<CustomerTO> i = service.findAllCustomers();
-        Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new JodaTimeSerializer()).create();
-        return gson.toJson(i);
+        return i;
     }
 
     @POST
