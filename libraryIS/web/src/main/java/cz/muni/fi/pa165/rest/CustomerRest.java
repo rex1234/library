@@ -1,11 +1,8 @@
 package cz.muni.fi.pa165.rest;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import cz.muni.fi.pa165.library.dtos.CustomerTO;
-import cz.muni.fi.pa165.library.dtos.ImpressionTO;
 import cz.muni.fi.pa165.library.services.CustomerService;
-import cz.muni.fi.pa165.library.services.ImpressionService;
 import java.net.URI;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -21,7 +18,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-import org.joda.time.LocalDate;
 
 /**
  *
@@ -58,7 +54,8 @@ public class CustomerRest {
     @Path("customers")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response post(CustomerTO c) {
+    public Response post(String s) {
+        CustomerTO c = new Gson().fromJson(s, CustomerTO.class);
         c.setId(null);
         service.createCustomer(c);
         return Response.created(URI.create(context.getAbsolutePath() + "/" + c.getId())).build();
@@ -67,7 +64,8 @@ public class CustomerRest {
     @PUT
     @Path("customers")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response putJson(CustomerTO c) {
+    public Response putJson(String s) {
+        CustomerTO c = new Gson().fromJson(s, CustomerTO.class);
         URI uri = context.getAbsolutePath();
         service.updateCustomer(c);
         Response response = Response.created(uri).build();

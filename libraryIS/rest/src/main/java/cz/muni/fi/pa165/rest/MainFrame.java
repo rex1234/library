@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import cz.muni.fi.pa165.library.dtos.CustomerTO;
 import cz.muni.fi.pa165.library.dtos.Department;
 import cz.muni.fi.pa165.library.dtos.ImpressionTO;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static final String API_URL = "http://localhost:8084/library/rest";
     private WebTarget webTarget;
     private List<ImpressionTO> impressions;
+    private List<CustomerTO> customers;
     private Gson gson;
 
     public MainFrame() {
@@ -45,17 +47,27 @@ public class MainFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         lImpressions = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
-        bLoad = new javax.swing.JButton();
-        bDelete = new javax.swing.JButton();
+        bLoadI = new javax.swing.JButton();
+        bDeleteI = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        bInsert = new javax.swing.JButton();
+        bInsertI = new javax.swing.JButton();
         tfIsbn = new javax.swing.JTextField();
         tfAuthor = new javax.swing.JTextField();
         tfName = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         tfDate = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        lCustomers = new javax.swing.JList();
+        jLabel6 = new javax.swing.JLabel();
+        bLoadC = new javax.swing.JButton();
+        bDeleteC = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        tfCName = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        tfAddress = new javax.swing.JTextField();
+        bInsertC = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,17 +76,17 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Impressions:");
 
-        bLoad.setText("Load Impressions");
-        bLoad.addActionListener(new java.awt.event.ActionListener() {
+        bLoadI.setText("Load Impressions");
+        bLoadI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bLoadActionPerformed(evt);
+                bLoadIActionPerformed(evt);
             }
         });
 
-        bDelete.setText("Delete");
-        bDelete.addActionListener(new java.awt.event.ActionListener() {
+        bDeleteI.setText("Delete");
+        bDeleteI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bDeleteActionPerformed(evt);
+                bDeleteIActionPerformed(evt);
             }
         });
 
@@ -84,82 +96,142 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Name");
 
-        bInsert.setText("Insert");
-        bInsert.addActionListener(new java.awt.event.ActionListener() {
+        bInsertI.setText("Insert");
+        bInsertI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bInsertActionPerformed(evt);
+                bInsertIActionPerformed(evt);
             }
         });
 
         jLabel5.setText("Released");
+
+        lCustomers.setModel(new CustomerListModel());
+        jScrollPane2.setViewportView(lCustomers);
+
+        jLabel6.setText("Customers");
+
+        bLoadC.setText("Load Customers");
+        bLoadC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bLoadCActionPerformed(evt);
+            }
+        });
+
+        bDeleteC.setText("Delete");
+        bDeleteC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteCActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Name");
+
+        jLabel11.setText("Address");
+
+        bInsertC.setText("Insert");
+        bInsertC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bInsertCActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(bLoad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(bDelete, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(tfDate)
-                                    .addComponent(tfIsbn)
-                                    .addComponent(tfName)
-                                    .addComponent(tfAuthor)))
-                            .addComponent(bInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(bLoadI, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bDeleteI, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfDate)
+                            .addComponent(tfIsbn)
+                            .addComponent(tfName)
+                            .addComponent(tfAuthor)))
+                    .addComponent(bInsertI, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(bLoadC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(bDeleteC, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfCName)
+                            .addComponent(tfAddress)))
+                    .addComponent(bInsertC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 197, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bLoad)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bLoadI)
+                    .addComponent(bLoadC))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bDelete)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bDeleteI)
+                    .addComponent(bDeleteC))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(tfIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfIsbn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(tfCName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(tfAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(tfAuthor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel11))
+                    .addComponent(tfAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bInsertC))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(tfDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bInsert)
+                .addComponent(bInsertI)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertActionPerformed
+    private void bInsertIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertIActionPerformed
         try {
             if (isFieldEmpty(tfName) || isFieldEmpty(tfAuthor) || isFieldEmpty(tfIsbn) || isFieldEmpty(tfDate)) {
                 showErrorDialog("Please fill in all fields.");
@@ -186,14 +258,14 @@ public class MainFrame extends javax.swing.JFrame {
 
             Response response = invocationBuilder.post(Entity.json(json));
             System.out.println(response.getStatus());
-            bLoadActionPerformed(null);
+            bLoadIActionPerformed(null);
         } catch (Exception e) {
             showServerError();
             System.err.println(e);
         }
-    }//GEN-LAST:event_bInsertActionPerformed
+    }//GEN-LAST:event_bInsertIActionPerformed
 
-    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteActionPerformed
+    private void bDeleteIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteIActionPerformed
         try {
             if (impressions == null) {
                 return;
@@ -209,14 +281,14 @@ public class MainFrame extends javax.swing.JFrame {
             Response response = invocationBuilder.delete();
             System.out.println(response.getStatus());
             System.out.println(response.readEntity(String.class));
-            bLoadActionPerformed(null);//reload list
+            bLoadIActionPerformed(null);//reload list
         } catch (Exception e) {
             showServerError();
             System.err.println(e);
         }
-    }//GEN-LAST:event_bDeleteActionPerformed
+    }//GEN-LAST:event_bDeleteIActionPerformed
 
-    private void bLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoadActionPerformed
+    private void bLoadIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoadIActionPerformed
         try {
             WebTarget resourceWebTarget = webTarget.path("impressions");
 
@@ -233,7 +305,74 @@ public class MainFrame extends javax.swing.JFrame {
             showServerError();
             System.err.println(e);
         }
-    }//GEN-LAST:event_bLoadActionPerformed
+    }//GEN-LAST:event_bLoadIActionPerformed
+
+    private void bDeleteCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bDeleteCActionPerformed
+        try {
+            if (customers == null) {
+                return;
+            }
+            Long id = customers.get(lCustomers.getSelectedIndex()).getId();
+            getCustomerModel().delete(lCustomers.getSelectedIndex());
+            WebTarget resourceWebTarget = webTarget.path("customers/" + id);
+            System.out.println("Deleting customer with id " + id + " on position " + lCustomers.getSelectedIndex());
+
+            Invocation.Builder invocationBuilder = resourceWebTarget.request(MediaType.APPLICATION_JSON);
+            invocationBuilder.header("accept", "application/json");
+
+            Response response = invocationBuilder.delete();
+            System.out.println(response.getStatus());
+            System.out.println(response.readEntity(String.class));
+            bLoadIActionPerformed(null);//reload list
+        } catch (Exception e) {
+            showServerError();
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_bDeleteCActionPerformed
+
+    private void bLoadCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bLoadCActionPerformed
+        try {
+            WebTarget resourceWebTarget = webTarget.path("customers");
+
+            Invocation.Builder invocationBuilder = resourceWebTarget.request(MediaType.APPLICATION_JSON);
+            invocationBuilder.header("accept", "application/json");
+            Response response = invocationBuilder.get();
+
+            System.out.println(response.getStatus());
+            String ctring = response.readEntity(String.class);
+            CustomerTO[] cs = gson.fromJson(ctring, CustomerTO[].class);
+            customers = new ArrayList<CustomerTO>(Arrays.asList(cs));
+            getCustomerModel().setCustomers(customers);
+        } catch (Exception e) {
+            showServerError();
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_bLoadCActionPerformed
+
+    private void bInsertCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bInsertCActionPerformed
+        try {
+            if (isFieldEmpty(tfCName) || isFieldEmpty(tfAddress)) {
+                showErrorDialog("Please fill in all fields.");
+                return;
+            }
+            CustomerTO c = new CustomerTO();
+            c.setName(tfCName.getText());
+            c.setAddress(tfAddress.getText());
+
+            WebTarget resourceWebTarget = webTarget.path("customers/");
+            Invocation.Builder invocationBuilder = resourceWebTarget.request(MediaType.APPLICATION_JSON);
+            invocationBuilder.header("accept", "application/json");
+
+            String json = gson.toJson(c, CustomerTO.class);
+
+            Response response = invocationBuilder.post(Entity.json(json));
+            System.out.println(response.getStatus());
+            bLoadCActionPerformed(null);
+        } catch (Exception e) {
+            showServerError();
+            System.err.println(e);
+        }
+    }//GEN-LAST:event_bInsertCActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -268,17 +407,27 @@ public class MainFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bDelete;
-    private javax.swing.JButton bInsert;
-    private javax.swing.JButton bLoad;
+    private javax.swing.JButton bDeleteC;
+    private javax.swing.JButton bDeleteI;
+    private javax.swing.JButton bInsertC;
+    private javax.swing.JButton bInsertI;
+    private javax.swing.JButton bLoadC;
+    private javax.swing.JButton bLoadI;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList lCustomers;
     private javax.swing.JList lImpressions;
+    private javax.swing.JTextField tfAddress;
     private javax.swing.JTextField tfAuthor;
+    private javax.swing.JTextField tfCName;
     private javax.swing.JTextField tfDate;
     private javax.swing.JTextField tfIsbn;
     private javax.swing.JTextField tfName;
@@ -286,6 +435,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     private ImpressionListModel getImpressionModel() {
         return (ImpressionListModel) lImpressions.getModel();
+    }
+
+    private CustomerListModel getCustomerModel() {
+        return (CustomerListModel) lCustomers.getModel();
     }
 
     private void showErrorDialog(String text) {
