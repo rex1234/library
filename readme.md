@@ -6,8 +6,8 @@ Modules
 The project contains the following modules:
 * <b>api</b> - contains service interfaces and data transfer objects.
 * <b>backend</b> - contains entities with service and dao implementations.
-* <b>web</b> - contains web implemetation.
-* <b>rest</b> - contains implementation for REST services.
+* <b>web</b> - contains RESTful services and web implemetation.
+* <b>rest</b> - contains the REST client
 
 How to run the project
 ----
@@ -27,4 +27,10 @@ mvn tomcat6:run
 The webpages will be available on the url
 ```
 http://localhost:8080/libraryIS
+```
+
+To test the REST API, you can use the client
+```
+cd rest
+mvn exec:java
 ```
