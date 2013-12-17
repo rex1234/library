@@ -26,7 +26,7 @@ import org.joda.time.format.DateTimeFormat;
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    private static final String API_URL = "http://localhost:8084/library/rest";
+    private static final String API_URL = "http://localhost:8080/pa165/rest";
     private WebTarget webTarget;
     private List<ImpressionTO> impressions;
     private List<CustomerTO> customers;
@@ -70,6 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
         bInsertC = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         lImpressions.setModel(new ImpressionListModel());
         jScrollPane1.setViewportView(lImpressions);
