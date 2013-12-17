@@ -52,14 +52,14 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     }
 
     public Resolution create() {
-        BookTO book = bookService.findBookById(Long.parseLong(getContext().getRequest().getParameter("book.id")));
+        BookTO temBook = bookService.findBookById(Long.parseLong(getContext().getRequest().getParameter("book.id")));
         customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
-        LoanTO loan = new LoanTO();
-        loan.setBook(book);
-        loan.setCustomer(customer);
-        loan.setFromDate(new LocalDate());
-        loanService.createLoan(loan);
-        return new RedirectResolution("/index.jsp");
+        LoanTO tempLoan = new LoanTO();
+        tempLoan.setBook(temBook);
+        tempLoan.setCustomer(customer);
+        tempLoan.setFromDate(new LocalDate());
+        loanService.createLoan(tempLoan);
+        return new RedirectResolution(getClass()).addParameter("customer.id", customer.getId());
     }
 
     public Resolution findByBook() {
@@ -72,7 +72,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
         LoanTO loan2 = loanService.findLoanById(Long.parseLong(getContext().getRequest().getParameter("loan.id")));
         loan2.setConditionReturned(loan.getConditionReturned());
         loanService.returnBook(loan2);
-        return new ForwardResolution("/index.jsp");
+        return new RedirectResolution(getClass(), "findByCustomer").addParameter("customer.id", loan2.getCustomer().getId());
     }
 
     public Resolution findByCustomer() {

@@ -54,7 +54,7 @@ public class BookEditBean extends BaseBean {
 
     public Resolution deleteBook() {
         bookService.deleteBook(book);
-        return new RedirectResolution(ImpressionEditBean.class, "listBooks").addParameter("impression.id", book.getImpression().getId());
+        return new RedirectResolution(getClass(), "listBooks").addParameter("impression.id", book.getImpression().getId());
     }
 
     @Before(stages = LifecycleStage.BindingAndValidation, on = {"editBook", "deleteBook"})
@@ -70,13 +70,13 @@ public class BookEditBean extends BaseBean {
     public Resolution create() {
         book.setImpression(impression);
         bookService.createBook(book);
-        return new RedirectResolution(ImpressionEditBean.class, "listBooks").addParameter("impression.id", book.getImpression().getId());
+        return new RedirectResolution(getClass(), "listBooks").addParameter("impression.id", book.getImpression().getId());
     }
 
     public Resolution save() {
         book.setImpression(impressionService.findImpressionById(book.getImpression().getId())); //vo forme je iba impression.id, tak to treba znovu najst
         bookService.updateBook(book);
-        return new RedirectResolution(ImpressionEditBean.class, "listBooks").addParameter("impression.id", book.getImpression().getId());
+        return new RedirectResolution(getClass(), "listBooks").addParameter("impression.id", book.getImpression().getId());
     }
 
     public BookTO getBook() {
