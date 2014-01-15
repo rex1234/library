@@ -7,6 +7,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <s:layout-render name="/layout.jsp" titlekey="books.title">    
     <s:layout-component name="tab">
@@ -28,21 +29,25 @@
                         <td><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="findByBook">
                                 <s:param name="book.id" value="${book.id}"/><c:out value="${book.id}"/></s:link></td>                   
                         <td><c:out value="${book.condition}"/></td>                    
-                        <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="editBook">
-                                <s:param name="book.id" value="${book.id}"/><f:message key="edit"/></s:link></td>
-                        <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="deleteBook">
-                                <s:param name="book.id" value="${book.id}"/><f:message key="delete"/></s:link></td>             
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="editBook">
+                                    <s:param name="book.id" value="${book.id}"/><f:message key="edit"/></s:link></td>
+                            <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="deleteBook">
+                                    <s:param name="book.id" value="${book.id}"/><f:message key="delete"/></s:link></td>             
+                        </sec:authorize>
                         </tr>
                 </c:forEach>
             </table>
         </div>
-        <h2><f:message key="book.newBook"/></h2>
-        <s:errors/>
-        <s:form beanclass="cz.muni.fi.pa165.web.BookEditBean">
-            <s:hidden name="book.id"/>
-            <s:hidden name="impression.id"/>
-            <%@include file="form.jsp"%>
-            <s:submit name="create"><f:message key="insert"/></s:submit>
-        </s:form>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <h2><f:message key="book.newBook"/></h2>
+            <s:errors/>
+            <s:form beanclass="cz.muni.fi.pa165.web.BookEditBean">
+                <s:hidden name="book.id"/>
+                <s:hidden name="impression.id"/>
+                <%@include file="form.jsp"%>
+                <s:submit name="create"><f:message key="insert"/></s:submit>
+            </s:form>
+        </sec:authorize>
     </s:layout-component>
 </s:layout-render>

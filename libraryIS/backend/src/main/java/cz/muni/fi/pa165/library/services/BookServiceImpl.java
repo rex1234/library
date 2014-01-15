@@ -8,6 +8,7 @@ import cz.muni.fi.pa165.library.utils.Convertor;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +25,7 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private Convertor convertor;
 
+    @Secured({"ROLE_ADMIN"})
     public void createBook(BookTO bookTO) {
         if (bookTO == null) {
             throw new NullPointerException("BookTO is null");
@@ -46,11 +48,13 @@ public class BookServiceImpl implements BookService {
         return convertor.convert(bookDao.findBookById(id));
     }
 
+    @Secured({"ROLE_ADMIN"})
     public void deleteBook(BookTO bookTO) {
         bookDao.deleteBook(convertor.convert(bookTO));
         bookTO.setId(null);
     }
 
+    @Secured({"ROLE_ADMIN"})
     public void updateBook(BookTO bookTO) {
         bookDao.updateBook(convertor.convert(bookTO));
     }
@@ -74,5 +78,4 @@ public class BookServiceImpl implements BookService {
         }
         return bookTOs;
     }
-
 }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,12 +31,14 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private Convertor convertor;
 
+    @Secured({"ADMIN"})
     public void createLoan(LoanTO loanTO) {
         Loan loanEntity = convertor.convert(loanTO);
         loanDao.createLoan(loanEntity);
         loanTO.setId(loanEntity.getId());
     }
 
+    @Secured({"ADMIN"})
     public List<LoanTO> findAllLoans() {
         List<LoanTO> loanTOs = new ArrayList<LoanTO>();
         List<Loan> loanEntities = loanDao.findAllLoans();
@@ -49,11 +52,13 @@ public class LoanServiceImpl implements LoanService {
         return convertor.convert(loanDao.findLoanById(id));
     }
 
+    @Secured({"ADMIN"})
     public void deleteLoan(LoanTO loanTO) {
         loanDao.deleteLoan(convertor.convert(loanTO));
         loanTO.setId(null);
     }
 
+    @Secured({"ADMIN"})
     public void updateLoan(LoanTO loanTO) {
         loanDao.updateLoan(convertor.convert(loanTO));
     }
@@ -71,6 +76,7 @@ public class LoanServiceImpl implements LoanService {
         return loanTOs;
     }
 
+    @Secured({"ADMIN"})
     public List<LoanTO> findLoansForBook(BookTO book) {
         List<LoanTO> loanTOs = new ArrayList<LoanTO>();
         List<Loan> loanEntities = loanDao.findLoansForBook(convertor.convert(book));
@@ -80,6 +86,7 @@ public class LoanServiceImpl implements LoanService {
         return loanTOs;
     }
 
+    @Secured({"ADMIN"})
     public void returnBook(LoanTO loan) {
         Loan l = convertor.convert(loan);
         Book b = l.getBook();

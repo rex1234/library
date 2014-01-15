@@ -8,6 +8,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <s:layout-definition>
     <!DOCTYPE html>
     <html lang="${pageContext.request.locale}">
@@ -23,7 +24,13 @@
                 </div>
                 <div id="menu">
                     <ul>
-                        <s:layout-component name="tab"/>                                       
+                        <s:layout-component name="tab"/>  
+                        <sec:authorize access="isAuthenticated()"> 
+                            <li><span><a href="<c:url value="j_spring_security_logout" />"><sec:authentication property="name"/> - Logout</a></span></li>
+                        </sec:authorize>
+                        <sec:authorize access="!isAuthenticated()">
+                            <li><span><a href="login.jsp">Login</a></span></li>
+                        </sec:authorize>
                     </ul>     
                 </div>
                 <div id="contentwrap">
@@ -31,8 +38,9 @@
                     <div id="mainpage">
                         <s:layout-component name="body"/> 
                     </div>
-                </div>
-            </div>       
+                </div>                
+            </div>    
+
         </body>
     </html>
 </s:layout-definition>

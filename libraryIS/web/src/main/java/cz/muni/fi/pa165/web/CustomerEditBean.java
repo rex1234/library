@@ -12,6 +12,7 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
@@ -23,8 +24,9 @@ import net.sourceforge.stripes.validation.ValidationErrorHandler;
  *
  * @author Matej
  */
+@UrlBinding("/customers/{$event}/{$customer.id}")
 public class CustomerEditBean extends BaseBean implements ValidationErrorHandler {
-    
+
     @SpringBean
     private CustomerService custService;
     @ValidateNestedProperties(value = {
@@ -32,15 +34,12 @@ public class CustomerEditBean extends BaseBean implements ValidationErrorHandler
         @Validate(on = {"create", "save"}, field = "address", required = true),})
     private CustomerTO customer;
     private List<CustomerTO> allCustomers;
-    
 
     @DefaultHandler
     public Resolution printCustomers() {
         allCustomers = custService.findAllCustomers();
         return new ForwardResolution("/customer/main.jsp");
     }
-
-   
 
     public Resolution create() {
         custService.createCustomer(customer);
@@ -87,7 +86,4 @@ public class CustomerEditBean extends BaseBean implements ValidationErrorHandler
     public void setAllCustomers(List<CustomerTO> allCustomers) {
         this.allCustomers = allCustomers;
     }
-
-    
-    
 }

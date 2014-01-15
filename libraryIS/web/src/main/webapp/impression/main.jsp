@@ -21,14 +21,16 @@
         <h2><f:message key="impression.impressions"/></h2>
             <%@include file="list.jsp"%> 
         <br/>
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
         <s:errors/>
         <h2><f:message key="impression.newImpression"/></h2>
-       <s:form beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">
-            <s:hidden name="impression.id"/>
-            <fieldset>
-                <%@include file="form.jsp"%>
-            </fieldset>
-            <s:submit name="create"><f:message key="insert"/></s:submit>
-        </s:form>
+            <s:form beanclass="cz.muni.fi.pa165.web.ImpressionEditBean">
+                 <s:hidden name="impression.id"/>
+                 <fieldset>
+                     <%@include file="form.jsp"%>
+                 </fieldset>
+                 <s:submit name="create"><f:message key="insert"/></s:submit>
+             </s:form>
+       </sec:authorize>
     </s:layout-component>
 </s:layout-render>

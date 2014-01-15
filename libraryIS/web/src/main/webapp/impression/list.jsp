@@ -8,6 +8,8 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %> 
 <%@ taglib prefix="j" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <div class="post">
     <table>
         <tr>
@@ -25,11 +27,13 @@
                         <s:param name="impression.id" value="${impression.id}"/><c:out value="${impression.name}"/></s:link></td>
                 <td><j:format value="${impression.releaseDate}" pattern="dd.MM.yyyy"/></td>
                 <td><f:message key="Department.${impression.department}"/></td>
-                <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="edit">
-                        <s:param name="impression.id" value="${impression.id}"/><f:message key="edit"/></s:link></td>
-                <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="delete">
-                        <s:param name="impression.id" value="${impression.id}"/><f:message key="delete"/></s:link></td>                            
-                </tr>
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                    <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="edit">
+                            <s:param name="impression.id" value="${impression.id}"/><f:message key="edit"/></s:link></td>
+                    <td><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean" event="delete">
+                            <s:param name="impression.id" value="${impression.id}"/><f:message key="delete"/></s:link></td>     
+                </sec:authorize>
+            </tr>
         </c:forEach>
         </tbody>
     </table>

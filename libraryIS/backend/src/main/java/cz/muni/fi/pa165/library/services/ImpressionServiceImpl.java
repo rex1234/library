@@ -7,6 +7,7 @@ import cz.muni.fi.pa165.library.utils.Convertor;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class ImpressionServiceImpl implements ImpressionService {
         this.convertor = convertor;
     }
 
+    @Secured({"ROLE_ADMIN"})
     public void createImpression(ImpressionTO impressionTO) {
         Impression impressionEntity = convertor.convert(impressionTO);
         impressionDao.createImpression(impressionEntity);
@@ -46,11 +48,13 @@ public class ImpressionServiceImpl implements ImpressionService {
         return convertor.convert(impressionDao.findImpressionById(id));
     }
 
+    @Secured({"ROLE_ADMIN"})
     public void deleteImpression(ImpressionTO impressionTO) {
         impressionDao.deleteImpression(convertor.convert(impressionTO));
         impressionTO.setId(null);
     }
 
+    @Secured({"ROLE_ADMIN"})
     public void updateImpression(ImpressionTO impressionTO) {
         impressionDao.updateImpression(convertor.convert(impressionTO));
     }
@@ -63,5 +67,4 @@ public class ImpressionServiceImpl implements ImpressionService {
         }
         return impressionTOs;
     }
-
 }

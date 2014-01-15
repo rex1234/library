@@ -8,6 +8,7 @@
 <%@ taglib prefix="s" uri="http://stripes.sourceforge.net/stripes.tld" %> 
 <%@ taglib prefix="j" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="post">
     <table>
         <tr>

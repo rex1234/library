@@ -10,6 +10,7 @@ import net.sourceforge.stripes.action.DefaultHandler;
 import net.sourceforge.stripes.action.ForwardResolution;
 import net.sourceforge.stripes.action.RedirectResolution;
 import net.sourceforge.stripes.action.Resolution;
+import net.sourceforge.stripes.action.UrlBinding;
 import net.sourceforge.stripes.controller.LifecycleStage;
 import net.sourceforge.stripes.integration.spring.SpringBean;
 import net.sourceforge.stripes.validation.Validate;
@@ -21,7 +22,7 @@ import net.sourceforge.stripes.validation.ValidationErrors;
  *
  * @author Mjartan
  */
-//@UrlBinding(value = "/books/{$event}/{impression.id}")
+@UrlBinding("/impressions/{$event}/{$impression.id}")
 public class ImpressionEditBean extends BaseBean implements ValidationErrorHandler {
 
     @SpringBean
