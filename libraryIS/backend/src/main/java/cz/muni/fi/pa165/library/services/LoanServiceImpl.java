@@ -31,14 +31,14 @@ public class LoanServiceImpl implements LoanService {
     @Autowired
     private Convertor convertor;
 
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public void createLoan(LoanTO loanTO) {
         Loan loanEntity = convertor.convert(loanTO);
         loanDao.createLoan(loanEntity);
         loanTO.setId(loanEntity.getId());
     }
 
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public List<LoanTO> findAllLoans() {
         List<LoanTO> loanTOs = new ArrayList<LoanTO>();
         List<Loan> loanEntities = loanDao.findAllLoans();
@@ -52,13 +52,13 @@ public class LoanServiceImpl implements LoanService {
         return convertor.convert(loanDao.findLoanById(id));
     }
 
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public void deleteLoan(LoanTO loanTO) {
         loanDao.deleteLoan(convertor.convert(loanTO));
         loanTO.setId(null);
     }
 
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public void updateLoan(LoanTO loanTO) {
         loanDao.updateLoan(convertor.convert(loanTO));
     }
@@ -76,7 +76,7 @@ public class LoanServiceImpl implements LoanService {
         return loanTOs;
     }
 
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public List<LoanTO> findLoansForBook(BookTO book) {
         List<LoanTO> loanTOs = new ArrayList<LoanTO>();
         List<Loan> loanEntities = loanDao.findLoansForBook(convertor.convert(book));
@@ -86,7 +86,7 @@ public class LoanServiceImpl implements LoanService {
         return loanTOs;
     }
 
-    @Secured({"ADMIN"})
+    @Secured({"ROLE_ADMIN"})
     public void returnBook(LoanTO loan) {
         Loan l = convertor.convert(loan);
         Book b = l.getBook();

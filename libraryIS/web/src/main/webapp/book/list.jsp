@@ -13,7 +13,9 @@
     <s:layout-component name="tab">
         <li><a href="${pageContext.request.contextPath}/index.jsp"><span>Welcome</span></a></li>
         <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span>Impressions</span></s:link></li>
-        <li ><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
+        <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <li ><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>  
+        </sec:authorize>
         </s:layout-component>
         <s:layout-component name="body">
         <div class="post">
@@ -26,8 +28,13 @@
                 </tr>
                 <c:forEach items="${actionBean.impressionBooks}" var="book">
                     <tr>
-                        <td><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="findByBook">
-                                <s:param name="book.id" value="${book.id}"/><c:out value="${book.id}"/></s:link></td>                   
+                        <td><sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="findByBook">
+                                    <s:param name="book.id" value="${book.id}"/><c:out value="${book.id}"/></s:link>                 
+                        </sec:authorize>
+                        <sec:authorize access="!hasRole('ROLE_ADMIN')">
+                             <c:out value="${book.id}"/>
+                        </sec:authorize></td>
                         <td><c:out value="${book.condition}"/></td>                    
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <td><s:link beanclass="cz.muni.fi.pa165.web.BookEditBean" event="editBook">
