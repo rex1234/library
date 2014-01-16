@@ -16,6 +16,9 @@
     <s:layout-component name="tab">
         <li><a href="${pageContext.request.contextPath}/index.jsp"><span>Welcome</span></a></li>
         <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span>Impressions</span></s:link></li>
+        <sec:authorize access="hasRole('ROLE_USER')">
+            <li><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="myLoans"><span>My loans</span></s:link></li>      
+        </sec:authorize>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
             <li><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
         </sec:authorize>

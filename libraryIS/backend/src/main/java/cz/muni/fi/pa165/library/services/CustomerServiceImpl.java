@@ -74,4 +74,9 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return customerTOs;
     }
+
+    public CustomerTO findCustomerByUserName(String userName) {
+        Customer cust = customerDao.findCustomerWithUsername(userName);
+        return convertor.convert(cust);
+    }
 }

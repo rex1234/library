@@ -22,6 +22,9 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
 import net.sourceforge.stripes.validation.ValidationErrorHandler;
 import net.sourceforge.stripes.validation.ValidationErrors;
 import org.joda.time.LocalDate;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 
 /**
  *
@@ -79,6 +82,15 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
 
     public Resolution findByCustomer() {
         customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
+        loans = loanService.findLoansForCustomer(customer);
+        return new ForwardResolution("/loan/loans_for_customer.jsp");
+    }
+
+    public Resolution myLoans() {
+        Authentication authc = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authc.getPrincipal();
+        System.out.println(user.getUsername());
+        customer = custService.findCustomerByUserName(user.getUsername());
         loans = loanService.findLoansForCustomer(customer);
         return new ForwardResolution("/loan/loans_for_customer.jsp");
     }

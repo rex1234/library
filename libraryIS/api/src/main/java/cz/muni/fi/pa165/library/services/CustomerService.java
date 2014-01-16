@@ -52,4 +52,6 @@ public interface CustomerService {
      * @return list of not deleted customers whose name contains param name
      */
     List<CustomerTO> findCustomers(String name);
+    
+    CustomerTO findCustomerByUserName(String userName);
 }
