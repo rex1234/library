@@ -11,8 +11,8 @@
         <h1><f:message key="main.title" /></h1>
 
         <form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
-            <c:if test="${param.failed_login_attempt == '1'}">
-            Bad login
+            <c:if test="${param.badpw == '1'}">
+            Bad login<br/>
             </c:if>
             <label for="j_username">Username</label>
             <input id="j_username" name="j_username" type="text" value="" autofocus /><br/>

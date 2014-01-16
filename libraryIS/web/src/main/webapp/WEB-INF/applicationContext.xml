@@ -34,8 +34,10 @@
             <security:user-service>
                 <security:user name="admin" password="admin" authorities="ROLE_ADMIN" />
                 <security:user name="rest" password="rest" authorities="ROLE_ADMIN" />
-                <security:user name="user" password="user" authorities="ROLE_USER" />
             </security:user-service>
+        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="userDetailsService">
+          <!--<password-encoder hash="md5"/>-->  
         </security:authentication-provider>
     </security:authentication-manager>    
     

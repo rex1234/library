@@ -75,7 +75,7 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     public Customer findCustomerWithUsername(String username) {
-        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.username LIKE :name");
+        Query query = em.createQuery("SELECT c FROM Customer c WHERE c.userName LIKE :name");
         query.setParameter("name", username);
         return (Customer) query.getSingleResult();
     }
