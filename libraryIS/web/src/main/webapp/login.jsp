@@ -12,11 +12,11 @@
 
         <form name='f' action="<c:url value='j_spring_security_check' />" method='POST'>
             <c:if test="${param.badpw == '1'}">
-            Bad login<br/>
+               
             </c:if>
-            <label for="j_username">Username</label>
+            <s:label for="j_username" name="username.title"/>
             <input id="j_username" name="j_username" type="text" value="" autofocus /><br/>
-            <label for="j_password">Password</label>
+            <s:label for="j_password" name="password.title"/>
             <input id="j_password" name="j_password" type="password" /><br/>
             <button name="submit" type="submit" value="1" class="button">Login</button>
         </form>
