@@ -72,6 +72,8 @@ public class ConvertorImpl implements Convertor {
         result.setName(customer.getName());
         result.setAddress(customer.getAddress());
         result.setIsDeleted(customer.getIsDeleted());
+        result.setPassword(customer.getPassword());
+        result.setUserName(customer.getUserName());
         return result;
     }
 
@@ -84,6 +86,8 @@ public class ConvertorImpl implements Convertor {
         result.setName(customer.getName());
         result.setAddress(customer.getAddress());
         result.setIsDeleted(customer.getIsDeleted());
+        result.setPassword(customer.getPassword());
+        result.setUserName(customer.getUserName());
         return result;
     }
 

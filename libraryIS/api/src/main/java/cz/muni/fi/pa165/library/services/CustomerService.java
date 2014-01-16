@@ -2,6 +2,7 @@ package cz.muni.fi.pa165.library.services;
 
 import cz.muni.fi.pa165.library.dtos.CustomerTO;
 import java.util.List;
+import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  *
@@ -51,4 +52,6 @@ public interface CustomerService {
      * @return list of not deleted customers whose name contains param name
      */
     List<CustomerTO> findCustomers(String name);
+    
+    UserDetails findCustomerByUsername(String username);
 }

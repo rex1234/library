@@ -26,7 +26,7 @@
                     <ul>
                         <s:layout-component name="tab"/>  
                         <sec:authorize access="isAuthenticated()"> 
-                            <li><span><a href="/pa165/<c:url value="j_spring_security_logout" />"><sec:authentication property="name"/> - Logout</a></span></li>
+                            <li><a href="/pa165/<c:url value="j_spring_security_logout" />"><span><sec:authentication property="name"/> - Logout</span></a></li>
                         </sec:authorize>
                         <sec:authorize access="!isAuthenticated()">
                             <li><a href="/pa165/login.jsp"><span>Login</span></a></li>

@@ -44,4 +44,6 @@ public interface CustomerDao {
      * @return list of not deleted customers whose name contains param name 
      */
     List<Customer> findCustomersByName(String name);
+    
+    Customer findCustomerWithUsername(String username);
 }
