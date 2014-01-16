@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Matej
  */
-@Service
+@Service("userDetailsService") 
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
 

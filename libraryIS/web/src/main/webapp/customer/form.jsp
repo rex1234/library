@@ -17,6 +17,14 @@
                 <th><s:label for="b2" name="customer.address"/></th>
                 <td><s:text id="b2" name="customer.address"/></td>
             </tr>    
+            <tr>
+                <th><s:label for="b3" name="customer.username"/></th>
+                <td><s:text id="b3" name="customer.userName"/></td>
+            </tr>    
+            <tr>
+                <th><s:label for="b4" name="customer.password"/></th>
+                <td><s:password id="b4" name="customer.password"/></td>
+            </tr>    
         </tbody>
     </table>
 </div>
