@@ -20,16 +20,16 @@
         <body>
             <div id="wrap">
                 <div id="top">
-                    <h1 id="sitename">Library of Islambad</h1>                    
+                    <h1 id="sitename"><f:message key="site.title"/></h1>                    
                 </div>
                 <div id="menu">
                     <ul>
                         <s:layout-component name="tab"/>  
                         <sec:authorize access="isAuthenticated()"> 
-                            <li><a href="/pa165/<c:url value="j_spring_security_logout" />"><span><sec:authentication property="name"/> - Logout</span></a></li>
+                            <li><a href="/pa165/<c:url value="j_spring_security_logout" />"><span><sec:authentication property="name"/> - <f:message key="logout"/></span></a></li>
                         </sec:authorize>
                         <sec:authorize access="!isAuthenticated()">
-                            <li><a href="/pa165/login.jsp"><span>Login</span></a></li>
+                            <li><a href="/pa165/login.jsp"><span><f:message key="login"/></span></a></li>
                         </sec:authorize>
                     </ul>     
                 </div>

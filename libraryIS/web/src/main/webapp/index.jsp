@@ -7,13 +7,13 @@
 
 <s:layout-render name="/layout.jsp" titlekey="main.title">    
     <s:layout-component name="tab">
-        <li class="active"><a href="${pageContext.request.contextPath}/index.jsp"><span>Welcome</span></a></li>
-        <li><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span>Impressions</span></s:link></li>
+        <li class="active"><a href="${pageContext.request.contextPath}/index.jsp"><span><f:message key="welcome.title"/></span></a></li>
+        <li><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span><f:message key="impression.title"/></span></s:link></li>
         <sec:authorize access="hasRole('ROLE_USER')">
-            <li><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="myLoans"><span>My loans</span></s:link></li>      
+            <li><s:link beanclass="cz.muni.fi.pa165.web.LoanEditBean" event="myLoans"><span><f:message key="myloans.title"/></span></s:link></li>      
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_ADMIN')">
-            <li><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
+            <li><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span><f:message key="readers.title"/></span></s:link></li>      
         </sec:authorize>
         </s:layout-component>
         <s:layout-component name="body">

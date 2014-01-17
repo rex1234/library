@@ -20,7 +20,6 @@ import net.sourceforge.stripes.validation.ValidateNestedProperties;
  *
  * @author Mjartan
  */
-@UrlBinding("/books/{$event}/{$book.id}/{$impression.id}")
 public class BookEditBean extends BaseBean {
 
     @SpringBean

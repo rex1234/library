@@ -24,7 +24,6 @@ import net.sourceforge.stripes.validation.ValidationErrorHandler;
  *
  * @author Matej
  */
-@UrlBinding("/customers/{$event}/{$customer.id}")
 public class CustomerEditBean extends BaseBean implements ValidationErrorHandler {
 
     @SpringBean

@@ -10,9 +10,9 @@
 
 <s:layout-render name="/layout.jsp" titlekey="loans.title">    
     <s:layout-component name="tab">
-        <li><a href="${pageContext.request.contextPath}/index.jsp"><span>Welcome</span></a></li>
-        <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span>Impressions</span></s:link></li>
-        <li><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span>Readers</span></s:link></li>      
+        <li><a href="${pageContext.request.contextPath}/index.jsp"><span><f:message key="welcome.title"/></span></a></li>
+        <li><s:link beanclass="cz.muni.fi.pa165.web.ImpressionEditBean"><span><f:message key="impression.title"/></span></s:link></li>
+        <li class="active"><s:link beanclass="cz.muni.fi.pa165.web.CustomerEditBean"><span><f:message key="readers.title"/></span></s:link></li>    
         </s:layout-component>
         <s:layout-component name="body">
         <h3>

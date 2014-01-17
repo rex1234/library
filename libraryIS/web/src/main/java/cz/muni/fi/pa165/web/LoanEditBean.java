@@ -30,7 +30,6 @@ import org.springframework.security.core.userdetails.User;
  *
  * @author MiškoHu
  */
-@UrlBinding("/loan/{$event}/{loan.id}")
 public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
 
     @SpringBean
@@ -48,9 +47,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     private List<LoanTO> loans;
     private BookTO book;
 
-    @DefaultHandler
     public Resolution displayAvailable() {
-        //TODO nepozicane knihy
         customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
         books = bookService.findNotBorrowedBooks();
         return new ForwardResolution("/loan/available.jsp");
