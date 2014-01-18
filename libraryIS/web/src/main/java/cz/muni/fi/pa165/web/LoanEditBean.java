@@ -47,6 +47,7 @@ public class LoanEditBean extends BaseBean implements ValidationErrorHandler {
     private List<LoanTO> loans;
     private BookTO book;
 
+    @DefaultHandler
     public Resolution displayAvailable() {
         customer = custService.findCustomerById(Long.parseLong(getContext().getRequest().getParameter("customer.id")));
         books = bookService.findNotBorrowedBooks();
