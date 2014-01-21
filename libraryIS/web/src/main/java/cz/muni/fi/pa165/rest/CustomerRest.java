@@ -23,7 +23,7 @@ import javax.ws.rs.core.UriInfo;
  *
  * @author Michal
  */
-@Path("rest")
+@Path("/")
 public class CustomerRest {
 
     @Context

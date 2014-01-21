@@ -25,7 +25,7 @@ import org.joda.time.LocalDate;
  *
  * @author Michal
  */
-@Path("rest")
+@Path("/")
 public class ImpressionRest {
 
     @Context
@@ -46,7 +46,7 @@ public class ImpressionRest {
     }
 
     @GET
-    @Path("impressions")
+    @Path("/impressions")
     @Produces({MediaType.APPLICATION_JSON})
     public String getAll() {
         List<ImpressionTO> i = service.findAllImpressions();

@@ -10,7 +10,7 @@
     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd ">
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd ">
     
     <context:component-scan base-package="cz.muni.fi.pa165.library"/>
 
@@ -37,11 +37,11 @@
             </security:user-service>
         </security:authentication-provider>
         <security:authentication-provider user-service-ref="userDetailsService">
-          <!--<password-encoder hash="md5"/>-->  
         </security:authentication-provider>
     </security:authentication-manager>    
     
     <security:http use-expressions="true">
+        <security:intercept-url pattern="/rest/**" access="permitAll" />
         <security:form-login login-page="/login.jsp" default-target-url="/" authentication-failure-url="/login.jsp?badpw=1" />
         <security:logout logout-success-url="/index.jsp" />
     </security:http>

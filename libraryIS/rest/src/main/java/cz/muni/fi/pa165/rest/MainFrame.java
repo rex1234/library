@@ -17,6 +17,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.glassfish.jersey.client.filter.HttpBasicAuthFilter;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
@@ -34,6 +35,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public MainFrame() {
         Client client = ClientBuilder.newClient();
+        client.register(new HttpBasicAuthFilter("rest", "rest"));
         webTarget = client.target(API_URL);
         gson = new GsonBuilder().
                 registerTypeAdapter(LocalDate.class, new JodaTimeSerializer()).create();
